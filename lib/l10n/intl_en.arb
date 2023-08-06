@@ -114,5 +114,9 @@
   "listingDetails": "Listing Details",
   "goBack": "Go Back",
   "pleaseVerifyYourIdToPostAnAd": "Please verify your ID to post an ad",
-  "ok": "OK"
+  "ok": "OK",
+  "bookNow": "Book Now",
+  "perDay": "per day",
+  "freeCancellation": "Free cancellation",
+  "adSpecs": "Ad Specs"
 }

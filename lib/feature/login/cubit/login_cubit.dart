@@ -6,6 +6,7 @@ import 'package:adflaunt/core/base/bloc_base.dart';
 import 'package:adflaunt/product/models/profile/profile_model.dart';
 import 'package:adflaunt/product/services/login.dart';
 import 'package:adflaunt/product/services/register.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -21,10 +22,12 @@ class LoginCubit extends BaseBloc<LoginState, LoginState> {
   final passwordController = TextEditingController();
   Future<void> login() async {
     safeEmit(LoginLoading());
+    var bytes = utf8.encode(passwordController.text);
+    var digest = sha512.convert(bytes);
     try {
       final res = await LoginAPI.login(
         emailController.text,
-        passwordController.text,
+        digest.toString(),
         null,
         null,
       );

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:adflaunt/core/base/bloc_base.dart';
 import 'package:adflaunt/core/extensions/date_parser_extension.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:crypto/crypto.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -171,9 +172,11 @@ class RegisterCubit extends BaseBloc<RegisterState, RegisterState> {
     safeEmit(RegisterLoading());
     if (pin == sentCode) {
       try {
+        var bytes = utf8.encode(passwordController.text);
+        var digest = sha512.convert(bytes);
         final data = await Register.register(
             emailController.text,
-            passwordController.text,
+            digest.toString(),
             nameController.text,
             (countryCode.dialCode.toString().substring(1)) +
                 phoneController.text,

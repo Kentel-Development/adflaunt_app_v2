@@ -1209,6 +1209,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Book Now`
+  String get bookNow {
+    return Intl.message(
+      'Book Now',
+      name: 'bookNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `per day`
+  String get perDay {
+    return Intl.message(
+      'per day',
+      name: 'perDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free cancellation`
+  String get freeCancellation {
+    return Intl.message(
+      'Free cancellation',
+      name: 'freeCancellation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ad Specs`
+  String get adSpecs {
+    return Intl.message(
+      'Ad Specs',
+      name: 'adSpecs',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -3,15 +3,16 @@ import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/product/models/listings/results.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
+import 'package:adflaunt/product/widgets/listing/ad_specs.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
-import 'package:widget_to_marker/widget_to_marker.dart';
 
 import '../../generated/l10n.dart';
+import '../../product/widgets/listing/tags.dart';
 
 class ListingDetailsView extends StatefulWidget {
   final Output listing;
@@ -26,20 +27,67 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
   late final PageController pageController;
   late List<String> adSpecs = [
     widget.listing.typeOfAdd,
-    "Space Type",
-    widget.listing.type,
+    widget.listing.tags[0],
+    widget.listing.tags[1],
     "${widget.listing.height.round()}in X ${widget.listing.width.round()}in = ${widget.listing.sqfeet.round()} sqft",
   ];
   @override
   void initState() {
     selectedPage = 0;
     pageController = PageController(initialPage: selectedPage);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.listing.cancel!) {
+      adSpecs.add(S.of(context).freeCancellation);
+    }
     return Scaffold(
+      bottomNavigationBar: Container(
+        height: 100,
+        color: Colors.white,
+        child: SafeArea(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 150,
+                  height: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(
+                    child: Text(
+                      S.of(context).bookNow,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Center(
+                child: Text(
+                  "\$${widget.listing.price}" + " / " + S.of(context).perDay,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )),
+      ),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(42),
         child: Container(
@@ -159,6 +207,9 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                     textAlign: TextAlign.justify,
                   ),
                 ),
+                widget.listing.tags.length > 2
+                    ? Tags(widget: widget)
+                    : Container(),
                 SizedBox(
                   height: 6,
                 ),
@@ -169,7 +220,7 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Tags",
+                    S.of(context).adSpecs,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -179,75 +230,7 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                 SizedBox(
                   height: 8,
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: widget.listing.tags
-                        .map(
-                          (e) => Chip(
-                            label: Text(
-                              e,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            backgroundColor: Color.fromRGBO(224, 224, 227, 1),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-                SizedBox(
-                  height: 6,
-                ),
-                Divider(),
-                SizedBox(
-                  height: 6,
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Ad Specs",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Wrap(
-                    spacing: 8,
-                    runSpacing: -8,
-                    children: [
-                      widget.listing.typeOfAdd,
-                      "Space Type",
-                      widget.listing.type,
-                      "${widget.listing.height.round()}in X ${widget.listing.width.round()}in = ${widget.listing.sqfeet.round()} sqft",
-                    ]
-                        .map(
-                          (e) => Chip(
-                            label: Text(
-                              e,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            backgroundColor: Color.fromRGBO(224, 224, 227, 1),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
+                AdSpecs(adSpecs: adSpecs),
                 SizedBox(
                   height: 6,
                 ),
@@ -289,7 +272,7 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Reviews",
+                    S.of(context).reviews,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -321,141 +304,132 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                 SizedBox(
                   height: 12,
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.zero,
-                  itemCount: widget.listing.reviews == null
-                      ? 0
-                      : widget.listing.reviews!.length > 3
-                          ? 3
-                          : widget.listing.reviews!.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: Colors.white,
-                        border: Border.all(
-                          color: ColorConstants.grey2000,
-                          width: 0.6,
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        widget.listing.reviews![index].customer
-                                                    .profileImage ==
-                                                null
-                                            ? Container(
-                                                height: 24,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: ColorConstants.grey500,
-                                                ),
-                                                child: Icon(Icons.person,
-                                                    size: 16),
-                                              )
-                                            : CircleAvatar(
-                                                radius: 16,
-                                                backgroundImage: NetworkImage(
-                                                  StringConstants
-                                                          .baseStorageUrl +
-                                                      widget
-                                                          .listing
-                                                          .reviews![index]
-                                                          .customer
-                                                          .profileImage
-                                                          .toString(),
-                                                ),
-                                              ),
-                                        SizedBox(
-                                          width: 4,
-                                        ),
-                                        Text(
-                                          widget.listing.reviews![index]
-                                              .customer.fullName,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 2.0, top: 2.0),
-                                      child: Text(
-                                        DateFormat(StringConstants.dateFormat)
-                                            .format(DateTime
-                                                .fromMillisecondsSinceEpoch(
-                                                    (widget
-                                                                .listing
-                                                                .reviews![index]
-                                                                .at *
-                                                            1000)
-                                                        .toInt())),
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    widget.listing.reviews![index].star
-                                        .toString(),
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 4,
-                                  ),
-                                  SvgPicture.asset(IconConstants.star),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              widget.listing.reviews![index].review,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: "Poppins",
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                )
+                buildReviews()
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  ListView buildReviews() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.zero,
+      itemCount: widget.listing.reviews == null
+          ? 0
+          : widget.listing.reviews!.length > 3
+              ? 3
+              : widget.listing.reviews!.length,
+      itemBuilder: (context, index) {
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            color: Colors.white,
+            border: Border.all(
+              color: ColorConstants.grey2000,
+              width: 0.6,
+            ),
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            widget.listing.reviews![index].customer
+                                        .profileImage ==
+                                    null
+                                ? Container(
+                                    height: 24,
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: ColorConstants.grey500,
+                                    ),
+                                    child: Icon(Icons.person, size: 16),
+                                  )
+                                : CircleAvatar(
+                                    radius: 16,
+                                    backgroundImage: NetworkImage(
+                                      StringConstants.baseStorageUrl +
+                                          widget.listing.reviews![index]
+                                              .customer.profileImage
+                                              .toString(),
+                                    ),
+                                  ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              widget.listing.reviews![index].customer.fullName,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 2.0, top: 2.0),
+                          child: Text(
+                            DateFormat(StringConstants.dateFormat).format(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    (widget.listing.reviews![index].at * 1000)
+                                        .toInt())),
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        widget.listing.reviews![index].star.toString(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      SvgPicture.asset(IconConstants.star),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  widget.listing.reviews![index].review,
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400),
+                ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }

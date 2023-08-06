@@ -1,6 +1,5 @@
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/padding_constants.dart';
-import 'package:adflaunt/feature/home/home_view.dart';
 import 'package:adflaunt/feature/register/cubit/register_cubit.dart';
 import 'package:adflaunt/feature/tab_view.dart';
 import 'package:adflaunt/product/widgets/common_btn.dart';

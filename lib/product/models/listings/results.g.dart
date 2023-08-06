@@ -35,6 +35,7 @@ Output _$OutputFromJson(Map<String, dynamic> json) => Output(
       city: json['city'] as String,
       country: json['country'] as String,
       description: json['description'] as String,
+      cancel: json['cancel'] as bool?,
       extras: json['extras'] as List<dynamic>,
       height: (json['height'] as num).toDouble(),
       images:
@@ -100,6 +101,7 @@ Map<String, dynamic> _$OutputToJson(Output instance) => <String, dynamic>{
       'user': instance.user,
       'width': instance.width,
       'reviews': instance.reviews,
+      'cancel': instance.cancel,
     };
 
 Requirements _$RequirementsFromJson(Map<String, dynamic> json) =>

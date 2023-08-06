@@ -105,6 +105,8 @@ class Output {
   double width;
   @JsonKey(name: "reviews")
   List<Review>? reviews;
+  @JsonKey(name: "cancel")
+  bool? cancel;
 
   Output({
     required this.bookingImportUrl,
@@ -119,6 +121,7 @@ class Output {
     required this.city,
     required this.country,
     required this.description,
+    required this.cancel,
     required this.extras,
     required this.height,
     required this.images,

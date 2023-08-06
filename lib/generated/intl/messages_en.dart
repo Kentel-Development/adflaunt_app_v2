@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Inches": MessageLookupByLibrary.simpleMessage("00 inches"),
         "aboutAdSpace": MessageLookupByLibrary.simpleMessage("About Ad Space"),
+        "adSpecs": MessageLookupByLibrary.simpleMessage("Ad Specs"),
         "adType": MessageLookupByLibrary.simpleMessage("Ad Type"),
         "addADescription":
             MessageLookupByLibrary.simpleMessage("Add a description"),
@@ -44,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "apply": MessageLookupByLibrary.simpleMessage("Apply"),
         "backOfId": MessageLookupByLibrary.simpleMessage("Back of ID"),
         "balance": MessageLookupByLibrary.simpleMessage("Balance"),
+        "bookNow": MessageLookupByLibrary.simpleMessage("Book Now"),
         "byClickingTheFinishButtonYouAcceptTheTermsOf":
             MessageLookupByLibrary.simpleMessage(
                 "By clicking the finish button, you accept the terms of cancellation of listing."),
@@ -89,6 +91,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "fitTheFrontOfYourIdWithinTheFrame":
             MessageLookupByLibrary.simpleMessage(
                 "Fit the front of your ID within the frame"),
+        "freeCancellation":
+            MessageLookupByLibrary.simpleMessage("Free cancellation"),
         "frontOfId": MessageLookupByLibrary.simpleMessage("Front Of ID"),
         "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
         "giveUsLocationDetailsToFindYourAdEasily":
@@ -130,6 +134,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Password must be at least 6 characters"),
         "paymentMethod": MessageLookupByLibrary.simpleMessage("Payment Method"),
+        "perDay": MessageLookupByLibrary.simpleMessage("per day"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "pleaseEnterADifferentTagNameThisIsAdType":
             MessageLookupByLibrary.simpleMessage(
