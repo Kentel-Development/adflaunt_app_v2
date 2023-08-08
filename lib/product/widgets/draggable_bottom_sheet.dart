@@ -30,46 +30,52 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      color: Colors.black26,
-      width: size.width,
-      child: Stack(
-        children: [
-          widget.backgroundWidget,
-          AnimatedPositioned(
-              curve: Curves.decelerate,
-              duration: const Duration(milliseconds: 400),
-              top: !isSwipeUp ? size.height * 0 : size.height * 0.48,
-              child: GestureDetector(
-                  onPanEnd: (details) async {
-                    print(details.velocity.pixelsPerSecond.dy.toString());
-                    print(details.velocity.pixelsPerSecond.dx.toString());
-                    if (details.velocity.pixelsPerSecond.dy > -100) {
-                      setState(() {
-                        isSwipeUp = true;
-                      });
+    return LayoutBuilder(builder: (context, constraints) {
+      return Container(
+        color: Colors.black26,
+        width: size.width,
+        child: Stack(
+          children: [
+            widget.backgroundWidget,
+            AnimatedPositioned(
+                curve: Curves.decelerate,
+                duration: const Duration(milliseconds: 400),
+                bottom: !isSwipeUp ? 0 : -constraints.maxHeight + 45,
+                left: 0,
+                right: 0,
+                child: GestureDetector(
+                    onPanEnd: (details) async {
+                      print(details.velocity.pixelsPerSecond.dy.toString());
+                      print(details.velocity.pixelsPerSecond.dx.toString());
+                      if (details.velocity.pixelsPerSecond.dy > -100) {
+                        setState(() {
+                          isSwipeUp = true;
+                        });
 
-                      setState(() {
-                        status = true;
-                      });
-                    } else {
-                      setState(() {
-                        isSwipeUp = false;
-                      });
+                        setState(() {
+                          status = true;
+                        });
+                      } else {
+                        setState(() {
+                          isSwipeUp = false;
+                        });
 
-                      setState(() {
-                        status = false;
-                      });
-                    }
-                  },
-                  child: listingsBuilder(widget.listing)))
-        ],
-      ),
-    );
+                        setState(() {
+                          status = false;
+                        });
+                      }
+                    },
+                    child: SizedBox(
+                        height: constraints.maxHeight,
+                        width: constraints.maxWidth,
+                        child: listingsBuilder(widget.listing))))
+          ],
+        ),
+      );
+    });
   }
 
   StatefulBuilder listingsBuilder(List<Output> listing) {
-    final size = MediaQuery.of(context).size;
     return StatefulBuilder(builder: (context, state) {
       return Container(
           decoration: BoxDecoration(
@@ -81,8 +87,6 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
               bottomRight: Radius.circular(0),
             ),
           ),
-          width: size.width,
-          height: size.height * 0.529,
           child: Column(
             children: [
               SizedBox(
