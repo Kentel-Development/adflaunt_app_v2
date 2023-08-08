@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/chat/chat_view.dart';
@@ -53,11 +52,11 @@ mixin ChatMixin on State<ChatView> {
         "email": currentUser.email.toString(),
         "password": currentUser.password.toString(),
         "ChatID": widget.chatId.toString(),
-      }, ack: (dynamic data) {
+      }, ack: (dynamic data) async {
         log("ack");
         log(jsonEncode(data));
         Chat chat = Chat.fromJson(data as Map<String, dynamic>);
-        chat.chat.messages.forEach((element) {
+        chat.chat.messages.forEach((element) async {
           if (element.content != "") {
             messages.add(types.TextMessage(
                 author: element.sender.toString() == currentUser.id.toString()
@@ -67,29 +66,20 @@ mixin ChatMixin on State<ChatView> {
                 text: element.content.toString(),
                 createdAt: (element.at * 1000).toInt()));
           } else {
-            final image = CachedNetworkImageProvider(
-                StringConstants.baseStorageUrl + element.image.toString());
-            ImageInfo? info;
-            image
-                .resolve(const ImageConfiguration())
-                .addListener(ImageStreamListener((imnfo, call) {
-              info = imnfo;
-              final message = types.ImageMessage(
-                author: user,
-                createdAt: DateTime.now().millisecondsSinceEpoch,
-                id: element.id,
-                name: "",
-                size: info!.image.height.toDouble() *
-                    info!.image.width.toDouble(),
-                height: info!.image.height.toDouble(),
-                width: info!.image.width.toDouble(),
-                uri: StringConstants.baseStorageUrl + element.image,
-              );
-              messages.add(message);
-            }));
+            messages.add(types.ImageMessage(
+              author: user,
+              createdAt: (element.at * 1000).toInt(),
+              id: element.id,
+              name: element.id,
+              size: 1,
+              uri: StringConstants.baseStorageUrl + element.image,
+            ));
           }
         });
+
+        messages.sort((b, a) => a.createdAt!.compareTo(b.createdAt!));
         setState(() {
+          messages = messages;
           sid = data["SID"].toString();
         });
       });
@@ -175,10 +165,8 @@ mixin ChatMixin on State<ChatView> {
   }
 
   void _addMessage(types.Message message) {
-    if (mounted) {
-      setState(() {
-        messages.insert(0, message);
-      });
-    }
+    setState(() {
+      messages.insert(0, message);
+    });
   }
 }
