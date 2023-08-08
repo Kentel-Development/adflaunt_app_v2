@@ -4,6 +4,7 @@ import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/home/cubit/home_cubit.dart';
+import 'package:adflaunt/feature/listing_details/listing_details_view.dart';
 import 'package:adflaunt/feature/profile/profile_view.dart';
 import 'package:adflaunt/feature/search/search_view.dart';
 import 'package:adflaunt/product/models/listings/results.dart';
@@ -221,57 +222,69 @@ class _HomeViewState extends State<HomeView> {
                                     final listing = context
                                         .read<HomeCubit>()
                                         .listing[index];
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      margin: EdgeInsets.only(right: 24),
-                                      child: Row(
-                                        children: <Widget>[
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: CachedNetworkImage(
-                                              imageUrl: StringConstants
-                                                      .baseStorageUrl +
-                                                  context
-                                                      .read<HomeCubit>()
-                                                      .listing[index]
-                                                      .images
-                                                      .first,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(listing.title,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headlineSmall),
-                                                  Text(
-                                                      "\$" +
-                                                          listing.price
-                                                              .toString() +
-                                                          "/" +
-                                                          S.of(context).day,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall),
-                                                  Expanded(
-                                                    child: Text(
-                                                        listing.description),
-                                                  )
-                                                ],
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute<dynamic>(
+                                                builder: (context) =>
+                                                    ListingDetailsView(
+                                                      listing: listing,
+                                                    )));
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        margin: EdgeInsets.only(right: 24),
+                                        child: Row(
+                                          children: <Widget>[
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: CachedNetworkImage(
+                                                imageUrl: StringConstants
+                                                        .baseStorageUrl +
+                                                    context
+                                                        .read<HomeCubit>()
+                                                        .listing[index]
+                                                        .images
+                                                        .first,
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(listing.title,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .headlineSmall),
+                                                    Text(
+                                                        "\$" +
+                                                            listing.price
+                                                                .toString() +
+                                                            "/" +
+                                                            S.of(context).day,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodySmall),
+                                                    Expanded(
+                                                      child: Text(
+                                                          listing.description),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     );
                                   },

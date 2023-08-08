@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/base/bloc_base.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/core/extensions/replace_non_ascii.dart';
+import 'package:adflaunt/product/models/listings/results.dart';
 import 'package:adflaunt/product/services/location.dart';
 import 'package:adflaunt/product/services/post_ad.dart';
 import 'package:equatable/equatable.dart';
@@ -41,6 +44,7 @@ class PostAdCubit extends BaseBloc<PostAdState, PostAdState> {
   String width = "";
   bool cancelPolicy = false;
   List<XFile> images = [];
+  Output? output;
   void getLocation() {
     LocationService().getLocation().then((value) async {
       currentLocation = LatLng(value.latitude, value.longitude);
@@ -57,7 +61,7 @@ class PostAdCubit extends BaseBloc<PostAdState, PostAdState> {
   void postAd() async {
     safeEmit(PostAdLoading());
     try {
-      await PostService.postListing(
+      final response = await PostService.postListing(
           title,
           price,
           currentLocation!.latitude.toString(),
@@ -85,6 +89,8 @@ class PostAdCubit extends BaseBloc<PostAdState, PostAdState> {
           Hive.box<ProfileAdapter>("user").get("userData")!,
           selectedSpaceType!,
           selectedAdType!);
+      output =
+          Output.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
       safeEmit(PostAdSuccess());
     } catch (e) {
       safeEmit(PostListingError(e.toString()));

@@ -1,4 +1,5 @@
 import 'package:adflaunt/feature/home/home_view.dart';
+import 'package:adflaunt/feature/inbox/inbox_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -14,7 +15,12 @@ class TabView extends StatefulWidget {
 }
 
 class _TabViewState extends State<TabView> {
-  final List<Widget> _widgetOptions = <Widget>[HomeView()];
+  final List<Widget> _widgetOptions = <Widget>[
+    HomeView(),
+    Placeholder(),
+    Placeholder(),
+    InboxView(),
+  ];
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {

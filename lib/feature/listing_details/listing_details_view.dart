@@ -1,7 +1,14 @@
+import 'dart:developer';
+
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
+import 'package:adflaunt/feature/chat/chat_view.dart';
+import 'package:adflaunt/product/models/chat/inbox.dart' as chat;
 import 'package:adflaunt/product/models/listings/results.dart';
+import 'package:adflaunt/product/models/profile/profile_model.dart';
+import 'package:adflaunt/product/services/chat.dart';
+import 'package:adflaunt/product/services/user.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
 import 'package:adflaunt/product/widgets/listing/ad_specs.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -98,26 +105,98 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
       backgroundColor: ColorConstants.backgroundColor,
       body: ListView(
         children: [
-          SizedBox(
-            height: 240,
-            width: double.infinity,
-            child: PageView.builder(
-              onPageChanged: (page) {
-                setState(() {
-                  selectedPage = page;
-                });
-              },
-              controller: pageController,
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.listing.images.length,
-              itemBuilder: (context, index) {
-                return CachedNetworkImage(
-                  imageUrl: StringConstants.baseStorageUrl +
-                      widget.listing.images[index],
-                  fit: BoxFit.cover,
-                );
-              },
-            ),
+          Stack(
+            children: [
+              SizedBox(
+                height: 240,
+                width: double.infinity,
+                child: PageView.builder(
+                  onPageChanged: (page) {
+                    setState(() {
+                      selectedPage = page;
+                    });
+                  },
+                  controller: pageController,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: widget.listing.images.length,
+                  itemBuilder: (context, index) {
+                    return CachedNetworkImage(
+                      imageUrl: StringConstants.baseStorageUrl +
+                          widget.listing.images[index],
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
+              ),
+              Positioned(
+                  bottom: 18,
+                  right: 25,
+                  child: GestureDetector(
+                    onTap: () async {
+                      ProfileModel user =
+                          await UserServices.getUser(widget.listing.user);
+                      String id =
+                          await ChatServices.createChat(widget.listing.user);
+                      try {
+                        Navigator.push(context, MaterialPageRoute<dynamic>(
+                          builder: (context) {
+                            return ChatView(
+                              chatId: id,
+                              user: chat.Them(
+                                  id: user.id,
+                                  fullName: user.fullName,
+                                  backPhotoId: "",
+                                  dateOfBirth: user.dateOfBirth,
+                                  deliveryAddress: "",
+                                  email: user.email,
+                                  idVerified: user.idVerified,
+                                  inbox: [""],
+                                  ipdata: chat.Ipdata.fromJson(
+                                      user.ipdata.toJson()),
+                                  ipraw: user.ipraw,
+                                  lastTimeLoggedIn: user.lastTimeLoggedIn,
+                                  profileImage: user.profileImage,
+                                  phoneNumber: user.phoneNumber,
+                                  photoOfId: "",
+                                  thirdParty: user.thirdParty),
+                            );
+                          },
+                        ));
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString()),
+                          ),
+                        );
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(IconConstants.chat),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Text(
+                            S.of(context).chat,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins',
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ))
+            ],
           ),
           SizedBox(
             height: 16,

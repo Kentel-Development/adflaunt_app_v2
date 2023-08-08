@@ -1,40 +1,91 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'profile_model.dart';
+part of 'inbox.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
-      ipdata: Ipdata.fromJson(json['IPDATA'] as Map<String, dynamic>),
-      scc: json['SCC'] as bool? ?? false,
+Inbox _$InboxFromJson(Map<String, dynamic> json) => Inbox(
+      scc: json['SCC'] as bool,
+      chatOutput: (json['output'] as List<dynamic>)
+          .map((e) => ChatOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$InboxToJson(Inbox instance) => <String, dynamic>{
+      'SCC': instance.scc,
+      'output': instance.chatOutput,
+    };
+
+ChatOutput _$ChatOutputFromJson(Map<String, dynamic> json) => ChatOutput(
+      chatId: json['chatID'] as String,
+      lastMessage: json['lastMessage'],
+      lastMessageTime: (json['lastMessageTime'] as num).toDouble(),
+      them: Them.fromJson(json['them'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ChatOutputToJson(ChatOutput instance) =>
+    <String, dynamic>{
+      'chatID': instance.chatId,
+      'lastMessage': instance.lastMessage,
+      'lastMessageTime': instance.lastMessageTime,
+      'them': instance.them,
+    };
+
+LastMessageClass _$LastMessageClassFromJson(Map<String, dynamic> json) =>
+    LastMessageClass(
       id: json['_id'] as String,
+      at: (json['at'] as num).toDouble(),
+      content: json['content'] as String,
+      image: json['image'] as String? ?? '',
+      receiver: json['receiver'] as String,
+      sender: json['sender'] as String,
+    );
+
+Map<String, dynamic> _$LastMessageClassToJson(LastMessageClass instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'at': instance.at,
+      'content': instance.content,
+      'image': instance.image,
+      'receiver': instance.receiver,
+      'sender': instance.sender,
+    };
+
+Them _$ThemFromJson(Map<String, dynamic> json) => Them(
+      ipdata: Ipdata.fromJson(json['IPDATA'] as Map<String, dynamic>),
+      id: json['_id'] as String,
+      backPhotoId: json['backPhotoID'] as String,
       dateOfBirth: json['dateOfBirth'] as String,
+      deliveryAddress: json['deliveryAddress'] as String,
       email: json['email'] as String,
       fullName: json['fullName'] as String,
       idVerified: json['idVerified'] as bool,
+      inbox: (json['inbox'] as List<dynamic>).map((e) => e as String).toList(),
       ipraw: json['ipraw'] as String,
       lastTimeLoggedIn: (json['lastTimeLoggedIn'] as num).toDouble(),
-      password: json['password'] as String? ?? "",
       phoneNumber: json['phoneNumber'] as String,
+      photoOfId: json['photoOfId'] as String,
       profileImage: json['profileImage'],
       thirdParty: json['thirdParty'] as String,
     );
 
-Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) {
+Map<String, dynamic> _$ThemToJson(Them instance) {
   final val = <String, dynamic>{
     'IPDATA': instance.ipdata,
-    'SCC': instance.scc,
     '_id': instance.id,
+    'backPhotoID': instance.backPhotoId,
     'dateOfBirth': instance.dateOfBirth,
+    'deliveryAddress': instance.deliveryAddress,
     'email': instance.email,
     'fullName': instance.fullName,
     'idVerified': instance.idVerified,
+    'inbox': instance.inbox,
     'ipraw': instance.ipraw,
     'lastTimeLoggedIn': instance.lastTimeLoggedIn,
-    'password': instance.password,
     'phoneNumber': instance.phoneNumber,
+    'photoOfId': instance.photoOfId,
   };
 
   void writeNotNull(String key, dynamic value) {

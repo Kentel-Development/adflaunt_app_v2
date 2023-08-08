@@ -1,127 +1,114 @@
+// To parse this JSON data, do
+//
+//     final profileModel = profileModelFromJson(jsonString);
+
 import 'package:json_annotation/json_annotation.dart';
-import 'package:equatable/equatable.dart';
-import 'ipdata.dart';
-import 'reviews.dart';
+import 'dart:convert';
+
 part 'profile_model.g.dart';
 
+String profileModelToJson(ProfileModel data) => json.encode(data.toJson());
+
 @JsonSerializable()
-class ProfileModel with EquatableMixin {
-  Ipdata? ipdata;
-  bool? scc;
-  String? id;
-  String? backPhotoID;
-  double? balance;
-  String? dateOfBirth;
-  String? deliveryAddress;
-  String? email;
-  String? fullName;
-  bool? idVerified;
-  String? ipraw;
-  double? lastTimeLoggedIn;
-  double? lat;
-  double? long;
-  String? password;
-  String? phoneNumber;
-  String? photoOfId;
-  String? profileImage;
-  List<Reviews>? reviews;
-  String? thirdParty;
+class ProfileModel {
+  @JsonKey(name: "IPDATA")
+  Ipdata ipdata;
+  @JsonKey(name: "SCC", includeIfNull: false)
+  bool scc;
+  @JsonKey(name: "_id")
+  String id;
+  @JsonKey(name: "dateOfBirth", includeIfNull: false)
+  String dateOfBirth;
+  @JsonKey(name: "email")
+  String email;
+  @JsonKey(name: "fullName")
+  String fullName;
+  @JsonKey(name: "idVerified")
+  bool idVerified;
+  @JsonKey(name: "ipraw")
+  String ipraw;
+  @JsonKey(name: "lastTimeLoggedIn", includeIfNull: false)
+  double lastTimeLoggedIn;
+  @JsonKey(name: "password", includeIfNull: false)
+  String password;
+  @JsonKey(name: "phoneNumber", includeIfNull: false)
+  String phoneNumber;
+  @JsonKey(name: "profileImage", includeIfNull: false)
+  dynamic profileImage;
+  @JsonKey(name: "thirdParty")
+  String thirdParty;
 
   ProfileModel({
-    this.ipdata,
-    this.scc,
-    this.id,
-    this.backPhotoID,
-    this.balance,
-    this.dateOfBirth,
-    this.deliveryAddress,
-    this.email,
-    this.fullName,
-    this.idVerified,
-    this.ipraw,
-    this.lastTimeLoggedIn,
-    this.lat,
-    this.long,
-    this.password,
-    this.phoneNumber,
-    this.photoOfId,
+    required this.ipdata,
+    required this.scc,
+    required this.id,
+    required this.dateOfBirth,
+    required this.email,
+    required this.fullName,
+    required this.idVerified,
+    required this.ipraw,
+    required this.lastTimeLoggedIn,
+    required this.password,
+    required this.phoneNumber,
     this.profileImage,
-    this.reviews,
-    this.thirdParty,
+    required this.thirdParty,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
+}
 
-  @override
-  List<Object?> get props => [
-        ipdata,
-        scc,
-        id,
-        backPhotoID,
-        balance,
-        dateOfBirth,
-        deliveryAddress,
-        email,
-        fullName,
-        idVerified,
-        ipraw,
-        lastTimeLoggedIn,
-        lat,
-        long,
-        password,
-        phoneNumber,
-        photoOfId,
-        profileImage,
-        reviews,
-        thirdParty
-      ];
+@JsonSerializable()
+class Ipdata {
+  @JsonKey(name: "as")
+  String ipdataAs;
+  @JsonKey(name: "city")
+  String city;
+  @JsonKey(name: "country")
+  String country;
+  @JsonKey(name: "countryCode")
+  String countryCode;
+  @JsonKey(name: "isp")
+  String isp;
+  @JsonKey(name: "lat")
+  double lat;
+  @JsonKey(name: "lon")
+  double lon;
+  @JsonKey(name: "org")
+  String org;
+  @JsonKey(name: "query")
+  String query;
+  @JsonKey(name: "region")
+  String region;
+  @JsonKey(name: "regionName")
+  String regionName;
+  @JsonKey(name: "status")
+  String status;
+  @JsonKey(name: "timezone")
+  String timezone;
+  @JsonKey(name: "zip")
+  String zip;
 
-  ProfileModel copyWith({
-    Ipdata? ipdata,
-    bool? scc,
-    String? id,
-    String? backPhotoID,
-    double? balance,
-    String? dateOfBirth,
-    String? deliveryAddress,
-    String? email,
-    String? fullName,
-    bool? idVerified,
-    String? ipraw,
-    double? lastTimeLoggedIn,
-    double? lat,
-    double? long,
-    String? password,
-    String? phoneNumber,
-    String? photoOfId,
-    String? profileImage,
-    List<Reviews>? reviews,
-    String? thirdParty,
-  }) {
-    return ProfileModel(
-      ipdata: ipdata ?? this.ipdata,
-      scc: scc ?? this.scc,
-      id: id ?? this.id,
-      backPhotoID: backPhotoID ?? this.backPhotoID,
-      balance: balance ?? this.balance,
-      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
-      deliveryAddress: deliveryAddress ?? this.deliveryAddress,
-      email: email ?? this.email,
-      fullName: fullName ?? this.fullName,
-      idVerified: idVerified ?? this.idVerified,
-      ipraw: ipraw ?? this.ipraw,
-      lastTimeLoggedIn: lastTimeLoggedIn ?? this.lastTimeLoggedIn,
-      lat: lat ?? this.lat,
-      long: long ?? this.long,
-      password: password ?? this.password,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      photoOfId: photoOfId ?? this.photoOfId,
-      profileImage: profileImage ?? this.profileImage,
-      reviews: reviews ?? this.reviews,
-      thirdParty: thirdParty ?? this.thirdParty,
-    );
-  }
+  Ipdata({
+    required this.ipdataAs,
+    required this.city,
+    required this.country,
+    required this.countryCode,
+    required this.isp,
+    required this.lat,
+    required this.lon,
+    required this.org,
+    required this.query,
+    required this.region,
+    required this.regionName,
+    required this.status,
+    required this.timezone,
+    required this.zip,
+  });
+
+  factory Ipdata.fromJson(Map<String, dynamic> json) => _$IpdataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$IpdataToJson(this);
 }

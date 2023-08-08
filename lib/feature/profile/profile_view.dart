@@ -72,7 +72,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     backgroundColor: Colors.grey[400],
                                     backgroundImage: CachedNetworkImageProvider(
                                       StringConstants.baseStorageUrl +
-                                          userModel.profileImage!,
+                                          userModel.profileImage!.toString(),
                                     ),
                                   ),
                                 )
@@ -120,7 +120,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     Center(
                       child: Text(
-                        userModel.fullName!,
+                        userModel.fullName,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -174,7 +174,7 @@ class _ProfileViewState extends State<ProfileView> {
                             ),
                             horizontalTitleGap: 0,
                             onTap: () {
-                              if (userModel.idVerified!) {
+                              if (userModel.idVerified) {
                                 Navigator.push(context,
                                     MaterialPageRoute<dynamic>(
                                   builder: (context) {
@@ -224,7 +224,7 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                           ListTile(
                             onTap: () {
-                              if (!(userModel.idVerified!)) {
+                              if (!(userModel.idVerified)) {
                                 Navigator.push(context,
                                     MaterialPageRoute<dynamic>(
                                   builder: (context) {
@@ -253,7 +253,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 SizedBox(
                                   width: 16,
                                 ),
-                                VerifyBadge(isVerified: userModel.idVerified!),
+                                VerifyBadge(isVerified: userModel.idVerified),
                               ],
                             ),
                             trailing: SvgPicture.asset(

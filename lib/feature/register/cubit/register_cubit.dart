@@ -185,18 +185,21 @@ class RegisterCubit extends BaseBloc<RegisterState, RegisterState> {
         Map<String, dynamic> json =
             jsonDecode(data.body) as Map<String, dynamic>;
         final model = ProfileModel.fromJson(json);
-
-        LoginAPI.saveAccountCredentials(
-          ProfileAdapter(
-              id: model.id,
-              fullName: model.fullName,
-              email: model.email,
-              password: model.password,
-              profileImage: model.profileImage,
-              dateOfBirth: model.dateOfBirth,
-              phoneNumber: model.phoneNumber),
-        );
-        safeEmit(RegisterSuccess());
+        try {
+          LoginAPI.saveAccountCredentials(
+            ProfileAdapter(
+                id: model.id,
+                fullName: model.fullName,
+                email: model.email,
+                password: model.password,
+                profileImage: model.profileImage,
+                dateOfBirth: model.dateOfBirth,
+                phoneNumber: model.phoneNumber),
+          );
+          safeEmit(RegisterSuccess());
+        } catch (e) {
+          safeEmit(RegisterFailure(error: e.toString()));
+        }
       } catch (e) {
         safeEmit(RegisterFailure(error: e.toString()));
       }

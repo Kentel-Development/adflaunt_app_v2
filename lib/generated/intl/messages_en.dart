@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Inches": MessageLookupByLibrary.simpleMessage("00 inches"),
         "aboutAdSpace": MessageLookupByLibrary.simpleMessage("About Ad Space"),
+        "adPostedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Ad Posted Successfully"),
         "adSpecs": MessageLookupByLibrary.simpleMessage("Ad Specs"),
         "adType": MessageLookupByLibrary.simpleMessage("Ad Type"),
         "addADescription":
@@ -52,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancelPolicy": MessageLookupByLibrary.simpleMessage("Cancel Policy"),
         "changePhoneNumber":
             MessageLookupByLibrary.simpleMessage("Change Phone Number"),
+        "chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "chooseASpaceType":
             MessageLookupByLibrary.simpleMessage("Choose a space type"),
         "chooseATypeOfAd":
@@ -106,6 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "hey": MessageLookupByLibrary.simpleMessage("Hey"),
         "identityVerification":
             MessageLookupByLibrary.simpleMessage("Identity Verification"),
+        "inbox": MessageLookupByLibrary.simpleMessage("Inbox"),
         "indoorAds": MessageLookupByLibrary.simpleMessage("Indoor Ads"),
         "installationDate":
             MessageLookupByLibrary.simpleMessage("Installation Date"),
@@ -161,6 +165,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "popularAdSpaces":
             MessageLookupByLibrary.simpleMessage("Popular Ad Spaces"),
         "postAdSpace": MessageLookupByLibrary.simpleMessage("Post AD Space"),
+        "postingYourAdPleaseWait": MessageLookupByLibrary.simpleMessage(
+            "Posting your Ad, Please wait..."),
         "priceRange": MessageLookupByLibrary.simpleMessage("Price range"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "recentSearches":
@@ -169,6 +175,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "repeatPassword":
             MessageLookupByLibrary.simpleMessage("Repeat Password"),
         "reviews": MessageLookupByLibrary.simpleMessage("Reviews"),
+        "seeYourAd": MessageLookupByLibrary.simpleMessage("See your Ad"),
         "selectLocation":
             MessageLookupByLibrary.simpleMessage("Select Location"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),

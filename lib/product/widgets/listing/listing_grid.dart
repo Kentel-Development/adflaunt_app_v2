@@ -147,8 +147,9 @@ class _ListingGridState extends State<ListingGrid>
                             child: GestureDetector(
                               onTap: () {
                                 if (user.hasData) {
-                                  _onButtonPressed(user.data!.profileImage,
-                                      user.data!.fullName!);
+                                  _onButtonPressed(
+                                      user.data!.profileImage.toString(),
+                                      user.data!.fullName);
                                 }
                               },
                               child: Stack(
@@ -181,7 +182,7 @@ class _ListingGridState extends State<ListingGrid>
                                                       StringConstants
                                                               .baseStorageUrl +
                                                           user.data!
-                                                              .profileImage!),
+                                                              .profileImage!.toString()),
                                                   fit: BoxFit.contain),
                                             ),
                                           )
