@@ -35,18 +35,20 @@ class LoginCubit extends BaseBloc<LoginState, LoginState> {
       final success = json['SCC'] as bool;
       if (res.statusCode == 200 && success) {
         ProfileModel profileModel = ProfileModel.fromJson(json);
+
         LoginAPI.saveAccountCredentials(ProfileAdapter(
           fullName: profileModel.fullName,
           email: profileModel.email,
-          phoneNumber: profileModel.phoneNumber ?? '',
-          dateOfBirth: profileModel.dateOfBirth ?? '',
+          phoneNumber: profileModel.phoneNumber,
+          dateOfBirth: profileModel.dateOfBirth,
           id: profileModel.id,
           idVerified: profileModel.idVerified,
           password: profileModel.password,
-          photoOfId: profileModel.photoOfId ?? '',
+          photoOfId: '',
           profileImage: profileModel.profileImage ?? '',
           thirdParty: profileModel.thirdParty,
         ));
+
         safeEmit(LoginSuccess());
       } else {
         safeEmit(LoginFailure(error: json['err'].toString()));

@@ -1249,6 +1249,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Chat`
+  String get chat {
+    return Intl.message(
+      'Chat',
+      name: 'chat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Posting your Ad, Please wait...`
+  String get postingYourAdPleaseWait {
+    return Intl.message(
+      'Posting your Ad, Please wait...',
+      name: 'postingYourAdPleaseWait',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ad Posted Successfully`
+  String get adPostedSuccessfully {
+    return Intl.message(
+      'Ad Posted Successfully',
+      name: 'adPostedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See your Ad`
+  String get seeYourAd {
+    return Intl.message(
+      'See your Ad',
+      name: 'seeYourAd',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inbox`
+  String get inbox {
+    return Intl.message(
+      'Inbox',
+      name: 'inbox',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

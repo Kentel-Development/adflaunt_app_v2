@@ -1,5 +1,6 @@
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
+import 'package:adflaunt/feature/listing_details/listing_details_view.dart';
 import 'package:adflaunt/feature/post_ad/cubit/post_ad_cubit.dart';
 import 'package:adflaunt/feature/tab_view.dart';
 import 'package:adflaunt/product/widgets/common_btn.dart';
@@ -37,7 +38,7 @@ class AdPostingView extends StatelessWidget {
                             height: 20,
                           ),
                           Text(
-                            "Posting your Ad, Please wait...",
+                            S.of(context).postingYourAdPleaseWait,
                             style:
                                 TextStyle(fontSize: 20, fontFamily: "Poppins"),
                           ),
@@ -57,7 +58,7 @@ class AdPostingView extends StatelessWidget {
                                   height: 20,
                                 ),
                                 Text(
-                                  "Ad Posted Successfully",
+                                  S.of(context).adPostedSuccessfully,
                                   style: TextStyle(
                                       fontSize: 20, fontFamily: "Poppins"),
                                 ),
@@ -87,9 +88,17 @@ class AdPostingView extends StatelessWidget {
                                   width: double.infinity,
                                   child: CommonBtn(
                                       onPressed: () {
-                                        //TODO(): Will be implemented later
+                                        Navigator.pushReplacement(context,
+                                            MaterialPageRoute<dynamic>(
+                                          builder: (context) {
+                                            return ListingDetailsView(
+                                                listing: context
+                                                    .read<PostAdCubit>()
+                                                    .output!);
+                                          },
+                                        ));
                                       },
-                                      text: "See your Ad",
+                                      text: S.of(context).seeYourAd,
                                       backgroundColor: Colors.black),
                                 ),
                               ],

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:adflaunt/core/base/bloc_base.dart';
 import 'package:adflaunt/product/services/listings.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,7 +14,7 @@ import '../../../product/models/listings/results.dart';
 
 part 'home_state.dart';
 
-class HomeCubit extends Cubit<HomeState> {
+class HomeCubit extends BaseBloc<HomeState, HomeState> {
   HomeCubit() : super(HomeInitial());
   final List<MarkerItem> markers = [];
   List<Output> listing = [];
@@ -25,10 +25,10 @@ class HomeCubit extends Cubit<HomeState> {
   String long = "";
   String km = "1";
   void onMapCreated(List<Output> listings) async {
-    emit(HomeMapLoading());
+    safeEmit(HomeMapLoading());
 
     await addMarker(listings);
-    emit(HomeMapUpdated());
+    safeEmit(HomeMapUpdated());
   }
 
   Future<bool> addMarker(List<Output> listings) async {
@@ -61,7 +61,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   void onMapMove(int category) async {
     //log(lat.toString() + " / " + long.toString());
-    emit(HomeMapLoading());
+    safeEmit(HomeMapLoading());
     final bounds = await controller.getMapController()!.getVisibleRegion();
     LatLng northeast = bounds.northeast;
     LatLng southwest = bounds.southwest;
@@ -86,9 +86,9 @@ class HomeCubit extends Cubit<HomeState> {
 
       await addMarker(listings);
 
-      emit(HomeMapUpdated());
+      safeEmit(HomeMapUpdated());
     } catch (e) {
-      emit(HomeMapError(message: e.toString()));
+      safeEmit(HomeMapError(message: e.toString()));
     }
   }
 }

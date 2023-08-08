@@ -33,7 +33,12 @@ class LoginAPI {
   static Future<void> saveAccountCredentials(
     ProfileAdapter profileModel,
   ) async {
-    await Hive.box<ProfileAdapter>('user').put('userData', profileModel);
+    if (profileModel.id != null) {
+      await Hive.box<ProfileAdapter>('user').put('userData', profileModel);
+    } else {
+      log('User ID is null, please try again.');
+      throw Exception('User ID is null, please try again.');
+    }
 
     /// TODO(): Uncomment this when push notification is implemented
     /*if (profileModel.id != null) {

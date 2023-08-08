@@ -118,5 +118,10 @@
   "bookNow": "Book Now",
   "perDay": "per day",
   "freeCancellation": "Free cancellation",
-  "adSpecs": "Ad Specs"
+  "adSpecs": "Ad Specs",
+  "chat": "Chat",
+  "postingYourAdPleaseWait": "Posting your Ad, Please wait...",
+  "adPostedSuccessfully": "Ad Posted Successfully",
+  "seeYourAd": "See your Ad",
+  "inbox": "Inbox"
 }
