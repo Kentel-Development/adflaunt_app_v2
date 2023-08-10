@@ -1299,6 +1299,166 @@ class S {
       args: [],
     );
   }
+
+  /// `Booking`
+  String get booking {
+    return Intl.message(
+      'Booking',
+      name: 'booking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dates`
+  String get dates {
+    return Intl.message(
+      'Dates',
+      name: 'dates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Files`
+  String get files {
+    return Intl.message(
+      'Files',
+      name: 'files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload your project files now or choose to upload them later. You have the flexibility to upload multiple files at once.`
+  String get uploadYourProjectFilesNowOrChooseToUploadThem {
+    return Intl.message(
+      'Upload your project files now or choose to upload them later. You have the flexibility to upload multiple files at once.',
+      name: 'uploadYourProjectFilesNowOrChooseToUploadThem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File`
+  String get uploadFile {
+    return Intl.message(
+      'File',
+      name: 'uploadFile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Image`
+  String get uploadImages {
+    return Intl.message(
+      'Image',
+      name: 'uploadImages',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue with Apple Pay`
+  String get continueWithApplePay {
+    return Intl.message(
+      'Continue with Apple Pay',
+      name: 'continueWithApplePay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price Details`
+  String get priceDetails {
+    return Intl.message(
+      'Price Details',
+      name: 'priceDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service fee`
+  String get serviceFee {
+    return Intl.message(
+      'Service fee',
+      name: 'serviceFee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm and Pay`
+  String get confirmAndPay {
+    return Intl.message(
+      'Confirm and Pay',
+      name: 'confirmAndPay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Card`
+  String get addCard {
+    return Intl.message(
+      'Add Card',
+      name: 'addCard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Card Added Successfully`
+  String get cardAddedSuccessfully {
+    return Intl.message(
+      'Card Added Successfully',
+      name: 'cardAddedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select at least one day to book`
+  String get pleaseSelectAtLeastOneDayToBook {
+    return Intl.message(
+      'Please select at least one day to book',
+      name: 'pleaseSelectAtLeastOneDayToBook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Processing...`
+  String get paymentProcessing {
+    return Intl.message(
+      'Payment Processing...',
+      name: 'paymentProcessing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking processing...`
+  String get bookingProcessing {
+    return Intl.message(
+      'Booking processing...',
+      name: 'bookingProcessing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking Successful`
+  String get bookingSuccessful {
+    return Intl.message(
+      'Booking Successful',
+      name: 'bookingSuccessful',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

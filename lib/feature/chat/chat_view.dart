@@ -70,6 +70,7 @@ class _ChatViewState extends State<ChatView> with ChatMixin {
               primaryColor: Colors.black,
               attachmentButtonIcon: Icon(Icons.photo, color: Colors.white),
             ),
+            onEndReached: handleEndReached,
             isAttachmentUploading: loading,
             onAttachmentPressed: handleImageSelection,
             messages: messages,

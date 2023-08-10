@@ -123,5 +123,21 @@
   "postingYourAdPleaseWait": "Posting your Ad, Please wait...",
   "adPostedSuccessfully": "Ad Posted Successfully",
   "seeYourAd": "See your Ad",
-  "inbox": "Inbox"
+  "inbox": "Inbox",
+  "booking": "Booking",
+  "dates": "Dates",
+  "files": "Files",
+  "uploadYourProjectFilesNowOrChooseToUploadThem": "Upload your project files now or choose to upload them later. You have the flexibility to upload multiple files at once.",
+  "uploadFile": "File",
+  "uploadImages": "Image",
+  "continueWithApplePay": "Continue with Apple Pay",
+  "priceDetails": "Price Details",
+  "serviceFee": "Service fee",
+  "confirmAndPay": "Confirm and Pay",
+  "addCard": "Add Card",
+  "cardAddedSuccessfully": "Card Added Successfully",
+  "pleaseSelectAtLeastOneDayToBook": "Please select at least one day to book",
+  "paymentProcessing": "Payment Processing...",
+  "bookingProcessing": "Booking processing...",
+  "bookingSuccessful": "Booking Successful"
 }

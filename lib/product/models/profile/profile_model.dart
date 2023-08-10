@@ -14,11 +14,11 @@ class ProfileModel {
   @JsonKey(name: "IPDATA")
   Ipdata ipdata;
   @JsonKey(name: "SCC", includeIfNull: false)
-  bool scc;
+  bool? scc;
   @JsonKey(name: "_id")
   String id;
   @JsonKey(name: "dateOfBirth", includeIfNull: false)
-  String dateOfBirth;
+  String? dateOfBirth;
   @JsonKey(name: "email")
   String email;
   @JsonKey(name: "fullName")
@@ -28,11 +28,11 @@ class ProfileModel {
   @JsonKey(name: "ipraw")
   String ipraw;
   @JsonKey(name: "lastTimeLoggedIn", includeIfNull: false)
-  double lastTimeLoggedIn;
+  double? lastTimeLoggedIn;
   @JsonKey(name: "password", includeIfNull: false)
-  String password;
+  String? password;
   @JsonKey(name: "phoneNumber", includeIfNull: false)
-  String phoneNumber;
+  String? phoneNumber;
   @JsonKey(name: "profileImage", includeIfNull: false)
   dynamic profileImage;
   @JsonKey(name: "thirdParty")
