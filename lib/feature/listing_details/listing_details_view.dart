@@ -1,6 +1,8 @@
+import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
+import 'package:adflaunt/feature/booking/booking_view.dart';
 import 'package:adflaunt/feature/chat/chat_view.dart';
 import 'package:adflaunt/product/models/chat/inbox.dart' as chat;
 import 'package:adflaunt/product/models/listings/results.dart';
@@ -13,6 +15,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 
@@ -60,7 +63,20 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  if (widget.listing.user ==
+                      Hive.box<ProfileAdapter>("user").get("userData")!.id) {
+                    //TODO(): implement edit listing
+                  } else {
+                    Navigator.push(context, MaterialPageRoute<dynamic>(
+                      builder: (context) {
+                        return BookingView(
+                          listing: widget.listing,
+                        );
+                      },
+                    ));
+                  }
+                },
                 child: Container(
                   width: 150,
                   height: double.infinity,
@@ -131,41 +147,52 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                   right: 25,
                   child: GestureDetector(
                     onTap: () async {
-                      ProfileModel user =
-                          await UserServices.getUser(widget.listing.user);
-                      String id =
-                          await ChatServices.createChat(widget.listing.user);
-                      try {
-                        Navigator.push(context, MaterialPageRoute<dynamic>(
-                          builder: (context) {
-                            return ChatView(
-                              chatId: id,
-                              user: chat.Them(
-                                  id: user.id,
-                                  fullName: user.fullName,
-                                  backPhotoId: "",
-                                  dateOfBirth: user.dateOfBirth,
-                                  deliveryAddress: "",
-                                  email: user.email,
-                                  idVerified: user.idVerified,
-                                  inbox: [""],
-                                  ipdata: chat.Ipdata.fromJson(
-                                      user.ipdata.toJson()),
-                                  ipraw: user.ipraw,
-                                  lastTimeLoggedIn: user.lastTimeLoggedIn,
-                                  profileImage: user.profileImage,
-                                  phoneNumber: user.phoneNumber,
-                                  photoOfId: "",
-                                  thirdParty: user.thirdParty),
-                            );
-                          },
-                        ));
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(e.toString()),
-                          ),
-                        );
+                      if (widget.listing.user !=
+                          Hive.box<ProfileAdapter>("user")
+                              .get("userData")!
+                              .id!) {
+                        ProfileModel user =
+                            await UserServices.getUser(widget.listing.user);
+                        String id =
+                            await ChatServices.createChat(widget.listing.user);
+                        try {
+                          Navigator.push(context, MaterialPageRoute<dynamic>(
+                            builder: (context) {
+                              return ChatView(
+                                chatId: id,
+                                user: chat.Them(
+                                    id: user.id,
+                                    fullName: user.fullName,
+                                    backPhotoId: "",
+                                    dateOfBirth: user.dateOfBirth == null
+                                        ? DateTime.now().toString()
+                                        : DateTime.parse(
+                                                user.dateOfBirth.toString())
+                                            .toString(),
+                                    deliveryAddress: "",
+                                    email: user.email,
+                                    idVerified: user.idVerified,
+                                    inbox: [""],
+                                    ipdata: chat.Ipdata.fromJson(
+                                        user.ipdata.toJson()),
+                                    ipraw: user.ipraw,
+                                    lastTimeLoggedIn: 0,
+                                    profileImage: user.profileImage,
+                                    phoneNumber: user.phoneNumber == null
+                                        ? ""
+                                        : user.phoneNumber.toString(),
+                                    photoOfId: "",
+                                    thirdParty: user.thirdParty),
+                              );
+                            },
+                          ));
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(e.toString()),
+                            ),
+                          );
+                        }
                       }
                     },
                     child: Container(
@@ -285,7 +312,7 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                   ),
                 ),
                 widget.listing.tags.length > 2
-                    ? Tags(widget: widget)
+                    ? Tags(widget: widget.listing)
                     : Container(),
                 SizedBox(
                   height: 6,

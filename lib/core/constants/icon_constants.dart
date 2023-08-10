@@ -62,4 +62,6 @@ class IconConstants {
   static const String booking_unactive = 'assets/booking_unactive.svg';
   static const String booking_active = 'assets/booking_active.svg';
   static const String chat = 'assets/chat.svg';
+  static const String upload_file = 'assets/upload_file.svg';
+  static const String upload_image = 'assets/upload_image.svg';
 }

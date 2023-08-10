@@ -1,6 +1,5 @@
+import 'package:adflaunt/product/models/listings/results.dart';
 import 'package:flutter/material.dart';
-
-import '../../../feature/listing_details/listing_details_view.dart';
 
 class Tags extends StatelessWidget {
   const Tags({
@@ -8,11 +7,11 @@ class Tags extends StatelessWidget {
     required this.widget,
   });
 
-  final ListingDetailsView widget;
+  final Output widget;
 
   @override
   Widget build(BuildContext context) {
-    final tags = widget.listing.tags;
+    final tags = widget.tags;
     tags.removeAt(0);
     tags.removeAt(0);
     return Column(

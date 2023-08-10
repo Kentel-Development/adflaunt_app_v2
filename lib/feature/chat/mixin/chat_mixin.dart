@@ -4,6 +4,7 @@ import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/chat/chat_view.dart';
 import 'package:adflaunt/product/models/chat/chat.dart';
+import 'package:adflaunt/product/services/chat.dart';
 import 'package:adflaunt/product/services/upload.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ mixin ChatMixin on State<ChatView> {
   late types.User user;
   late types.User otherUser;
   bool loading = false;
+  int _page = 1;
   @override
   void initState() {
     log("initState");
@@ -126,6 +128,32 @@ mixin ChatMixin on State<ChatView> {
     super.dispose();
   }
 
+  Future<void> handleEndReached() async {
+    final newMessages = await ChatServices.pagination(widget.chatId, _page);
+    final _messages = newMessages.map((e) {
+      if (e.content != "") {
+        return types.TextMessage(
+            author: e.sender == currentUser.id.toString() ? user : otherUser,
+            id: e.id,
+            text: e.content,
+            createdAt: (e.at * 1000).toInt());
+      } else {
+        return types.ImageMessage(
+          author: user,
+          createdAt: (e.at * 1000).toInt(),
+          id: e.id,
+          name: e.id,
+          size: 1,
+          uri: StringConstants.baseStorageUrl + e.image,
+        );
+      }
+    });
+    setState(() {
+      messages = [...messages, ..._messages];
+      _page++;
+    });
+  }
+
   void handleSendPressed(types.PartialText message) {
     log("handleSendPressed");
     log(message.text);
@@ -165,8 +193,10 @@ mixin ChatMixin on State<ChatView> {
   }
 
   void _addMessage(types.Message message) {
-    setState(() {
-      messages.insert(0, message);
-    });
+    if (mounted) {
+      setState(() {
+        messages.insert(0, message);
+      });
+    }
   }
 }

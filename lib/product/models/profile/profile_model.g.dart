@@ -8,16 +8,16 @@ part of 'profile_model.dart';
 
 ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
       ipdata: Ipdata.fromJson(json['IPDATA'] as Map<String, dynamic>),
-      scc: json['SCC'] as bool? ?? false,
+      scc: json['SCC'] as bool?,
       id: json['_id'] as String,
-      dateOfBirth: json['dateOfBirth'] as String,
+      dateOfBirth: json['dateOfBirth'] as String?,
       email: json['email'] as String,
       fullName: json['fullName'] as String,
       idVerified: json['idVerified'] as bool,
       ipraw: json['ipraw'] as String,
-      lastTimeLoggedIn: (json['lastTimeLoggedIn'] as num).toDouble(),
-      password: json['password'] as String? ?? "",
-      phoneNumber: json['phoneNumber'] as String,
+      lastTimeLoggedIn: (json['lastTimeLoggedIn'] as num?)?.toDouble(),
+      password: json['password'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
       profileImage: json['profileImage'],
       thirdParty: json['thirdParty'] as String,
     );
@@ -25,16 +25,6 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
 Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) {
   final val = <String, dynamic>{
     'IPDATA': instance.ipdata,
-    'SCC': instance.scc,
-    '_id': instance.id,
-    'dateOfBirth': instance.dateOfBirth,
-    'email': instance.email,
-    'fullName': instance.fullName,
-    'idVerified': instance.idVerified,
-    'ipraw': instance.ipraw,
-    'lastTimeLoggedIn': instance.lastTimeLoggedIn,
-    'password': instance.password,
-    'phoneNumber': instance.phoneNumber,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -43,6 +33,16 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) {
     }
   }
 
+  writeNotNull('SCC', instance.scc);
+  val['_id'] = instance.id;
+  writeNotNull('dateOfBirth', instance.dateOfBirth);
+  val['email'] = instance.email;
+  val['fullName'] = instance.fullName;
+  val['idVerified'] = instance.idVerified;
+  val['ipraw'] = instance.ipraw;
+  writeNotNull('lastTimeLoggedIn', instance.lastTimeLoggedIn);
+  writeNotNull('password', instance.password);
+  writeNotNull('phoneNumber', instance.phoneNumber);
   writeNotNull('profileImage', instance.profileImage);
   val['thirdParty'] = instance.thirdParty;
   return val;

@@ -31,6 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addADescription":
             MessageLookupByLibrary.simpleMessage("Add a description"),
         "addATitle": MessageLookupByLibrary.simpleMessage("Add a title"),
+        "addCard": MessageLookupByLibrary.simpleMessage("Add Card"),
         "addPaymentMethod":
             MessageLookupByLibrary.simpleMessage("Add Payment Method"),
         "addPhotos": MessageLookupByLibrary.simpleMessage("Add Photos"),
@@ -48,10 +49,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "backOfId": MessageLookupByLibrary.simpleMessage("Back of ID"),
         "balance": MessageLookupByLibrary.simpleMessage("Balance"),
         "bookNow": MessageLookupByLibrary.simpleMessage("Book Now"),
+        "booking": MessageLookupByLibrary.simpleMessage("Booking"),
+        "bookingProcessing":
+            MessageLookupByLibrary.simpleMessage("Booking processing..."),
+        "bookingSuccessful":
+            MessageLookupByLibrary.simpleMessage("Booking Successful"),
         "byClickingTheFinishButtonYouAcceptTheTermsOf":
             MessageLookupByLibrary.simpleMessage(
                 "By clicking the finish button, you accept the terms of cancellation of listing."),
         "cancelPolicy": MessageLookupByLibrary.simpleMessage("Cancel Policy"),
+        "cardAddedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Card Added Successfully"),
         "changePhoneNumber":
             MessageLookupByLibrary.simpleMessage("Change Phone Number"),
         "chat": MessageLookupByLibrary.simpleMessage("Chat"),
@@ -63,7 +71,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "clickHereToReadMore":
             MessageLookupByLibrary.simpleMessage("click here to read more"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "confirmAndPay":
+            MessageLookupByLibrary.simpleMessage("Confirm and Pay"),
+        "continueWithApplePay":
+            MessageLookupByLibrary.simpleMessage("Continue with Apple Pay"),
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("Date of Birth"),
+        "dates": MessageLookupByLibrary.simpleMessage("Dates"),
         "day": MessageLookupByLibrary.simpleMessage("day"),
         "digitalAds": MessageLookupByLibrary.simpleMessage("Digital Ads"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
@@ -87,6 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter your zip code"),
         "errorInitializingCamera":
             MessageLookupByLibrary.simpleMessage("Error initializing camera"),
+        "files": MessageLookupByLibrary.simpleMessage("Files"),
         "finish": MessageLookupByLibrary.simpleMessage("Finish"),
         "fitTheBackOfYourIdWithinTheFrame":
             MessageLookupByLibrary.simpleMessage(
@@ -138,6 +152,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Password must be at least 6 characters"),
         "paymentMethod": MessageLookupByLibrary.simpleMessage("Payment Method"),
+        "paymentProcessing":
+            MessageLookupByLibrary.simpleMessage("Payment Processing..."),
         "perDay": MessageLookupByLibrary.simpleMessage("per day"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "pleaseEnterADifferentTagNameThisIsAdType":
@@ -160,6 +176,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please fill all the fields"),
         "pleaseSelectADate":
             MessageLookupByLibrary.simpleMessage("Please select a date"),
+        "pleaseSelectAtLeastOneDayToBook": MessageLookupByLibrary.simpleMessage(
+            "Please select at least one day to book"),
         "pleaseVerifyYourIdToPostAnAd": MessageLookupByLibrary.simpleMessage(
             "Please verify your ID to post an ad"),
         "popularAdSpaces":
@@ -167,6 +185,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "postAdSpace": MessageLookupByLibrary.simpleMessage("Post AD Space"),
         "postingYourAdPleaseWait": MessageLookupByLibrary.simpleMessage(
             "Posting your Ad, Please wait..."),
+        "priceDetails": MessageLookupByLibrary.simpleMessage("Price Details"),
         "priceRange": MessageLookupByLibrary.simpleMessage("Price range"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "recentSearches":
@@ -178,6 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "seeYourAd": MessageLookupByLibrary.simpleMessage("See your Ad"),
         "selectLocation":
             MessageLookupByLibrary.simpleMessage("Select Location"),
+        "serviceFee": MessageLookupByLibrary.simpleMessage("Service fee"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "signUpWithApple":
             MessageLookupByLibrary.simpleMessage("Sign Up with Apple"),
@@ -202,7 +222,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "The more you share, the quicker you get booked."),
         "typeOfSpace": MessageLookupByLibrary.simpleMessage("Type of space"),
+        "uploadFile": MessageLookupByLibrary.simpleMessage("File"),
+        "uploadImages": MessageLookupByLibrary.simpleMessage("Image"),
         "uploadPhotos": MessageLookupByLibrary.simpleMessage("Upload photos"),
+        "uploadYourProjectFilesNowOrChooseToUploadThem":
+            MessageLookupByLibrary.simpleMessage(
+                "Upload your project files now or choose to upload them later. You have the flexibility to upload multiple files at once."),
         "vehicleAds": MessageLookupByLibrary.simpleMessage("Vehicle Ads"),
         "verifyYourEmail":
             MessageLookupByLibrary.simpleMessage("Verify your E-Mail"),
