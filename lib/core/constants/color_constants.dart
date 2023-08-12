@@ -20,4 +20,7 @@ class ColorConstants {
   static const Color grey400 = Color.fromRGBO(228, 228, 231, 1);
   static const Color grey500 = Color.fromRGBO(113, 113, 122, 1);
   static const Color grey2000 = Color.fromRGBO(228, 228, 231, 1);
+  static const Color unavailableCell = Color.fromRGBO(240, 241, 246, 1);
+  static const Color selectedCell = Color.fromRGBO(34, 34, 34, 1);
+  static const Color rangeCell = Color.fromRGBO(206, 206, 210, 1);
 }

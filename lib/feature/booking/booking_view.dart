@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/extensions/date_parser_extension.dart';
 import 'package:adflaunt/feature/booking/mixin/booking_mixin.dart';
@@ -62,6 +64,8 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
                 child: LoadingWidget(),
               );
             } else {
+              printFee = snapshot.data!.printFee;
+              unavailableDates = snapshot.data!.output!;
               List<DateTime> bookedDates = [];
               if (snapshot.data!.output != null) {
                 snapshot.data!.output!.forEach((element) {
@@ -670,16 +674,11 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
           ),
           child: SfDateRangePicker(
             maxDate: widget.listing.checkOut.parseDate(),
-            initialSelectedRange:
-                PickerDateRange(DateTime.now(), DateTime.now()),
             todayHighlightColor: Colors.black,
             onSelectionChanged: (DateRangePickerSelectionChangedArgs
                 dateRangePickerSelectionChangedArgs) {
               setState(() {});
             },
-            monthViewSettings: DateRangePickerMonthViewSettings(
-              showTrailingAndLeadingDates: true,
-            ),
             monthCellStyle: DateRangePickerMonthCellStyle(
               disabledDatesDecoration: BoxDecoration(
                 color: Colors.black,
@@ -701,9 +700,12 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
               ),
             ),
             selectableDayPredicate: (date) {
-              return snapshot.contains(date) || date.isBefore(DateTime.now())
-                  ? false
-                  : true;
+              bool isBooked = snapshot.contains(date);
+              bool isAfter = date.isAfter(widget.listing.checkOut.parseDate());
+              bool isBefore =
+                  date.isBefore(DateTime.now().subtract(Duration(days: 1)));
+              bool isUnavailable = isBooked || isAfter || isBefore;
+              return !isUnavailable;
             },
             controller: datePickerController,
             selectionMode: DateRangePickerSelectionMode.range,
@@ -717,54 +719,53 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
               fontFamily: 'Poppins',
             ),
             cellBuilder: (context, cellDetails) {
+              bool isBooked = snapshot.contains(cellDetails.date);
+              bool isAfter =
+                  cellDetails.date.isAfter(widget.listing.checkOut.parseDate());
+              bool isBefore = cellDetails.date
+                  .isBefore(DateTime.now().subtract(Duration(days: 1)));
+              bool isUnavailable = isBooked || isAfter || isBefore;
+              bool isRangeStart = datePickerController.selectedRange == null
+                  ? false
+                  : (cellDetails.date ==
+                      datePickerController.selectedRange!.startDate);
+              bool isRangeEnd = datePickerController.selectedRange == null
+                  ? false
+                  : cellDetails.date ==
+                      datePickerController.selectedRange!.endDate;
+              bool isRange = isRangeStart || isRangeEnd;
+              bool isRangeMiddle = datePickerController.selectedRange == null
+                  ? false
+                  : datePickerController.selectedRange!.endDate == null
+                      ? false
+                      : (cellDetails.date.isAfter(
+                              datePickerController.selectedRange!.startDate!) &&
+                          cellDetails.date.isBefore(
+                              datePickerController.selectedRange!.endDate!));
               return Container(
-                decoration: BoxDecoration(
+                  decoration: BoxDecoration(
+                    color: isRangeMiddle
+                        ? ColorConstants.rangeCell
+                        : isRange
+                            ? ColorConstants.selectedCell
+                            : isUnavailable
+                                ? ColorConstants.unavailableCell
+                                : Colors.white,
                     border: Border.all(
                       color: ColorConstants.grey300,
                     ),
-                    color: datePickerController.displayDate!.month !=
-                            cellDetails.date.month
-                        ? Color.fromRGBO(242, 243, 247, 1)
-                        : datePickerController.selectedRange != null
-                            ? datePickerController.selectedRange!.startDate ==
-                                        cellDetails.date ||
-                                    datePickerController
-                                            .selectedRange!.endDate ==
-                                        cellDetails.date
-                                ? Colors.black
-                                : datePickerController.selectedRange!.startDate!
-                                            .isBefore(cellDetails.date) &&
-                                        (datePickerController
-                                                    .selectedRange!.endDate ??
-                                                datePickerController
-                                                    .selectedRange!.startDate)!
-                                            .isAfter(cellDetails.date)
-                                    ? ColorConstants.grey300
-                                    : snapshot.contains(cellDetails.date) ||
-                                            cellDetails.date
-                                                .isBefore(DateTime.now())
-                                        ? Color.fromRGBO(242, 243, 247, 1)
-                                        : Colors.white
-                            : Colors.white),
-                child: Center(
-                  child: Text(
-                    cellDetails.date.day.toString(),
-                    style: TextStyle(
-                      color: datePickerController.selectedRange != null
-                          ? datePickerController.selectedRange!.startDate ==
-                                      cellDetails.date ||
-                                  datePickerController.selectedRange!.endDate ==
-                                      cellDetails.date
-                              ? Colors.white
-                              : Colors.black
-                          : Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Poppins',
-                    ),
                   ),
-                ),
-              );
+                  child: Center(
+                    child: Text(
+                      cellDetails.date.day.toString(),
+                      style: TextStyle(
+                        color: isRange ? Colors.white : Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ));
             },
             headerStyle: DateRangePickerHeaderStyle(
               textStyle: TextStyle(
