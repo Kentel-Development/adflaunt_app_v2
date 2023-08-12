@@ -2,8 +2,10 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'dart:ui';
 
+import 'package:adflaunt/core/extensions/date_parser_extension.dart';
 import 'package:adflaunt/feature/booking/booking_view.dart';
 import 'package:adflaunt/generated/l10n.dart';
 import 'package:adflaunt/product/services/booking.dart';
@@ -47,6 +49,8 @@ mixin BookingMixin on State<BookingView> {
                   .inDays +
               1);
   bool loading = false;
+  int? printFee;
+  List<String> unavailableDates = [];
   @override
   void initState() {
     PaymentService().listPaymentMethods().then((value) {
@@ -261,52 +265,101 @@ mixin BookingMixin on State<BookingView> {
   }
 
   void confirmAndPay() async {
-    if (bookedDays > 0) {
-      setState(() {
-        loading = true;
-      });
-      if (selectedPaymentMethod == null) {
-      } else {
-        final payInt = jsonDecode(await PaymentService().createPaymentIntent(
-                widget.listing.id,
-                datePickerController.selectedRange!.startDate!,
-                datePickerController.selectedRange!.endDate ??
-                    datePickerController.selectedRange!.startDate!,
-                paymentMethods![selectedPaymentMethod!]["id"].toString()))
-            as Map<String, dynamic>;
-        showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (context) {
-            return BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: AlertDialog(
-                title: Text(
-                  S.of(context).paymentProcessing,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: const Color.fromRGBO(12, 12, 38, 1),
+    bool isBlackouted = false;
+    if (unavailableDates.length > 0) {
+      for (var element in unavailableDates) {
+        if (datePickerController.selectedRange!.startDate!
+                .isBefore(element.parseBookingDate()) &&
+            (datePickerController.selectedRange!.endDate ?? DateTime.now())
+                .isAfter(element.parseBookingDate())) {
+          isBlackouted = true;
+        }
+      }
+    }
+    if (isBlackouted) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: const Color.fromRGBO(241, 95, 95, 1),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        content:
+            Text(S.of(context).pleaseSelectADateRangeWithoutUnavailableDates),
+      ));
+    } else {
+      if (bookedDays > 0) {
+        setState(() {
+          loading = true;
+        });
+        Map<String, dynamic>? payInt;
+        if (selectedPaymentMethod == null) {
+          payInt = jsonDecode(await PaymentService().createPaymentIntent(
+              widget.listing.id,
+              datePickerController.selectedRange!.startDate!,
+              datePickerController.selectedRange!.endDate ??
+                  datePickerController.selectedRange!.startDate!,
+              null)) as Map<String, dynamic>;
+        } else {
+          payInt = jsonDecode(await PaymentService().createPaymentIntent(
+                  widget.listing.id,
+                  datePickerController.selectedRange!.startDate!,
+                  datePickerController.selectedRange!.endDate ??
+                      datePickerController.selectedRange!.startDate!,
+                  paymentMethods![selectedPaymentMethod!]["id"].toString()))
+              as Map<String, dynamic>;
+        }
+
+        if (selectedPaymentMethod != null) {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: AlertDialog(
+                  title: Text(
+                    S.of(context).paymentProcessing,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: const Color.fromRGBO(12, 12, 38, 1),
+                    ),
+                  ),
+                  content: SizedBox(
+                    height: 100,
+                    child: const Center(child: LoadingWidget()),
                   ),
                 ),
-                content: SizedBox(
-                  height: 100,
-                  child: const Center(child: LoadingWidget()),
-                ),
-              ),
+              );
+            },
+          );
+        }
+        try {
+          if (selectedPaymentMethod == null) {
+            await Stripe.instance.confirmPlatformPayPaymentIntent(
+                clientSecret: payInt["paymentIntent"].toString(),
+                confirmParams: PlatformPayConfirmParams.applePay(
+                    applePay: ApplePayParams(
+                        merchantCountryCode: "US",
+                        currencyCode: "USD",
+                        cartItems: [
+                      ApplePayCartSummaryItem.immediate(
+                          label: widget.listing.title,
+                          amount: ((widget.listing.price * bookedDays) +
+                                  printFee!.toDouble())
+                              .toString())
+                    ])));
+          } else {
+            await Stripe.instance.confirmPayment(
+              paymentIntentClientSecret: payInt["paymentIntent"].toString(),
+              data: PaymentMethodParams.cardFromMethodId(
+                  paymentMethodData: PaymentMethodDataCardFromMethod(
+                      paymentMethodId: payInt["paymentID"].toString())),
             );
-          },
-        );
-        await Stripe.instance
-            .confirmPayment(
-          paymentIntentClientSecret: payInt["paymentIntent"].toString(),
-          data: PaymentMethodParams.cardFromMethodId(
-              paymentMethodData: PaymentMethodDataCardFromMethod(
-                  paymentMethodId: paymentMethods![selectedPaymentMethod!]["id"]
-                      .toString())),
-        )
-            .then((value) async {
-          Navigator.pop(context);
+          }
+          if (selectedPaymentMethod != null) {
+            Navigator.pop(context);
+          }
           showDialog(
             context: context,
             barrierDismissible: false,
@@ -350,7 +403,7 @@ mixin BookingMixin on State<BookingView> {
             widget.listing.id,
             widget.listing.description,
             url,
-            paymentMethods![selectedPaymentMethod!]["id"].toString(),
+            payInt["paymentID"].toString(),
           );
           Navigator.pop(context);
           showDialog(
@@ -376,17 +429,31 @@ mixin BookingMixin on State<BookingView> {
           setState(() {
             loading = false;
           });
-        });
+        } catch (e) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: const Color.fromRGBO(241, 95, 95, 1),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            content:
+                Text((e as StripeException).error.localizedMessage.toString()),
+          ));
+          setState(() {
+            loading = false;
+          });
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: const Color.fromRGBO(241, 95, 95, 1),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          content: Text(S.of(context).pleaseSelectAtLeastOneDayToBook),
+        ));
       }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: const Color.fromRGBO(241, 95, 95, 1),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        content: Text(S.of(context).pleaseSelectAtLeastOneDayToBook),
-      ));
     }
   }
 }

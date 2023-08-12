@@ -1469,6 +1469,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please select a date range without unavailable dates`
+  String get pleaseSelectADateRangeWithoutUnavailableDates {
+    return Intl.message(
+      'Please select a date range without unavailable dates',
+      name: 'pleaseSelectADateRangeWithoutUnavailableDates',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

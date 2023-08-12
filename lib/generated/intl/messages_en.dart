@@ -177,6 +177,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please fill all the fields"),
         "pleaseSelectADate":
             MessageLookupByLibrary.simpleMessage("Please select a date"),
+        "pleaseSelectADateRangeWithoutUnavailableDates":
+            MessageLookupByLibrary.simpleMessage(
+                "Please select a date range without unavailable dates"),
         "pleaseSelectAtLeastOneDayToBook": MessageLookupByLibrary.simpleMessage(
             "Please select at least one day to book"),
         "pleaseVerifyYourIdToPostAnAd": MessageLookupByLibrary.simpleMessage(

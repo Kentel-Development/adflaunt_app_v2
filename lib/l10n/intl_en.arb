@@ -140,5 +140,6 @@
   "paymentProcessing": "Payment Processing...",
   "bookingProcessing": "Booking processing...",
   "bookingSuccessful": "Booking Successful",
-  "calendar": "Calendar"
+  "calendar": "Calendar",
+  "pleaseSelectADateRangeWithoutUnavailableDates": "Please select a date range without unavailable dates"
 }
