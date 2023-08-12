@@ -87,7 +87,7 @@ class ListingCalendarView extends StatelessWidget {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           )
-                                        : image != null
+                                        : image == null
                                             ? Icon(Icons.person)
                                             : Padding(
                                                 padding:
@@ -101,7 +101,7 @@ class ListingCalendarView extends StatelessWidget {
                                                     child: CachedNetworkImage(
                                                       imageUrl: StringConstants
                                                               .baseStorageUrl +
-                                                          "ki47f111bm79f44x64k104yw.jpg",
+                                                          image!,
                                                       fit: BoxFit.cover,
                                                       width: size.width * 0.1,
                                                       height:
