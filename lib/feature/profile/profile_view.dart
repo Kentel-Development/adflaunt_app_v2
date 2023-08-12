@@ -7,6 +7,7 @@ import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/balance/balance_view.dart';
+import 'package:adflaunt/feature/calendar/calendar_view.dart';
 import 'package:adflaunt/feature/my_listings/my_listings_view.dart';
 import 'package:adflaunt/feature/payment_method/payment_method_view.dart';
 import 'package:adflaunt/feature/profile/edit_profile_view.dart';
@@ -210,6 +211,36 @@ class _ProfileViewState extends State<ProfileView> {
                             },
                             title: Text(
                               S.of(context).postAdSpace,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "Poppins",
+                              ),
+                            ),
+                            trailing: SvgPicture.asset(
+                              IconConstants.arrow_right,
+                              height: 24,
+                              width: 24,
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute<dynamic>(
+                                builder: (context) {
+                                  return CalendarView();
+                                },
+                              ));
+                            },
+                            leading: SvgPicture.asset(
+                              IconConstants.calendar_unactive,
+                              color: Colors.black,
+                              height: 24,
+                              width: 24,
+                            ),
+                            minLeadingWidth: 0,
+                            title: Text(
+                              S.of(context).calendar,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,

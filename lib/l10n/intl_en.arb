@@ -139,5 +139,6 @@
   "pleaseSelectAtLeastOneDayToBook": "Please select at least one day to book",
   "paymentProcessing": "Payment Processing...",
   "bookingProcessing": "Booking processing...",
-  "bookingSuccessful": "Booking Successful"
+  "bookingSuccessful": "Booking Successful",
+  "calendar": "Calendar"
 }

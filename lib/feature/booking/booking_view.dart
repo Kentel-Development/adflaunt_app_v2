@@ -339,7 +339,7 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
               )
             : Column(
                 children: List.generate(
-                    (paymentMethods!.length as int),
+                    paymentMethods!.length,
                     (index) => GestureDetector(
                           onTap: () {
                             setState(() {
@@ -389,6 +389,7 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
                                   selectedPaymentMethod == index
                                       ? SvgPicture.asset(
                                           IconConstants.check_ring,
+                                          // ignore: deprecated_member_use
                                           color: Colors.black,
                                         )
                                       : Container(),

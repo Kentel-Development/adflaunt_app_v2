@@ -57,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "byClickingTheFinishButtonYouAcceptTheTermsOf":
             MessageLookupByLibrary.simpleMessage(
                 "By clicking the finish button, you accept the terms of cancellation of listing."),
+        "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "cancelPolicy": MessageLookupByLibrary.simpleMessage("Cancel Policy"),
         "cardAddedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Card Added Successfully"),
