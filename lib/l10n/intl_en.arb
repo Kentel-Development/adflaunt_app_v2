@@ -141,5 +141,16 @@
   "bookingProcessing": "Booking processing...",
   "bookingSuccessful": "Booking Successful",
   "calendar": "Calendar",
-  "pleaseSelectADateRangeWithoutUnavailableDates": "Please select a date range without unavailable dates"
+  "pleaseSelectADateRangeWithoutUnavailableDates": "Please select a date range without unavailable dates",
+  "editListing": "Edit Listing",
+  "primary": "Primary",
+  "title": "Title",
+  "images": "Images",
+  "description": "Description",
+  "zipCode": "ZIP Code",
+  "country": "Country",
+  "city": "City",
+  "state": "State",
+  "save": "Save",
+  "delete": "Delete"
 }

@@ -294,14 +294,14 @@ mixin BookingMixin on State<BookingView> {
         Map<String, dynamic>? payInt;
         if (selectedPaymentMethod == null) {
           payInt = jsonDecode(await PaymentService().createPaymentIntent(
-              widget.listing.id,
+              widget.listing.id!,
               datePickerController.selectedRange!.startDate!,
               datePickerController.selectedRange!.endDate ??
                   datePickerController.selectedRange!.startDate!,
               null)) as Map<String, dynamic>;
         } else {
           payInt = jsonDecode(await PaymentService().createPaymentIntent(
-                  widget.listing.id,
+                  widget.listing.id!,
                   datePickerController.selectedRange!.startDate!,
                   datePickerController.selectedRange!.endDate ??
                       datePickerController.selectedRange!.startDate!,
@@ -400,7 +400,7 @@ mixin BookingMixin on State<BookingView> {
             datePickerController.selectedRange!.endDate ??
                 datePickerController.selectedRange!.startDate!,
             widget.listing.title,
-            widget.listing.id,
+            widget.listing.id!,
             widget.listing.description,
             url,
             payInt["paymentID"].toString(),

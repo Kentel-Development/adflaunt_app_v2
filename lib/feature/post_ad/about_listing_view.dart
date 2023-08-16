@@ -83,25 +83,29 @@ class AboutListingView extends StatelessWidget {
                             crossAxisCount: 5,
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8,
-                            footer: [
-                              GestureDetector(
-                                onTap: () {
-                                  context.read<PostAdCubit>().pickImage();
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: ColorConstants.grey2000,
-                                  ),
-                                  child: Center(
-                                    child: SvgPicture.asset(
-                                      IconConstants.add_bold,
+                            footer: context.read<PostAdCubit>().images.length ==
+                                    10
+                                ? []
+                                : [
+                                    GestureDetector(
+                                      onTap: () {
+                                        context.read<PostAdCubit>().pickImage();
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          color: ColorConstants.grey2000,
+                                        ),
+                                        child: Center(
+                                          child: SvgPicture.asset(
+                                            IconConstants.add_bold,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                                  ],
                             children: List.generate(
                               context.read<PostAdCubit>().images.length,
                               (index) {

@@ -23,15 +23,19 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>2</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Take photo of your ID to verify profile</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This app needs access to location when in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Take photo of your ID to verify profile</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Pick listing images</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -55,9 +59,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-    <key>NSCameraUsageDescription</key>
-    <string>Take photo of your ID to verify profile</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>Take photo of your ID to verify profile</string>
 </dict>
 </plist>

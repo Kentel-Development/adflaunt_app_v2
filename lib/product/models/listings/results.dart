@@ -35,12 +35,14 @@ class Results {
 
 @JsonSerializable()
 class Output {
+  @JsonKey(name: "zipCode")
+  String zipCode;
   @JsonKey(name: "BookingImportURL")
   String bookingImportUrl;
   @JsonKey(name: "Bookings")
   List<DateTime>? bookings;
   @JsonKey(name: "_id")
-  String id;
+  String? id;
   @JsonKey(name: "averageRating")
   double? averageRating;
   @JsonKey(name: "bookingNote")
@@ -109,6 +111,7 @@ class Output {
   bool? cancel;
 
   Output({
+    required this.zipCode,
     required this.bookingImportUrl,
     this.bookings,
     required this.id,

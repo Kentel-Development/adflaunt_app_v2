@@ -49,6 +49,10 @@ class MainApp extends StatelessWidget {
   final ProfileAdapter? user = Hive.box<ProfileAdapter>('user').get('userData');
   @override
   Widget build(BuildContext context) {
-    return user == null ? LandingView() : TabView();
+    return user == null
+        ? LandingView()
+        : user!.password == null
+            ? LandingView()
+            : TabView();
   }
 }

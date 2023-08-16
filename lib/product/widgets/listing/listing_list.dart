@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
+import 'package:adflaunt/feature/edit_listing/edit_listing_view.dart';
 import 'package:adflaunt/product/services/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +27,10 @@ class ListingList extends StatefulWidget {
 class _ListingListState extends State<ListingList>
     with TickerProviderStateMixin {
   late AnimationController _controller;
-
+  late Output listing;
   @override
   void initState() {
+    listing = widget.listing;
     super.initState();
     _controller = AnimationController(
       vsync: this,
@@ -72,7 +74,7 @@ class _ListingListState extends State<ListingList>
                       ),
                       child: CachedNetworkImage(
                         imageUrl: StringConstants.baseStorageUrl +
-                            widget.listing.images.first,
+                            listing.images.first,
                         width: widget.isMyListing ? 92 : 85,
                         height: widget.isMyListing ? 69 : 100,
                         fit: BoxFit.cover,
@@ -104,7 +106,7 @@ class _ListingListState extends State<ListingList>
                                         width: 4,
                                       ),
                                       Text(
-                                        widget.listing.averageRating.toString(),
+                                        listing.averageRating.toString(),
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: "Poppins",
@@ -113,7 +115,7 @@ class _ListingListState extends State<ListingList>
                                         ),
                                       ),
                                       Text(
-                                        "(${widget.listing.numberOfReviews})",
+                                        "(${listing.numberOfReviews})",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: "Poppins",
@@ -142,42 +144,58 @@ class _ListingListState extends State<ListingList>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(widget.listing.title,
+                          Text(listing.title,
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "Poppins",
                               )),
                           widget.isMyListing
-                              ? Container(
-                                  width: 65,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(34),
-                                  ),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 2),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        S.of(context).edit,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: "Poppins",
+                              ? GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute<dynamic>(
+                                        builder: (context) => EditListingView(
+                                          listing: listing,
                                         ),
                                       ),
-                                      SvgPicture.asset(
-                                        IconConstants.edit,
-                                        height: 13,
-                                        width: 13,
-                                      ),
-                                    ],
+                                    ).then((value) => setState(() {
+                                          if (value != null) {
+                                            listing = value as Output;
+                                          }
+                                        }));
+                                  },
+                                  child: Container(
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(34),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 2),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          S.of(context).edit,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: "Poppins",
+                                          ),
+                                        ),
+                                        SvgPicture.asset(
+                                          IconConstants.edit,
+                                          height: 13,
+                                          width: 13,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 )
                               : SvgPicture.asset(
@@ -189,7 +207,7 @@ class _ListingListState extends State<ListingList>
                       ),
                     ),
                     Text(
-                      "\$" + widget.listing.price.toString() + "/day",
+                      "\$" + listing.price.toString() + "/day",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -205,7 +223,7 @@ class _ListingListState extends State<ListingList>
                               children: [
                                 Container(
                                     child: Text(
-                                      widget.listing.typeOfAdd,
+                                      listing.typeOfAdd,
                                       style: TextStyle(
                                         fontSize: 10,
                                         fontWeight: FontWeight.w500,
@@ -219,7 +237,7 @@ class _ListingListState extends State<ListingList>
                                     )),
                                 Container(
                                   child: Text(
-                                    "${widget.listing.height.round()}in X ${widget.listing.width.round()}in ${widget.listing.sqfeet.round()}sqft",
+                                    "${listing.height.round()}in X ${listing.width.round()}in ${listing.sqfeet.round()}sqft",
                                     style: TextStyle(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
@@ -233,31 +251,23 @@ class _ListingListState extends State<ListingList>
                                   ),
                                 ),
                                 Container(
-                                  child: Text(
-                                    widget.listing.tags.first,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: "Poppins",
-                                    ),
-                                  ),
-                                  padding: EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    color: ColorConstants.colorGray,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: ColorConstants.colorGray,
-                                    shape: BoxShape.circle,
-                                  ),
+                                  width: 50,
                                   height: 23,
-                                  padding: EdgeInsets.all(4),
-                                  child: SvgPicture.asset(
-                                    IconConstants.three_dots,
+                                  child: Text(
+                                    listing.tags.first,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "Poppins",
+                                    ),
                                   ),
-                                )
+                                  padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: ColorConstants.colorGray,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
                               ],
                             ),
                           )
@@ -271,7 +281,7 @@ class _ListingListState extends State<ListingList>
                               SizedBox(
                                 width: 4,
                               ),
-                              Text(widget.listing.location,
+                              Text(listing.location,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontFamily: "Poppins",
@@ -281,7 +291,7 @@ class _ListingListState extends State<ListingList>
                               SizedBox(
                                 width: 16,
                               ),
-                              Text("\$${widget.listing.price}/day",
+                              Text("\$${listing.price}/day",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,

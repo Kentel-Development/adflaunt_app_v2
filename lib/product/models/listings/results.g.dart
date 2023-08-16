@@ -21,6 +21,7 @@ Map<String, dynamic> _$ResultsToJson(Results instance) => <String, dynamic>{
     };
 
 Output _$OutputFromJson(Map<String, dynamic> json) => Output(
+      zipCode: json['zipCode'] as String,
       bookingImportUrl: json['BookingImportURL'] as String,
       bookings: (json['Bookings'] as List<dynamic>?)
           ?.map((e) => DateTime.parse(e as String))
@@ -66,6 +67,7 @@ Output _$OutputFromJson(Map<String, dynamic> json) => Output(
     );
 
 Map<String, dynamic> _$OutputToJson(Output instance) => <String, dynamic>{
+      'zipCode': instance.zipCode,
       'BookingImportURL': instance.bookingImportUrl,
       'Bookings': instance.bookings?.map((e) => e.toIso8601String()).toList(),
       '_id': instance.id,

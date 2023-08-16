@@ -26,7 +26,7 @@ class ListingCalendarView extends StatelessWidget {
           ),
         ),
         body: FutureBuilder(
-            future: BookingService.getBookingsWithProfileImages(listing.id),
+            future: BookingService.getBookingsWithProfileImages(listing.id!),
             builder: (context, snapshot) {
               return !snapshot.hasData
                   ? Center(

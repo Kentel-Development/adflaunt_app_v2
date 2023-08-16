@@ -43,7 +43,7 @@ class LoginCubit extends BaseBloc<LoginState, LoginState> {
           dateOfBirth: profileModel.dateOfBirth,
           id: profileModel.id,
           idVerified: profileModel.idVerified,
-          password: profileModel.password,
+          password: digest.toString(),
           photoOfId: '',
           profileImage: profileModel.profileImage ?? '',
           thirdParty: profileModel.thirdParty,

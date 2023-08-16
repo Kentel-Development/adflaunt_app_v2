@@ -68,6 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Choose a space type"),
         "chooseATypeOfAd":
             MessageLookupByLibrary.simpleMessage("Choose a type of ad"),
+        "city": MessageLookupByLibrary.simpleMessage("City"),
         "clearAll": MessageLookupByLibrary.simpleMessage("Clear all"),
         "clickHereToReadMore":
             MessageLookupByLibrary.simpleMessage("click here to read more"),
@@ -76,11 +77,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Confirm and Pay"),
         "continueWithApplePay":
             MessageLookupByLibrary.simpleMessage("Continue with Apple Pay"),
+        "country": MessageLookupByLibrary.simpleMessage("Country"),
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("Date of Birth"),
         "dates": MessageLookupByLibrary.simpleMessage("Dates"),
         "day": MessageLookupByLibrary.simpleMessage("day"),
+        "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "description": MessageLookupByLibrary.simpleMessage("Description"),
         "digitalAds": MessageLookupByLibrary.simpleMessage("Digital Ads"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "editListing": MessageLookupByLibrary.simpleMessage("Edit Listing"),
         "editOrViewYourAdListingsHere": MessageLookupByLibrary.simpleMessage(
             "Edit or view your AD listings here"),
         "email": MessageLookupByLibrary.simpleMessage("E-Mail"),
@@ -124,6 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "hey": MessageLookupByLibrary.simpleMessage("Hey"),
         "identityVerification":
             MessageLookupByLibrary.simpleMessage("Identity Verification"),
+        "images": MessageLookupByLibrary.simpleMessage("Images"),
         "inbox": MessageLookupByLibrary.simpleMessage("Inbox"),
         "indoorAds": MessageLookupByLibrary.simpleMessage("Indoor Ads"),
         "installationDate":
@@ -191,6 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Posting your Ad, Please wait..."),
         "priceDetails": MessageLookupByLibrary.simpleMessage("Price Details"),
         "priceRange": MessageLookupByLibrary.simpleMessage("Price range"),
+        "primary": MessageLookupByLibrary.simpleMessage("Primary"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "recentSearches":
             MessageLookupByLibrary.simpleMessage("Recent Searches"),
@@ -198,6 +205,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "repeatPassword":
             MessageLookupByLibrary.simpleMessage("Repeat Password"),
         "reviews": MessageLookupByLibrary.simpleMessage("Reviews"),
+        "save": MessageLookupByLibrary.simpleMessage("Save"),
         "seeYourAd": MessageLookupByLibrary.simpleMessage("See your Ad"),
         "selectLocation":
             MessageLookupByLibrary.simpleMessage("Select Location"),
@@ -210,6 +218,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sizeOfAd": MessageLookupByLibrary.simpleMessage("Size of AD"),
         "spaceSize": MessageLookupByLibrary.simpleMessage("Space Size"),
         "spaceType": MessageLookupByLibrary.simpleMessage("Space Type"),
+        "state": MessageLookupByLibrary.simpleMessage("State"),
         "takeAPictureOfId":
             MessageLookupByLibrary.simpleMessage("Take a Picture Of ID"),
         "takeAPictureOfTheFrontAndBackOfYour": MessageLookupByLibrary.simpleMessage(
@@ -225,6 +234,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "theMoreYouShareTheQuickerYouGetBooked":
             MessageLookupByLibrary.simpleMessage(
                 "The more you share, the quicker you get booked."),
+        "title": MessageLookupByLibrary.simpleMessage("Title"),
         "typeOfSpace": MessageLookupByLibrary.simpleMessage("Type of space"),
         "uploadFile": MessageLookupByLibrary.simpleMessage("File"),
         "uploadImages": MessageLookupByLibrary.simpleMessage("Image"),
@@ -257,6 +267,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Your ID has been verified successfully"),
         "youreAlmostThere":
-            MessageLookupByLibrary.simpleMessage("You\'re almost there!")
+            MessageLookupByLibrary.simpleMessage("You\'re almost there!"),
+        "zipCode": MessageLookupByLibrary.simpleMessage("ZIP Code")
       };
 }

@@ -7,8 +7,75 @@ import 'package:adflaunt/product/models/listings/results.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class ListingsAPI {
+  static Future<http.Response> editListing(
+      String id,
+      List<String> images,
+      String title,
+      String description,
+      String price,
+      String length,
+      String width,
+      bool cancel,
+      String spaceType,
+      String adType,
+      List<String> tags,
+      DateTime checkIn,
+      DateTime checkOut,
+      int category,
+      String state,
+      String city,
+      String country,
+      String zip,
+      Output listing) async {
+    final currentUser = Hive.box<ProfileAdapter>("user").get("userData")!;
+    var url = Uri.parse('${StringConstants.baseUrl}/api/create/listing');
+    final tagsWith = tags;
+    tagsWith.insert(0, spaceType);
+    tagsWith.insert(1, adType);
+    final response = await http.put(url, body: {
+      "email": currentUser.email,
+      "password": currentUser.password,
+      "listingID": id,
+      "title": title,
+      "description": description,
+      "price": price.substring(1),
+      "length": length,
+      "width": width,
+      "cancel": cancel.toString(),
+      "tags": tagsWith.join("|-|"),
+      "check_in": DateFormat(StringConstants.dateFormat).format(checkIn),
+      "check_out": DateFormat(StringConstants.dateFormat).format(checkOut),
+      "city": city,
+      "state": state,
+      "country": country,
+      "zip": zip,
+      "typeOfAd": category.toString(),
+      "images": images.join("|-|"),
+      "lat": listing.lat.toString(),
+      "long": listing.long.toString(),
+      "address": listing.location,
+      "location": listing.location,
+      "type": listing.type,
+      "revision_limit": listing.revisionLimit,
+      "digital": listing.cancel.toString(),
+      "population": listing.population.toString(),
+      "discountAvailable": true.toString(),
+      "extras": listing.extras.toString(),
+      "requirements": "{}",
+      "bookingNote": listing.bookingNote.toString(),
+      "bookingOffset": listing.bookingOffset.toString(),
+      "bookingWindow": listing.bookingWindow.toString(),
+      "BookingImportURL": listing.bookingImportUrl.toString(),
+      "minimumBookingDuration": listing.minimumBookingDuration.toString(),
+    });
+
+    return response;
+  }
+
   static Future<List<Output>> getUserListings() async {
     final currentUser = Hive.box<ProfileAdapter>("user").get("userData")!;
     var url = Uri.parse('${StringConstants.baseUrl}/api/get/ListingsOfUser');
@@ -88,28 +155,29 @@ class ListingsAPI {
       String price,
       String lat,
       String long,
-      String location,
+      String state,
+      String city,
+      String country,
+      String zip,
       int type_,
       int revisions,
       bool digital,
-      String printsqfeet,
-      String printsqfootage,
+      String height,
+      String width,
       int category,
       String population,
       String discountAvailable,
       String installationDate,
       String removalDate,
-      String tags,
-      List<File> file,
-      dynamic extras,
+      List<String> tags,
+      List<XFile> file,
+      List<dynamic> extras,
       String requirements,
       String description,
-      String bookingNote,
-      String bookingOffset,
-      String bookingWindow,
-      String maxBookingDuration,
-      String minBookingDuration,
-      ProfileAdapter currentUser) async {
+      bool cancelPolicy,
+      ProfileAdapter currentUser,
+      String spaceType,
+      String adType) async {
     var uploadUrl = Uri.parse("${StringConstants.baseUrl}/api/upload");
     String files = "";
     for (var i = 0; i < file.length; i++) {
@@ -126,17 +194,21 @@ class ListingsAPI {
       var response = await request.send();
       if (response.statusCode == 200) {
         final data = await http.Response.fromStream(response);
-        Map<String, dynamic> map =
-            jsonDecode(data.body) as Map<String, dynamic>;
         log(data.body);
         if (i == file.length - 1) {
-          files = files + map["file"].toString();
+          files = files +
+              (jsonDecode(data.body) as Map<String, dynamic>)["file"]!
+                  .toString();
         } else {
-          files = "${files + map["file"].toString()}|-|";
+          files =
+              "${files + (jsonDecode(data.body) as Map<String, dynamic>)["file"]!.toString()}|-|";
         }
       }
     }
     var url = Uri.parse('${StringConstants.baseUrl}/api/create/listing');
+    final tagsWith = tags;
+    tagsWith.insert(0, spaceType);
+    tagsWith.insert(1, adType);
     final location = await placemarkFromCoordinates(
         double.parse(lat), double.parse(long),
         localeIdentifier: "en_US");
@@ -146,24 +218,27 @@ class ListingsAPI {
       "title": title.toString(),
       "lat": lat.toString(),
       "long": long.toString(),
-      "city": location.first.locality.toString(),
-      "state": location.first.administrativeArea.toString(),
-      "country": location.first.country.toString(),
+      "city": city,
+      "state": state,
+      "country": country,
+      "address": location.first.locality!,
+      "zip": zip,
       "images": files.toString(),
-      "price": price.toString(),
+      "price": price.toString().substring(1),
       "location": location.first.name.toString(),
-      "type": type_.toString(),
+      "type": 1.toString(),
       "revision_limit": revisions.toString(),
-      "digital": digital.toString(),
-      "length": printsqfeet.toString(),
-      "width": printsqfootage.toString(),
+      "digital": cancelPolicy.toString(),
+      "length": height.toString(),
+      "width": width.toString(),
       "typeOfAd": category.toString(),
-      "population": population.toString(),
-      "discountAvailable": "1",
+      "population": "1",
+      "discountAvailable": 2.toString(),
+      "cancel": cancelPolicy.toString(),
       "check_in": installationDate.toString(),
       "check_out": removalDate.toString(),
-      "tags": tags.toString(),
-      "extras": extras,
+      "tags": tagsWith.join("|-|"),
+      "extras": extras.toString(),
       "requirements": "{}",
       "description": description.toString(),
       "bookingNote": "a",
@@ -172,9 +247,14 @@ class ListingsAPI {
       "BookingImportURL": "a",
       "minimumBookingDuration": "a",
     });
-    if (true) {
+    log(response.body);
+    final decodedJson = jsonDecode(response.body) as Map<String, dynamic>;
+    if (decodedJson["SCC"] == true) {
       log(response.body);
       return response;
+    } else {
+      log(response.body);
+      throw Exception(decodedJson["err"]);
     }
   }
 }

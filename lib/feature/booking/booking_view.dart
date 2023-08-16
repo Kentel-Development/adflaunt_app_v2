@@ -57,7 +57,7 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
         ),
       ),
       body: FutureBuilder(
-          future: BookingService.getBookedDates(widget.listing.id),
+          future: BookingService.getBookedDates(widget.listing.id!),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(

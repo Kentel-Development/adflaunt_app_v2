@@ -55,406 +55,409 @@ class _ProfileViewState extends State<ProfileView> {
                   user.hasData) {
                 final userModel = ProfileModel.fromJson(
                     jsonDecode(user.data!.body) as Map<String, dynamic>);
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 55,
-                    ),
-                    Center(
-                      child: Stack(
-                        children: [
-                          userModel.profileImage != null
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8, right: 8),
-                                  child: CircleAvatar(
-                                    radius: 50,
-                                    backgroundColor: Colors.grey[400],
-                                    backgroundImage: CachedNetworkImageProvider(
-                                      StringConstants.baseStorageUrl +
-                                          userModel.profileImage!.toString(),
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 55,
+                      ),
+                      Center(
+                        child: Stack(
+                          children: [
+                            userModel.profileImage != null
+                                ? Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 8, right: 8),
+                                    child: CircleAvatar(
+                                      radius: 50,
+                                      backgroundColor: Colors.grey[400],
+                                      backgroundImage:
+                                          CachedNetworkImageProvider(
+                                        StringConstants.baseStorageUrl +
+                                            userModel.profileImage!.toString(),
+                                      ),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 8, right: 8),
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.grey[300],
+                                      radius: 50,
+                                      child: Icon(
+                                        Icons.person,
+                                        color: Colors.white,
+                                        size: 80,
+                                      ),
                                     ),
                                   ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8, right: 8),
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.grey[300],
-                                    radius: 50,
-                                    child: Icon(
-                                      Icons.person,
-                                      color: Colors.white,
-                                      size: 80,
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute<dynamic>(
+                                    builder: (context) {
+                                      return const EditProfileView();
+                                    },
+                                  ));
+                                },
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      IconConstants.container,
                                     ),
-                                  ),
+                                    Image.asset(IconConstants.edit_line),
+                                  ],
                                 ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: GestureDetector(
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Center(
+                        child: Text(
+                          userModel.fullName,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "Poppins",
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 32,
+                      ),
+                      Container(
+                        color: Colors.white,
+                        child: Column(
+                          children: [
+                            ListTile(
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute<dynamic>(
                                   builder: (context) {
-                                    return const EditProfileView();
+                                    return MyListingsView();
                                   },
                                 ));
                               },
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    IconConstants.container,
-                                  ),
-                                  Image.asset(IconConstants.edit_line),
-                                ],
+                              leading: SvgPicture.asset(
+                                IconConstants.list_profile,
+                                color: Colors.black,
+                                height: 24,
+                                width: 24,
+                              ),
+                              horizontalTitleGap: 0,
+                              title: Text(
+                                S.of(context).myAdSpaces,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              trailing: SvgPicture.asset(
+                                IconConstants.arrow_right,
+                                height: 24,
+                                width: 24,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Center(
-                      child: Text(
-                        userModel.fullName,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: "Poppins",
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 32,
-                    ),
-                    Container(
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          ListTile(
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute<dynamic>(
-                                builder: (context) {
-                                  return MyListingsView();
-                                },
-                              ));
-                            },
-                            leading: SvgPicture.asset(
-                              IconConstants.list_profile,
-                              color: Colors.black,
-                              height: 24,
-                              width: 24,
-                            ),
-                            horizontalTitleGap: 0,
-                            title: Text(
-                              S.of(context).myAdSpaces,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Poppins",
+                            ListTile(
+                              leading: SvgPicture.asset(
+                                IconConstants.post_ad,
+                                color: Colors.black,
+                                height: 24,
+                                width: 24,
+                              ),
+                              horizontalTitleGap: 0,
+                              onTap: () {
+                                if (userModel.idVerified) {
+                                  Navigator.push(context,
+                                      MaterialPageRoute<dynamic>(
+                                    builder: (context) {
+                                      return PostAdView();
+                                    },
+                                  ));
+                                } else {
+                                  showDialog<dynamic>(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(S
+                                            .of(context)
+                                            .pleaseVerifyYourIdToPostAnAd),
+                                        actions: [
+                                          TextButton(
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                          Colors.black),
+                                                  foregroundColor:
+                                                      MaterialStateProperty.all(
+                                                          Colors.white)),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(S.of(context).ok))
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                              title: Text(
+                                S.of(context).postAdSpace,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              trailing: SvgPicture.asset(
+                                IconConstants.arrow_right,
+                                height: 24,
+                                width: 24,
                               ),
                             ),
-                            trailing: SvgPicture.asset(
-                              IconConstants.arrow_right,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                          ListTile(
-                            leading: SvgPicture.asset(
-                              IconConstants.post_ad,
-                              color: Colors.black,
-                              height: 24,
-                              width: 24,
-                            ),
-                            horizontalTitleGap: 0,
-                            onTap: () {
-                              if (userModel.idVerified) {
+                            ListTile(
+                              onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute<dynamic>(
                                   builder: (context) {
-                                    return PostAdView();
+                                    return CalendarView();
                                   },
                                 ));
-                              } else {
-                                showDialog<dynamic>(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text(S
-                                          .of(context)
-                                          .pleaseVerifyYourIdToPostAnAd),
-                                      actions: [
-                                        TextButton(
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.black),
-                                                foregroundColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.white)),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text(S.of(context).ok))
-                                      ],
-                                    );
-                                  },
-                                );
-                              }
-                            },
-                            title: Text(
-                              S.of(context).postAdSpace,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Poppins",
+                              },
+                              leading: SvgPicture.asset(
+                                IconConstants.calendar_unactive,
+                                color: Colors.black,
+                                height: 24,
+                                width: 24,
+                              ),
+                              minLeadingWidth: 0,
+                              title: Text(
+                                S.of(context).calendar,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              trailing: SvgPicture.asset(
+                                IconConstants.arrow_right,
+                                height: 24,
+                                width: 24,
                               ),
                             ),
-                            trailing: SvgPicture.asset(
-                              IconConstants.arrow_right,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute<dynamic>(
-                                builder: (context) {
-                                  return CalendarView();
-                                },
-                              ));
-                            },
-                            leading: SvgPicture.asset(
-                              IconConstants.calendar_unactive,
-                              color: Colors.black,
-                              height: 24,
-                              width: 24,
-                            ),
-                            minLeadingWidth: 0,
-                            title: Text(
-                              S.of(context).calendar,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Poppins",
+                            ListTile(
+                              onTap: () {
+                                if (!(userModel.idVerified)) {
+                                  Navigator.push(context,
+                                      MaterialPageRoute<dynamic>(
+                                    builder: (context) {
+                                      return const VerifyIDView();
+                                    },
+                                  )).then((value) => setState(() {}));
+                                }
+                              },
+                              leading: SvgPicture.asset(
+                                IconConstants.verify,
+                                color: Colors.black,
+                                height: 24,
+                                width: 24,
+                              ),
+                              horizontalTitleGap: 0,
+                              title: Row(
+                                children: [
+                                  Text(
+                                    S.of(context).verifyYourId,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "Poppins",
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 16,
+                                  ),
+                                  VerifyBadge(isVerified: userModel.idVerified),
+                                ],
+                              ),
+                              trailing: SvgPicture.asset(
+                                IconConstants.arrow_right,
+                                height: 24,
+                                width: 24,
                               ),
                             ),
-                            trailing: SvgPicture.asset(
-                              IconConstants.arrow_right,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              if (!(userModel.idVerified)) {
+                            ListTile(
+                              onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute<dynamic>(
                                   builder: (context) {
-                                    return const VerifyIDView();
+                                    return const PaymentMethodView();
                                   },
-                                )).then((value) => setState(() {}));
-                              }
-                            },
-                            leading: SvgPicture.asset(
-                              IconConstants.verify,
-                              color: Colors.black,
-                              height: 24,
-                              width: 24,
-                            ),
-                            horizontalTitleGap: 0,
-                            title: Row(
-                              children: [
-                                Text(
-                                  S.of(context).verifyYourId,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "Poppins",
-                                  ),
+                                ));
+                              },
+                              leading: SvgPicture.asset(
+                                IconConstants.payment_method,
+                                color: Colors.black,
+                                height: 24,
+                                width: 24,
+                              ),
+                              horizontalTitleGap: 0,
+                              title: Text(
+                                S.of(context).paymentMethod,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins",
                                 ),
-                                SizedBox(
-                                  width: 16,
+                              ),
+                              trailing: SvgPicture.asset(
+                                IconConstants.arrow_right,
+                                height: 24,
+                                width: 24,
+                              ),
+                            ),
+                            ListTile(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute<dynamic>(
+                                  builder: (context) {
+                                    return const BalanceView();
+                                  },
+                                ));
+                              },
+                              leading: SvgPicture.asset(
+                                IconConstants.bank,
+                                color: Colors.black,
+                                height: 24,
+                                width: 24,
+                              ),
+                              horizontalTitleGap: 0,
+                              title: Text(
+                                S.of(context).balance,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins",
                                 ),
-                                VerifyBadge(isVerified: userModel.idVerified),
-                              ],
-                            ),
-                            trailing: SvgPicture.asset(
-                              IconConstants.arrow_right,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute<dynamic>(
-                                builder: (context) {
-                                  return const PaymentMethodView();
-                                },
-                              ));
-                            },
-                            leading: SvgPicture.asset(
-                              IconConstants.payment_method,
-                              color: Colors.black,
-                              height: 24,
-                              width: 24,
-                            ),
-                            horizontalTitleGap: 0,
-                            title: Text(
-                              S.of(context).paymentMethod,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Poppins",
+                              ),
+                              trailing: SvgPicture.asset(
+                                IconConstants.arrow_right,
+                                height: 24,
+                                width: 24,
                               ),
                             ),
-                            trailing: SvgPicture.asset(
-                              IconConstants.arrow_right,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute<dynamic>(
-                                builder: (context) {
-                                  return const BalanceView();
-                                },
-                              ));
-                            },
-                            leading: SvgPicture.asset(
-                              IconConstants.bank,
-                              color: Colors.black,
-                              height: 24,
-                              width: 24,
-                            ),
-                            horizontalTitleGap: 0,
-                            title: Text(
-                              S.of(context).balance,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Poppins",
+                            ListTile(
+                              onTap: () {
+                                AppSettings.openAppSettings();
+                              },
+                              leading: SvgPicture.asset(
+                                IconConstants.language,
+                                color: Colors.black,
+                                height: 24,
+                                width: 24,
+                              ),
+                              horizontalTitleGap: 0,
+                              title: Text(
+                                S.of(context).language,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              trailing: SvgPicture.asset(
+                                IconConstants.arrow_right,
+                                height: 24,
+                                width: 24,
                               ),
                             ),
-                            trailing: SvgPicture.asset(
-                              IconConstants.arrow_right,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              AppSettings.openAppSettings();
-                            },
-                            leading: SvgPicture.asset(
-                              IconConstants.language,
-                              color: Colors.black,
-                              height: 24,
-                              width: 24,
-                            ),
-                            horizontalTitleGap: 0,
-                            title: Text(
-                              S.of(context).language,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Poppins",
+                            ListTile(
+                              leading: SvgPicture.asset(
+                                IconConstants.star_light,
+                                height: 24,
+                                width: 24,
+                              ),
+                              horizontalTitleGap: 0,
+                              title: Text(
+                                S.of(context).reviews,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              trailing: SvgPicture.asset(
+                                IconConstants.arrow_right,
+                                height: 24,
+                                width: 24,
                               ),
                             ),
-                            trailing: SvgPicture.asset(
-                              IconConstants.arrow_right,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                          ListTile(
-                            leading: SvgPicture.asset(
-                              IconConstants.star_light,
-                              height: 24,
-                              width: 24,
-                            ),
-                            horizontalTitleGap: 0,
-                            title: Text(
-                              S.of(context).reviews,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Poppins",
+                            ListTile(
+                              leading: SvgPicture.asset(
+                                IconConstants.star_light,
+                                height: 24,
+                                width: 24,
+                              ),
+                              horizontalTitleGap: 0,
+                              title: Text(
+                                S.of(context).changePhoneNumber,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              trailing: SvgPicture.asset(
+                                IconConstants.arrow_right,
+                                height: 24,
+                                width: 24,
                               ),
                             ),
-                            trailing: SvgPicture.asset(
-                              IconConstants.arrow_right,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                          ListTile(
-                            leading: SvgPicture.asset(
-                              IconConstants.star_light,
-                              height: 24,
-                              width: 24,
-                            ),
-                            horizontalTitleGap: 0,
-                            title: Text(
-                              S.of(context).changePhoneNumber,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Poppins",
+                            ListTile(
+                              onTap: () {
+                                LoginAPI.logout();
+                                Navigator.pushAndRemoveUntil(context,
+                                    MaterialPageRoute<dynamic>(
+                                  builder: (context) {
+                                    return MainApp();
+                                  },
+                                ), (route) => false);
+                              },
+                              leading: SvgPicture.asset(
+                                IconConstants.logout,
+                                height: 24,
+                                width: 24,
+                              ),
+                              horizontalTitleGap: 0,
+                              title: Text(
+                                S.of(context).logout,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromRGBO(221, 27, 73, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              trailing: SvgPicture.asset(
+                                IconConstants.arrow_right,
+                                height: 24,
+                                width: 24,
                               ),
                             ),
-                            trailing: SvgPicture.asset(
-                              IconConstants.arrow_right,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              LoginAPI.logout();
-                              Navigator.pushAndRemoveUntil(context,
-                                  MaterialPageRoute<dynamic>(
-                                builder: (context) {
-                                  return MainApp();
-                                },
-                              ), (route) => false);
-                            },
-                            leading: SvgPicture.asset(
-                              IconConstants.logout,
-                              height: 24,
-                              width: 24,
-                            ),
-                            horizontalTitleGap: 0,
-                            title: Text(
-                              S.of(context).logout,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromRGBO(221, 27, 73, 1),
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Poppins",
-                              ),
-                            ),
-                            trailing: SvgPicture.asset(
-                              IconConstants.arrow_right,
-                              height: 24,
-                              width: 24,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 );
               } else {
                 return const Center(

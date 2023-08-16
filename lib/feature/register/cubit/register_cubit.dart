@@ -191,7 +191,7 @@ class RegisterCubit extends BaseBloc<RegisterState, RegisterState> {
                 id: model.id,
                 fullName: model.fullName,
                 email: model.email,
-                password: model.password,
+                password: digest.toString(),
                 profileImage: model.profileImage,
                 dateOfBirth: model.dateOfBirth,
                 phoneNumber: model.phoneNumber),

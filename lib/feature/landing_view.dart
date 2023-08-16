@@ -90,27 +90,6 @@ class LandingView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 30),
-                      GestureDetector(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Continue as a guest',
-                              style: TextStyle(
-                                color: ColorConstants.colorTertiary,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            SvgPicture.asset(
-                              IconConstants.arrowRight,
-                            )
-                          ],
-                        ),
-                      )
                     ],
                   )
                 ],
