@@ -71,7 +71,16 @@ class ListingsAPI {
       "BookingImportURL": listing.bookingImportUrl.toString(),
       "minimumBookingDuration": listing.minimumBookingDuration.toString(),
     });
+    return response;
+  }
 
+  static Future<http.Response> deleteListing(String id) async {
+    final currentUser = Hive.box<ProfileAdapter>("user").get("userData")!;
+    var url = Uri.parse('${StringConstants.baseUrl}/api/deleteListing/$id');
+    final response = await http.post(url, body: {
+      "email": currentUser.email,
+      "password": currentUser.password,
+    });
     return response;
   }
 

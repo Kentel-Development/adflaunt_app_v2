@@ -57,22 +57,29 @@ class _EditListingViewState extends State<EditListingView> {
                           child: Row(
                             children: [
                               Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Color.fromRGBO(221, 27, 73, 1),
-                                  ),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 12, horizontal: 24),
-                                  height: 50,
-                                  child: Center(
-                                    child: Text(
-                                      S.of(context).delete,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context
+                                        .read<EditListingCubit>()
+                                        .deleteListing(context);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Color.fromRGBO(221, 27, 73, 1),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 12, horizontal: 24),
+                                    height: 50,
+                                    child: Center(
+                                      child: Text(
+                                        S.of(context).delete,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: 'Poppins',
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ),

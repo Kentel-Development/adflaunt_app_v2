@@ -198,6 +198,9 @@ class _HomeViewState extends State<HomeView> {
                                   bottomRight: Radius.circular(0),
                                 ),
                                 child: InteractiveMapsMarker(
+                                  itemHeight: 80,
+                                  itemPadding:
+                                      EdgeInsets.only(left: 50, bottom: 50),
                                   onCameraMove: (p0) {
                                     log("onCameraMove + $p0");
                                     context.read<HomeCubit>().lat =

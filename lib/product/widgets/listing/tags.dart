@@ -11,9 +11,6 @@ class Tags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tags = widget.tags;
-    tags.removeAt(0);
-    tags.removeAt(0);
     return Column(
       children: [
         SizedBox(
@@ -41,7 +38,8 @@ class Tags extends StatelessWidget {
           child: Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: tags
+            children: widget.tags
+                .sublist(2)
                 .map(
                   (e) => Chip(
                     label: Text(

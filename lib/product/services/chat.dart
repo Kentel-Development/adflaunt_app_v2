@@ -52,17 +52,17 @@ class ChatServices {
     }
   }
 
-  static Future<String> createChat(String uid) async {
+  static Future<String> createChat(String uid, String id) async {
     final user = Hive.box<ProfileAdapter>('user').get('userData')!;
     var url = Uri.parse('${StringConstants.baseUrl}/api/create/chat');
     var response = await http.post(url, body: {
       "reciever": uid,
       "email": user.email,
       "password": user.password,
+      "listingID": id,
     });
     if (response.statusCode == 200) {
-      log(response.body);
-
+      print(response.body);
       return jsonDecode(response.body)['_id'].toString();
     } else {
       throw Exception(response.reasonPhrase.toString());

@@ -68,14 +68,34 @@ mixin ChatMixin on State<ChatView> {
                 text: element.content.toString(),
                 createdAt: (element.at * 1000).toInt()));
           } else {
-            messages.add(types.ImageMessage(
-              author: user,
-              createdAt: (element.at * 1000).toInt(),
-              id: element.id,
-              name: element.id,
-              size: 1,
-              uri: StringConstants.baseStorageUrl + element.image,
-            ));
+            if (element.listingId != null) {
+              messages.add(types.ImageMessage(
+                author: user,
+                createdAt: (element.at * 1000).toInt(),
+                id: element.id,
+                name: element.id,
+                size: 1,
+                uri: StringConstants.baseStorageUrl +
+                    element.listingData!.images.first,
+              ));
+              messages.add(types.TextMessage(
+                  author: element.sender.toString() == currentUser.id.toString()
+                      ? user
+                      : otherUser,
+                  id: element.id.toString(),
+                  text:
+                      "Hi, I am interested in your ${element.listingData!.title} listing. Tap to view.",
+                  createdAt: (element.at * 1000).toInt()));
+            } else {
+              messages.add(types.ImageMessage(
+                author: user,
+                createdAt: (element.at * 1000).toInt(),
+                id: element.id,
+                name: element.id,
+                size: 1,
+                uri: StringConstants.baseStorageUrl + element.image,
+              ));
+            }
           }
         });
 

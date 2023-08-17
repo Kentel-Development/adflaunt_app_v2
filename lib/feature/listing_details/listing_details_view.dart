@@ -102,7 +102,12 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                     ),
                     child: Center(
                       child: Text(
-                        S.of(context).bookNow,
+                        listing.user ==
+                                Hive.box<ProfileAdapter>("user")
+                                    .get("userData")!
+                                    .id
+                            ? S.of(context).edit
+                            : S.of(context).bookNow,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -130,7 +135,13 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
         preferredSize: const Size.fromHeight(42),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Header(hasBackBtn: true, title: S.of(context).listingDetails),
+          child: Header(
+            hasBackBtn: true,
+            title: S.of(context).listingDetails,
+            onLeftIconTap: () {
+              Navigator.pop(context, listing);
+            },
+          ),
         ),
       ),
       backgroundColor: ColorConstants.backgroundColor,
@@ -182,7 +193,8 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                               .id!) {
                         ProfileModel user =
                             await UserServices.getUser(listing.user);
-                        String id = await ChatServices.createChat(listing.user);
+                        String id = await ChatServices.createChat(
+                            listing.user, listing.id!);
                         try {
                           Navigator.push(context, MaterialPageRoute<dynamic>(
                             builder: (context) {
@@ -391,6 +403,104 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                             target: LatLng(listing.lat, listing.long),
                             zoom: 12)),
                   ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.location_pin),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          listing.location,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins'),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        Text("State: ",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'Poppins')),
+                        Text(
+                          listing.state,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins'),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        Text("City: ",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'Poppins')),
+                        Text(
+                          listing.city,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins'),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        Text("Country: ",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'Poppins')),
+                        Text(
+                          listing.country,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins'),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        Text("Zip Code: ",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'Poppins')),
+                        Text(
+                          listing.zipCode,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins'),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 32,

@@ -84,7 +84,7 @@ class _InboxViewState extends State<InboxView> {
                           user: snapshot.data!.chatOutput[index].them,
                         );
                       },
-                    ));
+                    )).then((value) => setState(() {}));
                   },
                   child: Container(
                     color: Colors.white,

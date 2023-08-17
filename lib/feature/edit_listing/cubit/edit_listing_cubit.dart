@@ -1,18 +1,19 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:adflaunt/core/base/bloc_base.dart';
 import 'package:adflaunt/core/constants/listing_constants.dart';
-import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/core/extensions/date_parser_extension.dart';
+import 'package:adflaunt/feature/tab_view.dart';
 import 'package:adflaunt/product/models/listings/results.dart';
 import 'package:adflaunt/product/services/listings.dart';
 import 'package:adflaunt/product/services/upload.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
+
+import '../../../generated/l10n.dart';
+import '../../../product/services/download.dart';
 
 part 'edit_listing_state.dart';
 
@@ -119,12 +120,66 @@ class EditListingCubit extends BaseBloc<EditListingState, EditListingState> {
   void getImages() async {
     safeEmit(EditListingLoading());
     for (final image in listing.images) {
-      final file = await ImageDownloader.downloadImage(image);
+      final file = await DownloadService.downloadFile(image);
       images.add(XFile(file.path));
     }
     newImages = [...images];
     safeEmit(EditListingNotify());
     safeEmit(EditListingInitial());
+  }
+
+  void deleteListing(BuildContext context) async {
+    safeEmit(EditListingLoading());
+    final response = (await ListingsAPI.deleteListing(listing.id!));
+    safeEmit(EditListingInitial());
+    log(response.body);
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body) as Map<String, dynamic>;
+      if (json["SCC"] == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 1),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.green,
+            content: Text(S.of(context).listingDeletedSuccessfully),
+          ),
+        );
+        await Future<dynamic>.delayed(Duration(seconds: 1));
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute<dynamic>(
+              builder: (context) => TabView(),
+            ),
+            (route) => false);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+            content: Text(json["err"].toString()),
+          ),
+        );
+      }
+    } else {
+      if (response.statusCode == 500) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+            content: Text(S.of(context).somethingWentWrong),
+          ),
+        );
+      } else {
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+            content: Text(json["err"].toString()),
+          ),
+        );
+      }
+    }
   }
 
   void editListing(BuildContext context) async {
@@ -170,18 +225,5 @@ class EditListingCubit extends BaseBloc<EditListingState, EditListingState> {
     } else {
       safeEmit(EditListingFailure(response.body));
     }
-  }
-}
-
-class ImageDownloader {
-  static Future<File> downloadImage(String name) async {
-    final response =
-        await http.get(Uri.parse(StringConstants.baseStorageUrl + name));
-    final bytes = response.bodyBytes;
-    final directory = await getTemporaryDirectory();
-    final imagePath = '${directory.path}/$name';
-    final file = File(imagePath);
-    await file.writeAsBytes(bytes);
-    return file;
   }
 }

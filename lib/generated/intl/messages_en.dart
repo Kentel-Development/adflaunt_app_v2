@@ -46,12 +46,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "alreadyHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account? "),
         "apply": MessageLookupByLibrary.simpleMessage("Apply"),
+        "approveBooking":
+            MessageLookupByLibrary.simpleMessage("Approve Booking"),
         "backOfId": MessageLookupByLibrary.simpleMessage("Back of ID"),
         "balance": MessageLookupByLibrary.simpleMessage("Balance"),
         "bookNow": MessageLookupByLibrary.simpleMessage("Book Now"),
+        "booked": MessageLookupByLibrary.simpleMessage("Booked"),
         "booking": MessageLookupByLibrary.simpleMessage("Booking"),
+        "bookingEnds": MessageLookupByLibrary.simpleMessage("Booking Ends"),
+        "bookingInformation":
+            MessageLookupByLibrary.simpleMessage("Booking Information"),
+        "bookingList": MessageLookupByLibrary.simpleMessage("Booking List"),
         "bookingProcessing":
             MessageLookupByLibrary.simpleMessage("Booking processing..."),
+        "bookingStarts": MessageLookupByLibrary.simpleMessage("Booking starts"),
         "bookingSuccessful":
             MessageLookupByLibrary.simpleMessage("Booking Successful"),
         "byClickingTheFinishButtonYouAcceptTheTermsOf":
@@ -72,6 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "clearAll": MessageLookupByLibrary.simpleMessage("Clear all"),
         "clickHereToReadMore":
             MessageLookupByLibrary.simpleMessage("click here to read more"),
+        "client": MessageLookupByLibrary.simpleMessage("Client"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmAndPay":
             MessageLookupByLibrary.simpleMessage("Confirm and Pay"),
@@ -81,9 +90,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("Date of Birth"),
         "dates": MessageLookupByLibrary.simpleMessage("Dates"),
         "day": MessageLookupByLibrary.simpleMessage("day"),
+        "days": MessageLookupByLibrary.simpleMessage(" days"),
+        "decline": MessageLookupByLibrary.simpleMessage("Decline"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "digitalAds": MessageLookupByLibrary.simpleMessage("Digital Ads"),
+        "downloadAdFiles":
+            MessageLookupByLibrary.simpleMessage("Download Ad Files"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "editListing": MessageLookupByLibrary.simpleMessage("Edit Listing"),
         "editOrViewYourAdListingsHere": MessageLookupByLibrary.simpleMessage(
@@ -131,16 +144,28 @@ class MessageLookup extends MessageLookupByLibrary {
         "goBack": MessageLookupByLibrary.simpleMessage("Go Back"),
         "hey": MessageLookupByLibrary.simpleMessage("Hey"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "host": MessageLookupByLibrary.simpleMessage("Host"),
+        "hostPage": MessageLookupByLibrary.simpleMessage("Host Page"),
+        "idNotVerified":
+            MessageLookupByLibrary.simpleMessage("ID Not Verified"),
+        "idVerified": MessageLookupByLibrary.simpleMessage("ID Verified"),
         "identityVerification":
             MessageLookupByLibrary.simpleMessage("Identity Verification"),
         "images": MessageLookupByLibrary.simpleMessage("Images"),
         "inbox": MessageLookupByLibrary.simpleMessage("Inbox"),
         "indoorAds": MessageLookupByLibrary.simpleMessage("Indoor Ads"),
+        "inquiryFor": MessageLookupByLibrary.simpleMessage("Inquiry for "),
         "installationDate":
             MessageLookupByLibrary.simpleMessage("Installation Date"),
         "justAFewMoreDetailsLeft": MessageLookupByLibrary.simpleMessage(
             "Just a few more details left"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "leaveAReview": MessageLookupByLibrary.simpleMessage("Leave a Review"),
+        "leaveAReviewAndCompleteTheBooking":
+            MessageLookupByLibrary.simpleMessage(
+                "Leave a review and complete the booking"),
+        "listingDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Listing Deleted Successfully"),
         "listingDetails":
             MessageLookupByLibrary.simpleMessage("Listing Details"),
         "logIn": MessageLookupByLibrary.simpleMessage("Log In"),
@@ -149,11 +174,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "logInWithGoogle":
             MessageLookupByLibrary.simpleMessage("Log In with Google"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+        "message": MessageLookupByLibrary.simpleMessage("Message"),
         "myAdSpaces": MessageLookupByLibrary.simpleMessage("My Ad Spaces"),
         "myListings": MessageLookupByLibrary.simpleMessage("My Listings"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "newHere": MessageLookupByLibrary.simpleMessage("New Here?"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
+        "noFilesUploaded":
+            MessageLookupByLibrary.simpleMessage("No files uploaded"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "or": MessageLookupByLibrary.simpleMessage("Or"),
         "outdoorAds": MessageLookupByLibrary.simpleMessage("Outdoor Ads"),
@@ -167,6 +195,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "paymentProcessing":
             MessageLookupByLibrary.simpleMessage("Payment Processing..."),
         "perDay": MessageLookupByLibrary.simpleMessage("per day"),
+        "phone": MessageLookupByLibrary.simpleMessage("Phone"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "pleaseEnterADifferentTagNameThisIsAdType":
             MessageLookupByLibrary.simpleMessage(
@@ -204,6 +233,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "priceRange": MessageLookupByLibrary.simpleMessage("Price range"),
         "primary": MessageLookupByLibrary.simpleMessage("Primary"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "proofs": MessageLookupByLibrary.simpleMessage("Proofs"),
         "recentSearches":
             MessageLookupByLibrary.simpleMessage("Recent Searches"),
         "removalDate": MessageLookupByLibrary.simpleMessage("Removal Date"),
@@ -221,9 +251,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "signUpWithGoogle":
             MessageLookupByLibrary.simpleMessage("Sign Up with Google"),
         "sizeOfAd": MessageLookupByLibrary.simpleMessage("Size of AD"),
+        "somethingWentWrong":
+            MessageLookupByLibrary.simpleMessage("Something went wrong"),
         "spaceSize": MessageLookupByLibrary.simpleMessage("Space Size"),
         "spaceType": MessageLookupByLibrary.simpleMessage("Space Type"),
         "state": MessageLookupByLibrary.simpleMessage("State"),
+        "submit": MessageLookupByLibrary.simpleMessage("Submit"),
         "takeAPictureOfId":
             MessageLookupByLibrary.simpleMessage("Take a Picture Of ID"),
         "takeAPictureOfTheFrontAndBackOfYour": MessageLookupByLibrary.simpleMessage(
@@ -233,17 +266,26 @@ class MessageLookup extends MessageLookupByLibrary {
         "takePicture": MessageLookupByLibrary.simpleMessage("Take picture"),
         "tellUsAboutYourAdSpace":
             MessageLookupByLibrary.simpleMessage("Tell us about your AD Space"),
+        "theCommentCannotBeEmpty":
+            MessageLookupByLibrary.simpleMessage("The comment cannot be empty"),
         "theDataYouShareWillBeEncryptedStoredSecurelyAnd":
             MessageLookupByLibrary.simpleMessage(
                 "The data you share will be encrypted, stored securely, and only used to verify your identity"),
         "theMoreYouShareTheQuickerYouGetBooked":
             MessageLookupByLibrary.simpleMessage(
                 "The more you share, the quicker you get booked."),
+        "theRatingAndCommentCannotBeEmpty":
+            MessageLookupByLibrary.simpleMessage(
+                "The rating and comment cannot be empty"),
+        "theRatingCannotBe0":
+            MessageLookupByLibrary.simpleMessage("The rating cannot be 0"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "typeOfSpace": MessageLookupByLibrary.simpleMessage("Type of space"),
         "uploadFile": MessageLookupByLibrary.simpleMessage("File"),
         "uploadImages": MessageLookupByLibrary.simpleMessage("Image"),
         "uploadPhotos": MessageLookupByLibrary.simpleMessage("Upload photos"),
+        "uploadProofToMarkAsCompleted": MessageLookupByLibrary.simpleMessage(
+            "Upload Proof to Mark as Completed"),
         "uploadYourProjectFilesNowOrChooseToUploadThem":
             MessageLookupByLibrary.simpleMessage(
                 "Upload your project files now or choose to upload them later. You have the flexibility to upload multiple files at once."),
@@ -256,6 +298,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "withdraw": MessageLookupByLibrary.simpleMessage("Withdraw"),
         "withdrawFromYourBalance":
             MessageLookupByLibrary.simpleMessage("Withdraw from your balance"),
+        "writeAComment":
+            MessageLookupByLibrary.simpleMessage("Write a comment"),
         "youAreNotConnectedToTheInternetPleaseCheckYour":
             MessageLookupByLibrary.simpleMessage(
                 "You are not connected to the internet, please check your connection and try again"),

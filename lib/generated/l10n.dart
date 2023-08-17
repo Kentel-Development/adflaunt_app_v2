@@ -1649,6 +1649,296 @@ class S {
       args: [],
     );
   }
+
+  /// `Something went wrong`
+  String get somethingWentWrong {
+    return Intl.message(
+      'Something went wrong',
+      name: 'somethingWentWrong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Listing Deleted Successfully`
+  String get listingDeletedSuccessfully {
+    return Intl.message(
+      'Listing Deleted Successfully',
+      name: 'listingDeletedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking List`
+  String get bookingList {
+    return Intl.message(
+      'Booking List',
+      name: 'bookingList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booked`
+  String get booked {
+    return Intl.message(
+      'Booked',
+      name: 'booked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Host`
+  String get host {
+    return Intl.message(
+      'Host',
+      name: 'host',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ID Not Verified`
+  String get idNotVerified {
+    return Intl.message(
+      'ID Not Verified',
+      name: 'idNotVerified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ID Verified`
+  String get idVerified {
+    return Intl.message(
+      'ID Verified',
+      name: 'idVerified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download Ad Files`
+  String get downloadAdFiles {
+    return Intl.message(
+      'Download Ad Files',
+      name: 'downloadAdFiles',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No files uploaded`
+  String get noFilesUploaded {
+    return Intl.message(
+      'No files uploaded',
+      name: 'noFilesUploaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Message`
+  String get message {
+    return Intl.message(
+      'Message',
+      name: 'message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking Information`
+  String get bookingInformation {
+    return Intl.message(
+      'Booking Information',
+      name: 'bookingInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inquiry for `
+  String get inquiryFor {
+    return Intl.message(
+      'Inquiry for ',
+      name: 'inquiryFor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` days`
+  String get days {
+    return Intl.message(
+      ' days',
+      name: 'days',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking starts`
+  String get bookingStarts {
+    return Intl.message(
+      'Booking starts',
+      name: 'bookingStarts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking Ends`
+  String get bookingEnds {
+    return Intl.message(
+      'Booking Ends',
+      name: 'bookingEnds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Host Page`
+  String get hostPage {
+    return Intl.message(
+      'Host Page',
+      name: 'hostPage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone`
+  String get phone {
+    return Intl.message(
+      'Phone',
+      name: 'phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approve Booking`
+  String get approveBooking {
+    return Intl.message(
+      'Approve Booking',
+      name: 'approveBooking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Decline`
+  String get decline {
+    return Intl.message(
+      'Decline',
+      name: 'decline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload Proof to Mark as Completed`
+  String get uploadProofToMarkAsCompleted {
+    return Intl.message(
+      'Upload Proof to Mark as Completed',
+      name: 'uploadProofToMarkAsCompleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Client`
+  String get client {
+    return Intl.message(
+      'Client',
+      name: 'client',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proofs`
+  String get proofs {
+    return Intl.message(
+      'Proofs',
+      name: 'proofs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Write a comment`
+  String get writeAComment {
+    return Intl.message(
+      'Write a comment',
+      name: 'writeAComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit`
+  String get submit {
+    return Intl.message(
+      'Submit',
+      name: 'submit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Leave a Review`
+  String get leaveAReview {
+    return Intl.message(
+      'Leave a Review',
+      name: 'leaveAReview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The rating cannot be 0`
+  String get theRatingCannotBe0 {
+    return Intl.message(
+      'The rating cannot be 0',
+      name: 'theRatingCannotBe0',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The comment cannot be empty`
+  String get theCommentCannotBeEmpty {
+    return Intl.message(
+      'The comment cannot be empty',
+      name: 'theCommentCannotBeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The rating and comment cannot be empty`
+  String get theRatingAndCommentCannotBeEmpty {
+    return Intl.message(
+      'The rating and comment cannot be empty',
+      name: 'theRatingAndCommentCannotBeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Leave a review and complete the booking`
+  String get leaveAReviewAndCompleteTheBooking {
+    return Intl.message(
+      'Leave a review and complete the booking',
+      name: 'leaveAReviewAndCompleteTheBooking',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

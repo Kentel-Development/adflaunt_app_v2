@@ -87,11 +87,11 @@ class Them {
   @JsonKey(name: "_id")
   String id;
   @JsonKey(name: "backPhotoID", includeIfNull: false)
-  String backPhotoId;
+  String? backPhotoId;
   @JsonKey(name: "dateOfBirth", includeIfNull: false)
-  String dateOfBirth;
+  String? dateOfBirth;
   @JsonKey(name: "deliveryAddress", includeIfNull: false)
-  String deliveryAddress;
+  String? deliveryAddress;
   @JsonKey(name: "email")
   String email;
   @JsonKey(name: "fullName")
@@ -105,9 +105,9 @@ class Them {
   @JsonKey(name: "lastTimeLoggedIn", includeIfNull: false)
   double lastTimeLoggedIn;
   @JsonKey(name: "phoneNumber", includeIfNull: false)
-  String phoneNumber;
+  String? phoneNumber;
   @JsonKey(name: "photoOfId", includeIfNull: false)
-  String photoOfId;
+  String? photoOfId;
   @JsonKey(name: "profileImage", includeIfNull: false)
   dynamic profileImage;
   @JsonKey(name: "thirdParty", includeIfNull: false)

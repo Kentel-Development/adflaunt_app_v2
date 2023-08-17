@@ -26,7 +26,7 @@ Output _$OutputFromJson(Map<String, dynamic> json) => Output(
       bookings: (json['Bookings'] as List<dynamic>?)
           ?.map((e) => DateTime.parse(e as String))
           .toList(),
-      id: json['_id'] as String,
+      id: json['_id'] as String?,
       averageRating: (json['averageRating'] as num?)?.toDouble(),
       bookingNote: json['bookingNote'] as String,
       bookingOffset: json['bookingOffset'] as int,

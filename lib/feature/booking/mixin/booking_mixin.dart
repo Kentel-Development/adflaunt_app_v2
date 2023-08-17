@@ -98,7 +98,8 @@ mixin BookingMixin on State<BookingView> {
 
   void onChatTap() async {
     ProfileModel user = await UserServices.getUser(widget.listing.user);
-    String id = await ChatServices.createChat(widget.listing.user);
+    String id =
+        await ChatServices.createChat(widget.listing.user, widget.listing.id!);
     try {
       Navigator.push(context, MaterialPageRoute<dynamic>(
         builder: (context) {

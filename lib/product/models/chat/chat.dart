@@ -5,6 +5,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 
+import '../listings/results.dart';
+
 part 'chat.g.dart';
 
 String chatToJson(Chat data) => json.encode(data.toJson());
@@ -93,6 +95,10 @@ class Message {
   double at;
   @JsonKey(name: "_id")
   String id;
+  @JsonKey(name: "listingID")
+  String? listingId;
+  @JsonKey(name: "listingData")
+  Output? listingData;
 
   Message({
     required this.content,
@@ -101,6 +107,8 @@ class Message {
     required this.receiver,
     required this.at,
     required this.id,
+    this.listingId,
+    this.listingData,
   });
 
   factory Message.fromJson(Map<String, dynamic> json) =>

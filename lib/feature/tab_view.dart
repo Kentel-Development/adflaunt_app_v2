@@ -1,3 +1,4 @@
+import 'package:adflaunt/feature/booking_list/booking_list_view.dart';
 import 'package:adflaunt/feature/calendar/calendar_view.dart';
 import 'package:adflaunt/feature/home/home_view.dart';
 import 'package:adflaunt/feature/inbox/inbox_view.dart';
@@ -27,7 +28,7 @@ class _TabViewState extends State<TabView> {
           final List<Widget> _widgetOptions = <Widget>[
             HomeView(),
             Placeholder(),
-            Placeholder(),
+            BookingListView(),
             InboxView(),
           ];
           final List<String> _titles = [

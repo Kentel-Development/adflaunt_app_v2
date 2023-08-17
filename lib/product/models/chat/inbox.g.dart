@@ -56,17 +56,17 @@ Map<String, dynamic> _$LastMessageClassToJson(LastMessageClass instance) =>
 Them _$ThemFromJson(Map<String, dynamic> json) => Them(
       ipdata: Ipdata.fromJson(json['IPDATA'] as Map<String, dynamic>),
       id: json['_id'] as String,
-      backPhotoId: json['backPhotoID'] as String,
-      dateOfBirth: json['dateOfBirth'] as String,
-      deliveryAddress: json['deliveryAddress'] as String,
+      backPhotoId: json['backPhotoID'] as String?,
+      dateOfBirth: json['dateOfBirth'] as String?,
+      deliveryAddress: json['deliveryAddress'] as String?,
       email: json['email'] as String,
       fullName: json['fullName'] as String,
       idVerified: json['idVerified'] as bool,
       inbox: (json['inbox'] as List<dynamic>).map((e) => e as String).toList(),
       ipraw: json['ipraw'] as String,
       lastTimeLoggedIn: (json['lastTimeLoggedIn'] as num).toDouble(),
-      phoneNumber: json['phoneNumber'] as String,
-      photoOfId: json['photoOfId'] as String,
+      phoneNumber: json['phoneNumber'] as String?,
+      photoOfId: json['photoOfId'] as String?,
       profileImage: json['profileImage'],
       thirdParty: json['thirdParty'] as String,
     );
@@ -75,17 +75,6 @@ Map<String, dynamic> _$ThemToJson(Them instance) {
   final val = <String, dynamic>{
     'IPDATA': instance.ipdata,
     '_id': instance.id,
-    'backPhotoID': instance.backPhotoId,
-    'dateOfBirth': instance.dateOfBirth,
-    'deliveryAddress': instance.deliveryAddress,
-    'email': instance.email,
-    'fullName': instance.fullName,
-    'idVerified': instance.idVerified,
-    'inbox': instance.inbox,
-    'ipraw': instance.ipraw,
-    'lastTimeLoggedIn': instance.lastTimeLoggedIn,
-    'phoneNumber': instance.phoneNumber,
-    'photoOfId': instance.photoOfId,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -94,6 +83,17 @@ Map<String, dynamic> _$ThemToJson(Them instance) {
     }
   }
 
+  writeNotNull('backPhotoID', instance.backPhotoId);
+  writeNotNull('dateOfBirth', instance.dateOfBirth);
+  writeNotNull('deliveryAddress', instance.deliveryAddress);
+  val['email'] = instance.email;
+  val['fullName'] = instance.fullName;
+  val['idVerified'] = instance.idVerified;
+  val['inbox'] = instance.inbox;
+  val['ipraw'] = instance.ipraw;
+  val['lastTimeLoggedIn'] = instance.lastTimeLoggedIn;
+  writeNotNull('phoneNumber', instance.phoneNumber);
+  writeNotNull('photoOfId', instance.photoOfId);
   writeNotNull('profileImage', instance.profileImage);
   val['thirdParty'] = instance.thirdParty;
   return val;
