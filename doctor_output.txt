@@ -1,0 +1,44 @@
+[✓] Flutter (Channel stable, 3.10.5, on macOS 13.4 22F66 darwin-arm64, locale en-TR)
+    • Flutter version 3.10.5 on channel stable at /Users/berkeenesaktumen/flutter
+    • Upstream repository https://github.com/flutter/flutter.git
+    • Framework revision 796c8ef792 (5 weeks ago), 2023-06-13 15:51:02 -0700
+    • Engine revision 45f6e00911
+    • Dart version 3.0.5
+    • DevTools version 2.23.1
+
+[✓] Android toolchain - develop for Android devices (Android SDK version 34.0.0)
+    • Android SDK at /Users/berkeenesaktumen/Library/Android/sdk
+    • Platform android-34, build-tools 34.0.0
+    • Java binary at: /Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java
+    • Java version OpenJDK Runtime Environment (build 17.0.6+0-17.0.6b802.4-9586694)
+    • All Android licenses accepted.
+
+[✓] Xcode - develop for iOS and macOS (Xcode 14.3.1)
+    • Xcode at /Applications/Xcode.app/Contents/Developer
+    • Build 14E300c
+    • CocoaPods version 1.12.1
+
+[✓] Chrome - develop for the web
+    • Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+
+[✓] Android Studio (version 2022.2)
+    • Android Studio at /Applications/Android Studio.app/Contents
+    • Flutter plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/9212-flutter
+    • Dart plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/6351-dart
+    • Java version OpenJDK Runtime Environment (build 17.0.6+0-17.0.6b802.4-9586694)
+
+[✓] VS Code (version 1.80.1)
+    • VS Code at /Applications/Visual Studio Code.app/Contents
+    • Flutter extension version 3.68.0
+
+[✓] Connected device (3 available)
+    • iPhone 14 Pro Max (mobile) • 4329F2CF-CDE2-4290-9531-8D1E9B7C3186 • ios            • com.apple.CoreSimulator.SimRuntime.iOS-16-4 (simulator)
+    • macOS (desktop)            • macos                                • darwin-arm64   • macOS 13.4 22F66 darwin-arm64
+    • Chrome (web)               • chrome                               • web-javascript • Google Chrome 114.0.5735.198
+
+[✓] Network resources
+    • All expected network resources are available.
+
+• No issues found!
