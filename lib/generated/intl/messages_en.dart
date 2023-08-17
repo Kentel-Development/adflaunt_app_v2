@@ -255,6 +255,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "withdraw": MessageLookupByLibrary.simpleMessage("Withdraw"),
         "withdrawFromYourBalance":
             MessageLookupByLibrary.simpleMessage("Withdraw from your balance"),
+        "youAreNotConnectedToTheInternetPleaseCheckYour":
+            MessageLookupByLibrary.simpleMessage(
+                "You are not connected to the internet, please check your connection and try again"),
         "youCanMoveTheMapToSetTheLocationOf":
             MessageLookupByLibrary.simpleMessage(
                 "You can move the map to set the location of your place"),

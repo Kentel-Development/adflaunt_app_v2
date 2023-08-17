@@ -156,5 +156,6 @@
   "favorites": "Favorites",
   "home": "Home",
   "exJohnDoe": "Ex: John Doe",
-  "name": "Name"
+  "name": "Name",
+  "youAreNotConnectedToTheInternetPleaseCheckYour": "You are not connected to the internet, please check your connection and try again"
 }

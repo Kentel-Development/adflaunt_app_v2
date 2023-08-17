@@ -1629,6 +1629,16 @@ class S {
       args: [],
     );
   }
+
+  /// `You are not connected to the internet, please check your connection and try again`
+  String get youAreNotConnectedToTheInternetPleaseCheckYour {
+    return Intl.message(
+      'You are not connected to the internet, please check your connection and try again',
+      name: 'youAreNotConnectedToTheInternetPleaseCheckYour',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -2,10 +2,14 @@ import 'dart:io';
 
 import 'package:adflaunt/core/adapters/location/location_adapter.dart';
 import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
+import 'package:adflaunt/cubit/main_cubit.dart';
 import 'package:adflaunt/feature/landing_view.dart';
+import 'package:adflaunt/feature/no_internet.dart';
 import 'package:adflaunt/feature/tab_view.dart';
 import 'package:adflaunt/generated/l10n.dart';
+import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -49,10 +53,29 @@ class MainApp extends StatelessWidget {
   final ProfileAdapter? user = Hive.box<ProfileAdapter>('user').get('userData');
   @override
   Widget build(BuildContext context) {
-    return user == null
-        ? LandingView()
-        : user!.password == null
-            ? LandingView()
-            : TabView();
+    return BlocProvider(
+      create: (context) => MainCubit()..checkConnection(),
+      child: BlocBuilder<MainCubit, MainState>(
+        builder: (context, state) {
+          if (state is MainLoading) {
+            return Scaffold(
+              body: Center(
+                child: LoadingWidget(),
+              ),
+            );
+          } else if (state is MainLoggedIn) {
+            return const TabView();
+          } else if (state is MainLoggedOut) {
+            return const LandingView();
+          } else if (state is MainNoInternet) {
+            return NoInternet();
+          } else {
+            return const Scaffold(
+              body: LoadingWidget(),
+            );
+          }
+        },
+      ),
+    );
   }
 }
