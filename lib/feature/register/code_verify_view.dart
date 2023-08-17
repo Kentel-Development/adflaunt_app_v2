@@ -23,6 +23,7 @@ class CodeVerifyView extends StatelessWidget {
       child: BlocConsumer<RegisterCubit, RegisterState>(
         builder: (context, state) {
           return Scaffold(
+            backgroundColor: ColorConstants.backgroundColor,
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(42),
               child: Container(

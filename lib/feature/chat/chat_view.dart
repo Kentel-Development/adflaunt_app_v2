@@ -1,4 +1,5 @@
 import 'package:adflaunt/core/constants/color_constants.dart';
+import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/chat/mixin/chat_mixin.dart';
 import 'package:adflaunt/product/models/chat/inbox.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -41,7 +42,8 @@ class _ChatViewState extends State<ChatView> with ChatMixin {
                           : CircleAvatar(
                               radius: 26,
                               backgroundImage: CachedNetworkImageProvider(
-                                  widget.user.profileImage.toString()),
+                                  StringConstants.baseStorageUrl +
+                                      widget.user.profileImage.toString()),
                             ),
                       SizedBox(
                         height: 8,

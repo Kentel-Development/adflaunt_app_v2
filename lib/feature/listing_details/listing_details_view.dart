@@ -59,68 +59,70 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
     }
     return Scaffold(
       bottomNavigationBar: Container(
-        height: 100,
         color: Colors.white,
         child: SafeArea(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  if (listing.user ==
-                      Hive.box<ProfileAdapter>("user").get("userData")!.id) {
-                    Navigator.push(context, MaterialPageRoute<dynamic>(
-                      builder: (context) {
-                        return EditListingView(
-                          listing: listing,
-                        );
-                      },
-                    )).then((value) => setState(() {
-                          if (value != null) {
-                            listing = value as Output;
-                          }
-                        }));
-                  } else {
-                    Navigator.push(context, MaterialPageRoute<dynamic>(
-                      builder: (context) {
-                        return BookingView(
-                          listing: listing,
-                        );
-                      },
-                    ));
-                  }
-                },
-                child: Container(
-                  width: 150,
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Center(
-                    child: Text(
-                      S.of(context).bookNow,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+          child: Container(
+            height: 45,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (listing.user ==
+                        Hive.box<ProfileAdapter>("user").get("userData")!.id) {
+                      Navigator.push(context, MaterialPageRoute<dynamic>(
+                        builder: (context) {
+                          return EditListingView(
+                            listing: listing,
+                          );
+                        },
+                      )).then((value) => setState(() {
+                            if (value != null) {
+                              listing = value as Output;
+                            }
+                          }));
+                    } else {
+                      Navigator.push(context, MaterialPageRoute<dynamic>(
+                        builder: (context) {
+                          return BookingView(
+                            listing: listing,
+                          );
+                        },
+                      ));
+                    }
+                  },
+                  child: Container(
+                    width: 150,
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Center(
+                      child: Text(
+                        S.of(context).bookNow,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Center(
-                child: Text(
-                  "\$${listing.price}" + " / " + S.of(context).perDay,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
+                Center(
+                  child: Text(
+                    "\$${listing.price}" + " / " + S.of(context).perDay,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         )),
       ),
@@ -192,9 +194,7 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                                     backPhotoId: "",
                                     dateOfBirth: user.dateOfBirth == null
                                         ? DateTime.now().toString()
-                                        : DateTime.parse(
-                                                user.dateOfBirth.toString())
-                                            .toString(),
+                                        : user.dateOfBirth!,
                                     deliveryAddress: "",
                                     email: user.email,
                                     idVerified: user.idVerified,
