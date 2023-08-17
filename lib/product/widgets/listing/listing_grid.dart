@@ -11,8 +11,6 @@ import '../../../core/constants/padding_constants.dart';
 
 import '../../../feature/listing_details/listing_details_view.dart';
 import '../../models/listings/results.dart';
-import '../passport/host_card_painter.dart';
-import '../passport/host_details_sheet.dart';
 
 class ListingGrid extends StatefulWidget {
   const ListingGrid({
@@ -46,13 +44,13 @@ class _ListingGridState extends State<ListingGrid>
 
   @override
   Widget build(BuildContext context) {
-    final deviceW = MediaQuery.of(context).size.width;
+/*    final deviceW = MediaQuery.of(context).size.width;
     final deviceH = MediaQuery.of(context).size.height;
     void _onButtonPressed(String? img, String name) {
       _controller.forward();
       hostdetailsSheet(context, img, name, "8", _controller);
     }
-
+*/
     return FutureBuilder(
         future: UserServices.getUser(widget.listing.user),
         builder: (context, user) {
@@ -138,7 +136,7 @@ class _ListingGridState extends State<ListingGrid>
                           ),
                         ),
                       ),
-                      Positioned(
+                      /*Positioned(
                         bottom: 10,
                         left: 10,
                         child: SizedBox(
@@ -204,7 +202,7 @@ class _ListingGridState extends State<ListingGrid>
                                 ],
                               ),
                             )),
-                      ),
+                      ),*/
                     ],
                   )),
                   Expanded(
