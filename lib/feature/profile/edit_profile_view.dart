@@ -38,7 +38,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                     color: Colors.white,
                     child: SafeArea(
                         child: Padding(
-                      padding: EdgeInsets.only(left: 22, right: 22, top: 12),
+                      padding: EdgeInsets.only(
+                          left: 22, right: 22, top: 12, bottom: 12),
                       child: GestureDetector(
                         onTap: () {
                           context.read<EditProfileCubit>().saveChanges();
@@ -72,7 +73,7 @@ class _EditProfileViewState extends State<EditProfileView> {
           preferredSize: const Size.fromHeight(42),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Header(hasBackBtn: true, title: 'Edit Profile'),
+            child: Header(hasBackBtn: true, title: S.of(context).editProfile),
           ),
         ),
         body: BlocConsumer<EditProfileCubit, EditProfileState>(
@@ -108,7 +109,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                           return Center(
                             child: Stack(
                               children: [
-                                userData.profileImage != null ||
+                                userData.profileImage != null &&
                                         userData.profileImage != ''
                                     ? Padding(
                                         padding: const EdgeInsets.only(

@@ -112,7 +112,7 @@ class _HomeViewState extends State<HomeView> {
                               ),
                               Flexible(
                                 child: Text(
-                                  text ?? "Enter location",
+                                  text ?? S.of(context).enterLocation,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       fontSize: 14,
@@ -370,24 +370,24 @@ class _HomeViewState extends State<HomeView> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedCategory = 0;
-                });
-              },
-              child:
-                  CategoryTab(category: 0, isSelected: selectedCategory == 0)),
-          GestureDetector(
             onTap: () {
               setState(() {
-                selectedCategory = 1;
+                selectedCategory = 0;
               });
             },
             child: CategoryTab(
-              category: 1,
-              isSelected: selectedCategory == 1,
+              category: 0,
+              isSelected: selectedCategory == 0,
             ),
           ),
+          GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedCategory = 1;
+                });
+              },
+              child:
+                  CategoryTab(category: 1, isSelected: selectedCategory == 1)),
           GestureDetector(
             onTap: () {
               setState(() {

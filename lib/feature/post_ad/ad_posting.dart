@@ -1,6 +1,5 @@
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
-import 'package:adflaunt/feature/listing_details/listing_details_view.dart';
 import 'package:adflaunt/feature/post_ad/cubit/post_ad_cubit.dart';
 import 'package:adflaunt/feature/tab_view.dart';
 import 'package:adflaunt/product/widgets/common_btn.dart';
@@ -82,24 +81,6 @@ class AdPostingView extends StatelessWidget {
                                 ),
                                 SizedBox(
                                   height: 16,
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                  width: double.infinity,
-                                  child: CommonBtn(
-                                      onPressed: () {
-                                        Navigator.pushReplacement(context,
-                                            MaterialPageRoute<dynamic>(
-                                          builder: (context) {
-                                            return ListingDetailsView(
-                                                listing: context
-                                                    .read<PostAdCubit>()
-                                                    .output!);
-                                          },
-                                        ));
-                                      },
-                                      text: S.of(context).seeYourAd,
-                                      backgroundColor: Colors.black),
                                 ),
                               ],
                             ),

@@ -71,7 +71,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 Center(
                                   child: Stack(
                                     children: [
-                                      userData.profileImage != null ||
+                                      userData.profileImage != null &&
                                               userData.profileImage != ''
                                           ? Padding(
                                               padding: const EdgeInsets.only(

@@ -20,7 +20,7 @@ part 'post_ad_state.dart';
 
 class PostAdCubit extends BaseBloc<PostAdState, PostAdState> {
   PostAdCubit() : super(PostAdInitial());
-  int selectedCategory = 0;
+  int selectedCategory = 1;
   LatLng? currentLocation;
   GoogleMapController? mapController;
   Set<Marker> markers =

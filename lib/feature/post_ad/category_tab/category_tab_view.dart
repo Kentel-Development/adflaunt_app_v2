@@ -57,21 +57,21 @@ class CategoryTabView extends StatelessWidget {
                   children: [
                     GestureDetector(
                         onTap: () {
-                          context.read<PostAdCubit>().changeCategory(0);
+                          context.read<PostAdCubit>().changeCategory(1);
                         },
                         child: CategoryTab(
                             category: 0,
                             isSelected:
                                 context.read<PostAdCubit>().selectedCategory ==
-                                    0)),
+                                    1)),
                     GestureDetector(
                       onTap: () {
-                        context.read<PostAdCubit>().changeCategory(1);
+                        context.read<PostAdCubit>().changeCategory(0);
                       },
                       child: CategoryTab(
                         category: 1,
                         isSelected:
-                            context.read<PostAdCubit>().selectedCategory == 1,
+                            context.read<PostAdCubit>().selectedCategory == 0,
                       ),
                     ),
                     GestureDetector(

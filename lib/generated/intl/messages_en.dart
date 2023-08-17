@@ -88,6 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "editListing": MessageLookupByLibrary.simpleMessage("Edit Listing"),
         "editOrViewYourAdListingsHere": MessageLookupByLibrary.simpleMessage(
             "Edit or view your AD listings here"),
+        "editProfile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
         "email": MessageLookupByLibrary.simpleMessage("E-Mail"),
         "enterLocation": MessageLookupByLibrary.simpleMessage("Enter Location"),
         "enterShippingAddress":
