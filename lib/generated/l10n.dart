@@ -1959,6 +1959,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Ad Spaces Near You`
+  String get adSpacesNearYou {
+    return Intl.message(
+      'Ad Spaces Near You',
+      name: 'adSpacesNearYou',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Digital Listings Found`
+  String get noDigitalListingsFound {
+    return Intl.message(
+      'No Digital Listings Found',
+      name: 'noDigitalListingsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Popular Listings Found`
+  String get noPopularListingsFound {
+    return Intl.message(
+      'No Popular Listings Found',
+      name: 'noPopularListingsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Nearby Listings Found`
+  String get noNearbyListingsFound {
+    return Intl.message(
+      'No Nearby Listings Found',
+      name: 'noNearbyListingsFound',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

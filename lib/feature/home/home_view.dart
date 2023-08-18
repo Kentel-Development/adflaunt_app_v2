@@ -163,7 +163,7 @@ class _HomeViewState extends State<HomeView> {
                     lat,
                     lng,
                     "",
-                    "20"),
+                    null),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.done ||
                       !snapshot.hasData ||
@@ -326,7 +326,14 @@ class _HomeViewState extends State<HomeView> {
                             );
                           },
                         ),
-                        listing: snapshot.data!,
+                        type: type,
+                        category: ListingConstants.types[selectedCategory],
+                        from: from,
+                        to: to,
+                        priceStart: priceStart,
+                        priceEnd: priceEnd,
+                        lat: lat,
+                        lng: lng,
                       ),
                     );
                   }

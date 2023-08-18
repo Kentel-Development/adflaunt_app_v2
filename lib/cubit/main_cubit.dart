@@ -45,8 +45,8 @@ class MainCubit extends Cubit<MainState> {
       final response = await LoginAPI.login(
           currentUser.email!, currentUser.password!, null, null);
       final json = jsonDecode(response.body) as Map<String, dynamic>;
-      final model = ProfileModel.fromJson(json);
       if (response.statusCode == 200 && json["SCC"] == true) {
+        final model = ProfileModel.fromJson(json);
         await LoginAPI.saveAccountCredentials(ProfileAdapter(
           dateOfBirth: model.dateOfBirth,
           email: model.email,

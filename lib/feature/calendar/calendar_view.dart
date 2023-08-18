@@ -7,6 +7,8 @@ import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../generated/l10n.dart';
+
 class CalendarView extends StatelessWidget {
   const CalendarView({super.key});
 
@@ -18,7 +20,7 @@ class CalendarView extends StatelessWidget {
         preferredSize: const Size.fromHeight(42),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Header(hasBackBtn: false, title: 'Calendar'),
+          child: Header(hasBackBtn: false, title: S.of(context).calendar),
         ),
       ),
       body: Padding(

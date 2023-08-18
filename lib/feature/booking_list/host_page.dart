@@ -59,7 +59,8 @@ class _HostPageState extends State<HostPage> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Header(
-              hasBackBtn: true, title: widget.asHost!.listingData!.title!),
+              hasBackBtn: true,
+              title: asHost == null ? "" : asHost!.listingData!.title!),
         ),
       ),
       body: asHost == null
@@ -216,6 +217,7 @@ class _HostPageState extends State<HostPage> {
                                       snapshot.data!.idVerified
                                           ? IconConstants.check_ring
                                           : IconConstants.cross_ring,
+                                      // ignore: deprecated_member_use
                                       color: Color.fromRGBO(161, 161, 161, 1),
                                     ),
                                     SizedBox(

@@ -29,12 +29,14 @@ Output _$OutputFromJson(Map<String, dynamic> json) => Output(
           .toList(),
       profileImage: json['profileImage'],
       status: json['status'] as String?,
+      bookingID: json['bookingID'] as String?,
     );
 
 Map<String, dynamic> _$OutputToJson(Output instance) => <String, dynamic>{
       'customer': instance.customer,
       'daysWantToBook':
           instance.daysWantToBook?.map((e) => e.toIso8601String()).toList(),
+      'bookingID': instance.bookingID,
       'profileImage': instance.profileImage,
       'status': instance.status,
     };

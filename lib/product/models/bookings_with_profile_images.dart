@@ -34,6 +34,8 @@ class Output {
   String? customer;
   @JsonKey(name: "daysWantToBook")
   List<DateTime>? daysWantToBook;
+  @JsonKey(name: "bookingID")
+  String? bookingID;
   @JsonKey(name: "profileImage")
   dynamic profileImage;
   @JsonKey(name: "status")
@@ -44,6 +46,7 @@ class Output {
     this.daysWantToBook,
     this.profileImage,
     this.status,
+    this.bookingID,
   });
 
   factory Output.fromJson(Map<String, dynamic> json) => _$OutputFromJson(json);

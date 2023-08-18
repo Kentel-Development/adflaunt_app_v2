@@ -202,6 +202,7 @@ class _CustomerPageState extends State<CustomerPage> {
                                   snapshot.data!.idVerified
                                       ? IconConstants.check_ring
                                       : IconConstants.cross_ring,
+                                  // ignore: deprecated_member_use
                                   color: Color.fromRGBO(161, 161, 161, 1),
                                 ),
                                 SizedBox(

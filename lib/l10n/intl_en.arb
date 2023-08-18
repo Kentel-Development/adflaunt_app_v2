@@ -189,5 +189,9 @@
   "theRatingAndCommentCannotBeEmpty": "The rating and comment cannot be empty",
   "leaveAReviewAndCompleteTheBooking": "Leave a review and complete the booking",
   "completeBooking": "Complete Booking",
-  "theBookingWillBeCompletedOnceYouApproveTheProofs": "The booking will be completed once you approve the proofs, if you don't approve the proofs within 48 hours the booking will be automatically completed."
+  "theBookingWillBeCompletedOnceYouApproveTheProofs": "The booking will be completed once you approve the proofs, if you don't approve the proofs within 48 hours the booking will be automatically completed.",
+  "adSpacesNearYou": "Ad Spaces Near You",
+  "noDigitalListingsFound": "No Digital Listings Found",
+  "noPopularListingsFound": "No Popular Listings Found",
+  "noNearbyListingsFound": "No Nearby Listings Found"
 }

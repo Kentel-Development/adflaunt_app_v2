@@ -141,8 +141,8 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) => Customer(
       idVerified: json['idVerified'] as bool,
       ipraw: json['ipraw'] as String,
       lastTimeLoggedIn: (json['lastTimeLoggedIn'] as num).toDouble(),
-      lat: (json['lat'] as num).toDouble(),
-      long: (json['long'] as num).toDouble(),
+      lat: (json['lat'] as num?)?.toDouble(),
+      long: (json['long'] as num?)?.toDouble(),
       orders: (json['orders'] as List<dynamic>)
           .map((e) => Order.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -212,9 +212,9 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
           .toList(),
       description: json['description'] as String,
       paymentId: json['paymentID'] as String,
-      price: json['price'] as int,
-      pricePerDay: json['pricePerDay'] as int,
-      printingFile: json['printingFile'] as String,
+      price: (json['price'] as num).toDouble(),
+      pricePerDay: (json['pricePerDay'] as num).toDouble(),
+      printingFile: json['printingFile'],
       timeStamp: (json['timeStamp'] as num).toDouble(),
       title: json['title'] as String,
       proofs:

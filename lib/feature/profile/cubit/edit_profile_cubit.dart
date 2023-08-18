@@ -70,10 +70,10 @@ class EditProfileCubit extends BaseBloc<EditProfileState, EditProfileState> {
           "userData",
           ProfileAdapter(
               dateOfBirth: updatedUser.dateOfBirth,
-              email: updatedUser.email,
+              email: currentUser.email,
               fullName: updatedUser.fullName,
               id: updatedUser.id,
-              password: updatedUser.password,
+              password: currentUser.password,
               phoneNumber: updatedUser.phoneNumber,
               profileImage: updatedUser.profileImage));
       safeEmit(EditProfileSuccess());

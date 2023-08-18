@@ -6,6 +6,7 @@ import 'package:adflaunt/generated/l10n.dart';
 import 'package:adflaunt/product/models/chat/inbox.dart';
 import 'package:adflaunt/product/services/chat.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
+import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -169,7 +170,7 @@ class _InboxViewState extends State<InboxView> {
             );
           } else {
             return Center(
-              child: CircularProgressIndicator(),
+              child: LoadingWidget(),
             );
           }
         },

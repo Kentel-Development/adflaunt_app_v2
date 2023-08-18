@@ -396,11 +396,13 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                         markers: {}..add(
                             Marker(
                               markerId: MarkerId("1"),
-                              position: LatLng(listing.lat, listing.long),
+                              position: LatLng(listing.lat.toDouble(),
+                                  listing.long.toDouble()),
                             ),
                           ),
                         initialCameraPosition: CameraPosition(
-                            target: LatLng(listing.lat, listing.long),
+                            target: LatLng(listing.lat.toDouble(),
+                                listing.long.toDouble()),
                             zoom: 12)),
                   ),
                 ),

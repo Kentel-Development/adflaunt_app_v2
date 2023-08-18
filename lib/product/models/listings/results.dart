@@ -216,9 +216,9 @@ class Customer {
   @JsonKey(name: "lastTimeLoggedIn")
   double lastTimeLoggedIn;
   @JsonKey(name: "lat")
-  double lat;
+  double? lat;
   @JsonKey(name: "long")
-  double long;
+  double? long;
   @JsonKey(name: "orders")
   List<Order> orders;
   @JsonKey(name: "phoneNumber")
@@ -320,11 +320,11 @@ class Order {
   @JsonKey(name: "paymentID")
   String paymentId;
   @JsonKey(name: "price")
-  int price;
+  double price;
   @JsonKey(name: "pricePerDay")
-  int pricePerDay;
+  double pricePerDay;
   @JsonKey(name: "printingFile")
-  String printingFile;
+  dynamic printingFile;
   @JsonKey(name: "timeStamp")
   double timeStamp;
   @JsonKey(name: "title")

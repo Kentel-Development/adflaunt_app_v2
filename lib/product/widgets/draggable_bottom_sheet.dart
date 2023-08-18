@@ -1,11 +1,12 @@
+import 'package:adflaunt/feature/all_listings/all_listings.dart';
 import 'package:adflaunt/feature/home/cubit/home_cubit.dart';
+import 'package:adflaunt/product/services/listings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../core/constants/icon_constants.dart';
 import '../../generated/l10n.dart';
-import '../models/listings/results.dart';
 import 'headers/common_heading.dart';
 import 'listing/listing_grid.dart';
 import 'listing/listing_list.dart';
@@ -14,10 +15,24 @@ int selectedView = 0;
 
 class DraggableBottomSheet extends StatefulWidget {
   final Widget backgroundWidget;
-  final List<Output> listing;
+  final int? type;
+  final String? category;
+  final String? from;
+  final String? to;
+  final String? priceStart;
+  final String? priceEnd;
+  final String? lat;
+  final String? lng;
   DraggableBottomSheet({
     required this.backgroundWidget,
-    required this.listing,
+    required this.type,
+    required this.category,
+    required this.from,
+    required this.to,
+    required this.priceStart,
+    required this.priceEnd,
+    required this.lat,
+    required this.lng,
   });
 
   @override
@@ -68,14 +83,14 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                     child: SizedBox(
                         height: constraints.maxHeight,
                         width: constraints.maxWidth,
-                        child: listingsBuilder(widget.listing))))
+                        child: listingsBuilder())))
           ],
         ),
       );
     });
   }
 
-  StatefulBuilder listingsBuilder(List<Output> listing) {
+  StatefulBuilder listingsBuilder() {
     return StatefulBuilder(builder: (context, state) {
       return Container(
           decoration: BoxDecoration(
@@ -189,157 +204,426 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                           SizedBox(
                             height: 8,
                           ),
-                          listing.length > 1
-                              ? Expanded(
-                                  child: ListView(
-                                    padding: EdgeInsets.zero,
-                                    children: [
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      CommonHeading(
-                                        headingText:
-                                            S.of(context).popularAdSpaces,
-                                      ),
-                                      selectedView == 0
-                                          ? Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                SizedBox(
-                                                  width: 14,
-                                                ),
-                                                Expanded(
-                                                  child: ListingGrid(
-                                                    listing: listing[0],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 16,
-                                                ),
-                                                Expanded(
-                                                  child: ListingGrid(
-                                                    listing: listing[1],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 16,
-                                                ),
-                                              ],
-                                            )
-                                          : Column(
-                                              children: [
-                                                ListingList(
-                                                  listing: listing[0],
-                                                ),
-                                                const SizedBox(
-                                                  height: 16,
-                                                ),
-                                                ListingList(
-                                                  listing: listing[1],
-                                                ),
-                                              ],
-                                            ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      CommonHeading(
-                                        headingText:
-                                            S.of(context).popularAdSpaces,
-                                      ),
-                                      selectedView == 0
-                                          ? Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                SizedBox(
-                                                  width: 14,
-                                                ),
-                                                Expanded(
-                                                  child: ListingGrid(
-                                                    listing: listing[0],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 16,
-                                                ),
-                                                Expanded(
-                                                  child: ListingGrid(
-                                                    listing: listing[1],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 16,
-                                                ),
-                                              ],
-                                            )
-                                          : Column(
-                                              children: [
-                                                ListingList(
-                                                  listing: listing[0],
-                                                ),
-                                                const SizedBox(
-                                                  height: 16,
-                                                ),
-                                                ListingList(
-                                                  listing: listing[1],
-                                                ),
-                                              ],
-                                            ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      CommonHeading(
-                                        headingText:
-                                            S.of(context).popularAdSpaces,
-                                      ),
-                                      selectedView == 0
-                                          ? Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                SizedBox(
-                                                  width: 14,
-                                                ),
-                                                Expanded(
-                                                  child: ListingGrid(
-                                                    listing: listing[0],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 16,
-                                                ),
-                                                Expanded(
-                                                  child: ListingGrid(
-                                                    listing: listing[1],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 16,
-                                                ),
-                                              ],
-                                            )
-                                          : Column(
-                                              children: [
-                                                ListingList(
-                                                  listing: listing[0],
-                                                ),
-                                                const SizedBox(
-                                                  height: 16,
-                                                ),
-                                                ListingList(
-                                                  listing: listing[1],
-                                                ),
-                                              ],
-                                            ),
-                                    ],
+                          Expanded(
+                              child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                FutureBuilder(
+                                  future: ListingsAPI.listingsFilterer(
+                                    widget.type,
+                                    widget.category,
+                                    widget.from,
+                                    widget.to,
+                                    widget.priceStart,
+                                    widget.priceEnd,
+                                    widget.lat,
+                                    widget.lng,
+                                    "",
+                                    null,
                                   ),
-                                )
-                              : Expanded(
-                                  child: Center(
-                                    child: Text("No Listings Found"),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      final list =
+                                          snapshot.data!.reversed.toList();
+                                      if (list.isEmpty) {
+                                        return Column(
+                                          children: [
+                                            CommonHeading(
+                                              headingText:
+                                                  S.of(context).popularAdSpaces,
+                                              hasBtn: false,
+                                            ),
+                                            Center(
+                                              child: Text(
+                                                S
+                                                    .of(context)
+                                                    .noPopularListingsFound,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 0.5),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      } else {
+                                        return Column(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(context,
+                                                    MaterialPageRoute<dynamic>(
+                                                  builder: (context) {
+                                                    return AllListingsView(
+                                                      title: S
+                                                          .of(context)
+                                                          .popularAdSpaces,
+                                                      type: widget.type,
+                                                      category: widget.category,
+                                                      from: widget.from,
+                                                      to: widget.to,
+                                                      priceStart:
+                                                          widget.priceStart,
+                                                      priceEnd: widget.priceEnd,
+                                                      lat: widget.lat,
+                                                      lng: widget.lng,
+                                                    );
+                                                  },
+                                                ));
+                                              },
+                                              child: CommonHeading(
+                                                headingText: S
+                                                    .of(context)
+                                                    .popularAdSpaces,
+                                                onPress: false,
+                                              ),
+                                            ),
+                                            selectedView == 0
+                                                ? Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 8.0),
+                                                    child: SizedBox(
+                                                      height: 200,
+                                                      child: Row(
+                                                          children: List.generate(
+                                                              snapshot.data!
+                                                                          .length >
+                                                                      2
+                                                                  ? 2
+                                                                  : snapshot
+                                                                      .data!
+                                                                      .length,
+                                                              (index) {
+                                                        return Expanded(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                              right: 8,
+                                                              left: 8,
+                                                            ),
+                                                            child: ListingGrid(
+                                                              listing:
+                                                                  list[index],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      })),
+                                                    ))
+                                                : Column(
+                                                    children: List.generate(
+                                                        snapshot.data!.length >
+                                                                2
+                                                            ? 2
+                                                            : snapshot
+                                                                .data!.length,
+                                                        (index) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          bottom: 8,
+                                                        ),
+                                                        child: ListingList(
+                                                          listing: list[index],
+                                                        ),
+                                                      );
+                                                    }),
+                                                  ),
+                                          ],
+                                        );
+                                      }
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.black,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 24,
+                                ),
+                                FutureBuilder(
+                                  future: ListingsAPI.listingsFilterer(
+                                    widget.type,
+                                    widget.category,
+                                    widget.from,
+                                    widget.to,
+                                    widget.priceStart,
+                                    widget.priceEnd,
+                                    widget.lat,
+                                    widget.lng,
+                                    "",
+                                    "20",
                                   ),
-                                )
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      final list = snapshot.data!.toList();
+                                      if (list.isEmpty) {
+                                        return Column(
+                                          children: [
+                                            CommonHeading(
+                                              headingText:
+                                                  S.of(context).adSpacesNearYou,
+                                              hasBtn: false,
+                                            ),
+                                            Center(
+                                              child: Text(
+                                                S
+                                                    .of(context)
+                                                    .noNearbyListingsFound,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 0.5),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      } else {
+                                        return Column(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(context,
+                                                    MaterialPageRoute<dynamic>(
+                                                  builder: (context) {
+                                                    return AllListingsView(
+                                                      title: S
+                                                          .of(context)
+                                                          .adSpacesNearYou,
+                                                      type: widget.type,
+                                                      category: widget.category,
+                                                      from: widget.from,
+                                                      to: widget.to,
+                                                      priceStart:
+                                                          widget.priceStart,
+                                                      priceEnd: widget.priceEnd,
+                                                      lat: widget.lat,
+                                                      lng: widget.lng,
+                                                    );
+                                                  },
+                                                ));
+                                              },
+                                              child: CommonHeading(
+                                                headingText: S
+                                                    .of(context)
+                                                    .adSpacesNearYou,
+                                                onPress: false,
+                                              ),
+                                            ),
+                                            selectedView == 0
+                                                ? Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 8.0),
+                                                    child: SizedBox(
+                                                      height: 200,
+                                                      child: Row(
+                                                          children: List.generate(
+                                                              snapshot.data!
+                                                                          .length >
+                                                                      2
+                                                                  ? 2
+                                                                  : snapshot
+                                                                      .data!
+                                                                      .length,
+                                                              (index) {
+                                                        return Expanded(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                              right: 8,
+                                                              left: 8,
+                                                            ),
+                                                            child: ListingGrid(
+                                                              listing:
+                                                                  list[index],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      })),
+                                                    ))
+                                                : Column(
+                                                    children: List.generate(
+                                                        snapshot.data!.length >
+                                                                2
+                                                            ? 2
+                                                            : snapshot
+                                                                .data!.length,
+                                                        (index) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          bottom: 8,
+                                                        ),
+                                                        child: ListingList(
+                                                          listing: list[index],
+                                                        ),
+                                                      );
+                                                    }),
+                                                  ),
+                                          ],
+                                        );
+                                      }
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.black,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 24,
+                                ),
+                                FutureBuilder(
+                                  future: ListingsAPI.listingsFilterer(
+                                    widget.type,
+                                    widget.category,
+                                    widget.from,
+                                    widget.to,
+                                    widget.priceStart,
+                                    widget.priceEnd,
+                                    widget.lat,
+                                    widget.lng,
+                                    "Digital",
+                                    null,
+                                  ),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      final list = snapshot.data!.toList();
+                                      if (list.isEmpty) {
+                                        return Column(
+                                          children: [
+                                            CommonHeading(
+                                              headingText:
+                                                  S.of(context).digitalAds,
+                                              hasBtn: false,
+                                            ),
+                                            Center(
+                                              child: Text(
+                                                S
+                                                    .of(context)
+                                                    .noDigitalListingsFound,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 0.5),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      } else {
+                                        return Column(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(context,
+                                                    MaterialPageRoute<dynamic>(
+                                                  builder: (context) {
+                                                    return AllListingsView(
+                                                      title: S
+                                                          .of(context)
+                                                          .digitalAds,
+                                                      type: widget.type,
+                                                      category: widget.category,
+                                                      from: widget.from,
+                                                      to: widget.to,
+                                                      priceStart:
+                                                          widget.priceStart,
+                                                      priceEnd: widget.priceEnd,
+                                                      lat: widget.lat,
+                                                      lng: widget.lng,
+                                                    );
+                                                  },
+                                                ));
+                                              },
+                                              child: CommonHeading(
+                                                headingText:
+                                                    S.of(context).digitalAds,
+                                              ),
+                                            ),
+                                            selectedView == 0
+                                                ? Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 8.0),
+                                                    child: SizedBox(
+                                                      height: 200,
+                                                      child: Row(
+                                                          children: List.generate(
+                                                              snapshot.data!
+                                                                          .length >
+                                                                      2
+                                                                  ? 2
+                                                                  : snapshot
+                                                                      .data!
+                                                                      .length,
+                                                              (index) {
+                                                        return Expanded(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                              right: 8,
+                                                              left: 8,
+                                                            ),
+                                                            child: ListingGrid(
+                                                              listing:
+                                                                  list[index],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      })),
+                                                    ))
+                                                : Column(
+                                                    children: List.generate(
+                                                        snapshot.data!.length >
+                                                                2
+                                                            ? 2
+                                                            : snapshot
+                                                                .data!.length,
+                                                        (index) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          bottom: 8,
+                                                        ),
+                                                        child: ListingList(
+                                                          listing: list[index],
+                                                        ),
+                                                      );
+                                                    }),
+                                                  ),
+                                          ],
+                                        );
+                                      }
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.black,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          ))
                         ],
                       ),
                     ),

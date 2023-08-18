@@ -38,8 +38,8 @@ class HomeCubit extends BaseBloc<HomeState, HomeState> {
       listings.forEach((element) async {
         markers.add(MarkerItem(
           id: listings.indexOf(element),
-          latitude: element.lat,
-          longitude: element.long,
+          latitude: element.lat.toDouble(),
+          longitude: element.long.toDouble(),
         ));
       });
       return true;

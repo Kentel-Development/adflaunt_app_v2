@@ -26,6 +26,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "aboutAdSpace": MessageLookupByLibrary.simpleMessage("About Ad Space"),
         "adPostedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Ad Posted Successfully"),
+        "adSpacesNearYou":
+            MessageLookupByLibrary.simpleMessage("Ad Spaces Near You"),
         "adSpecs": MessageLookupByLibrary.simpleMessage("Ad Specs"),
         "adType": MessageLookupByLibrary.simpleMessage("Ad Type"),
         "addADescription":
@@ -182,8 +184,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "newHere": MessageLookupByLibrary.simpleMessage("New Here?"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
+        "noDigitalListingsFound":
+            MessageLookupByLibrary.simpleMessage("No Digital Listings Found"),
         "noFilesUploaded":
             MessageLookupByLibrary.simpleMessage("No files uploaded"),
+        "noNearbyListingsFound":
+            MessageLookupByLibrary.simpleMessage("No Nearby Listings Found"),
+        "noPopularListingsFound":
+            MessageLookupByLibrary.simpleMessage("No Popular Listings Found"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "or": MessageLookupByLibrary.simpleMessage("Or"),
         "outdoorAds": MessageLookupByLibrary.simpleMessage("Outdoor Ads"),

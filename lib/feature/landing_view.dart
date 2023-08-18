@@ -30,16 +30,6 @@ class LandingView extends StatelessWidget {
                       child: Image.asset(IconConstants.logo),
                     ),
                   ),
-                  const Center(
-                    child: Text(
-                      'Find a space. Fulfill your vision.',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                        color: ColorConstants.colorPrimary,
-                      ),
-                    ),
-                  ),
                   Column(
                     children: [
                       Padding(

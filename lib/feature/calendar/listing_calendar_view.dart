@@ -1,18 +1,26 @@
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/core/extensions/date_parser_extension.dart';
-import 'package:adflaunt/product/models/listings/results.dart';
+import 'package:adflaunt/feature/booking_list/host_page.dart';
+import 'package:adflaunt/product/models/bookings_with_profile_images.dart';
+import 'package:adflaunt/product/models/listings/results.dart' as results;
 import 'package:adflaunt/product/services/booking.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
 import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:paged_vertical_calendar/paged_vertical_calendar.dart';
+import 'package:paged_vertical_calendar/utils/date_utils.dart';
 
-class ListingCalendarView extends StatelessWidget {
+class ListingCalendarView extends StatefulWidget {
   const ListingCalendarView({required this.listing, super.key});
-  final Output listing;
+  final results.Output listing;
 
+  @override
+  State<ListingCalendarView> createState() => _ListingCalendarViewState();
+}
+
+class _ListingCalendarViewState extends State<ListingCalendarView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -22,34 +30,44 @@ class ListingCalendarView extends StatelessWidget {
           preferredSize: const Size.fromHeight(42),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Header(hasBackBtn: true, title: listing.title),
+            child: Header(hasBackBtn: true, title: widget.listing.title),
           ),
         ),
         body: FutureBuilder(
-            future: BookingService.getBookingsWithProfileImages(listing.id!),
+            future:
+                BookingService.getBookingsWithProfileImages(widget.listing.id!),
             builder: (context, snapshot) {
               return !snapshot.hasData
                   ? Center(
                       child: LoadingWidget(),
                     )
                   : PagedVerticalCalendar(
-                      minDate: listing.checkIn.parseDate(),
-                      maxDate: listing.checkOut.parseDate(),
+                      minDate: widget.listing.checkIn.parseDate(),
+                      maxDate: widget.listing.checkOut.parseDate(),
                       dayBuilder: (context, date) {
                         bool isBetween;
                         bool isStart = snapshot.data!.output!.any((element) {
                           return element.daysWantToBook!.first.toString() ==
                               date.toString();
                         });
-                        String? image;
-                        snapshot.data!.output!.forEach((element) {
-                          if (element.daysWantToBook!.first.toString() ==
-                              date
-                                  .toString()
-                                  .substring(0, date.toString().length - 1)) {
-                            image = element.profileImage as String?;
-                          }
+                        bool isStartAndLast =
+                            snapshot.data!.output!.any((element) {
+                          return element.daysWantToBook!.first.toString() ==
+                                  date.toString() &&
+                              element.daysWantToBook!.last.toString() ==
+                                  date.toString();
                         });
+                        Output? getBookingData(DateTime date) {
+                          return snapshot.data?.output?.firstWhere(
+                            (element) =>
+                                element.daysWantToBook!.first.isSameDay(date),
+                            orElse: () => Output(),
+                          );
+                        }
+
+                        String? image =
+                            getBookingData(date)?.profileImage as String?;
+                        String? bookingId = getBookingData(date)?.bookingID;
                         bool isEnd = snapshot.data!.output!.any((element) {
                           return element.daysWantToBook!.last.toString() ==
                               date.toString();
@@ -64,293 +82,193 @@ class ListingCalendarView extends StatelessWidget {
                         } else {
                           isBetween = false;
                         }
-                        return isStart || isEnd
-                            ? Container(
-                                alignment: isStart
-                                    ? Alignment.centerRight
-                                    : Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: Colors.grey.shade300),
-                                ),
-                                padding: EdgeInsets.only(
-                                    left: isStart ? 20 : 0,
-                                    right: isStart ? 0 : 20),
+                        print(bookingId.toString());
+                        return isStartAndLast
+                            ? GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute<dynamic>(
+                                    builder: (context) {
+                                      return HostPage(
+                                        null,
+                                        bookingId!,
+                                      );
+                                    },
+                                  ));
+                                },
                                 child: Container(
-                                  child: Center(
-                                    child: !isStart
-                                        ? Text(
-                                            date.day.toString(),
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          )
-                                        : image == null
-                                            ? Icon(Icons.person)
-                                            : Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: CircleAvatar(
-                                                  radius: 10,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            1000),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl: StringConstants
-                                                              .baseStorageUrl +
-                                                          image!,
-                                                      fit: BoxFit.cover,
-                                                      width: size.width * 0.1,
-                                                      height:
-                                                          size.height * 0.04,
-                                                    ),
-                                                  ),
+                                    alignment: isStart
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: Colors.grey.shade300),
+                                    ),
+                                    padding:
+                                        EdgeInsets.only(left: 10, right: 10),
+                                    child: Container(
+                                      child: Center(
+                                        child: !isStart
+                                            ? Text(
+                                                date.day.toString(),
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
-                                              ),
-                                  ),
-                                  height: size.height * 0.04,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                          color: Colors.black,
-                                          width: isStart ? 0 : 1),
-                                      left: BorderSide(
-                                          color: Colors.black,
-                                          width: isStart ? 1 : 0),
-                                      top: BorderSide(
-                                          color: Colors.black, width: 1),
-                                      bottom: BorderSide(
-                                          color: Colors.black, width: 1),
-                                    ),
-                                    borderRadius: isStart
-                                        ? BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            bottomLeft: Radius.circular(10),
-                                          )
-                                        : BorderRadius.only(
-                                            topRight: Radius.circular(10),
-                                            bottomRight: Radius.circular(10),
-                                          ),
-                                  ),
-                                ))
-                            : Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: Colors.grey.shade300),
-                                ),
-                                child: Container(
-                                  height: size.height * 0.04,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                      border: isBetween
-                                          ? Border(
-                                              right: BorderSide(
-                                                  color: Colors.black,
-                                                  width: 0),
-                                              left: BorderSide(
-                                                  color: Colors.black,
-                                                  width: 0),
-                                              top: BorderSide(
-                                                  color: Colors.black,
-                                                  width: 1),
-                                              bottom: BorderSide(
-                                                  color: Colors.black,
-                                                  width: 1),
-                                            )
-                                          : Border()),
-                                  child: Center(
-                                    child: Text(
-                                      date.day.toString(),
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                      },
-                    );
-              /* TableCalendar(
-                          rowHeight: size.height * 0.10,
-                          calendarBuilders: CalendarBuilders<dynamic>(
-                            defaultBuilder: (context, date, _) {
-                              bool isBetween;
-                              if (snapshot.data!.output!.any((element) {
-                                return element.daysWantToBook!
-                                    .toString()
-                                    .contains(date.toString().substring(
-                                        0, date.toString().length - 1));
-                              })) {
-                                isBetween = true;
-                              } else {
-                                isBetween = false;
-                              }
-                              return Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: Colors.grey.shade300),
-                                ),
-                                child: Container(
-                                  height: size.height * 0.04,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                      border: isBetween
-                                          ? Border(
-                                              right: BorderSide(
-                                                  color: Colors.black,
-                                                  width: 0),
-                                              left: BorderSide(
-                                                  color: Colors.black,
-                                                  width: 0),
-                                              top: BorderSide(
-                                                  color: Colors.black,
-                                                  width: 1),
-                                              bottom: BorderSide(
-                                                  color: Colors.black,
-                                                  width: 1),
-                                            )
-                                          : Border()),
-                                  child: Center(
-                                    child: Text(
-                                      date.day.toString(),
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            selectedBuilder: (context, date, _) {
-                              bool isStart =
-                                  snapshot.data!.output!.any((element) {
-                                return element.daysWantToBook!.first
-                                        .toString() ==
-                                    date.toString().substring(
-                                        0, date.toString().length - 1);
-                              });
-                              String? image;
-                              snapshot.data!.output!.forEach((element) {
-                                if (element.daysWantToBook!.first.toString() ==
-                                    date.toString().substring(
-                                        0, date.toString().length - 1)) {
-                                  image = element.profileImage as String?;
-                                }
-                              });
-                              return Container(
-                                  alignment: isStart
-                                      ? Alignment.centerRight
-                                      : Alignment.centerLeft,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border:
-                                        Border.all(color: Colors.grey.shade300),
-                                  ),
-                                  padding: EdgeInsets.only(
-                                      left: isStart ? 20 : 0,
-                                      right: isStart ? 0 : 20),
-                                  child: Container(
-                                    child: Center(
-                                      child: !isStart
-                                          ? Text(
-                                              date.day.toString(),
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            )
-                                          : image != null
-                                              ? Icon(Icons.person)
-                                              : Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: CircleAvatar(
-                                                    radius: 10,
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              1000),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl: StringConstants
-                                                                .baseStorageUrl +
-                                                            "ki47f111bm79f44x64k104yw.jpg",
-                                                        fit: BoxFit.cover,
-                                                        width: size.width * 0.1,
-                                                        height:
-                                                            size.height * 0.04,
+                                              )
+                                            : image == null
+                                                ? Icon(Icons.person)
+                                                : Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: CircleAvatar(
+                                                      radius: 10,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(1000),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl: StringConstants
+                                                                  .baseStorageUrl +
+                                                              image,
+                                                          fit: BoxFit.cover,
+                                                          width:
+                                                              size.width * 0.1,
+                                                          height: size.height *
+                                                              0.04,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                    ),
-                                    height: size.height * 0.04,
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        right: BorderSide(
-                                            color: Colors.black,
-                                            width: isStart ? 0 : 1),
-                                        left: BorderSide(
-                                            color: Colors.black,
-                                            width: isStart ? 1 : 0),
-                                        top: BorderSide(
-                                            color: Colors.black, width: 1),
-                                        bottom: BorderSide(
-                                            color: Colors.black, width: 1),
                                       ),
-                                      borderRadius: isStart
-                                          ? BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                              bottomLeft: Radius.circular(10),
-                                            )
-                                          : BorderRadius.only(
-                                              topRight: Radius.circular(10),
-                                              bottomRight: Radius.circular(10),
-                                            ),
+                                      height: size.height * 0.04,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                            width: 1,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                    )),
+                              )
+                            : isStart || isEnd
+                                ? Container(
+                                    alignment: isStart
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: Colors.grey.shade300),
                                     ),
-                                  ));
-                            },
-                          ),
-                          focusedDay: DateTime.now(),
-                          selectedDayPredicate: (day) {
-                            String today = day
-                                .toString()
-                                .substring(0, day.toString().length - 1);
-                            if (snapshot.data!.output!.any((element) {
-                              return element.daysWantToBook!.first.toString() ==
-                                      today ||
-                                  element.daysWantToBook!.last.toString() ==
-                                      today;
-                            })) {
-                              log(today);
-                              return true;
-                            } else {
-                              return false;
-                            }
-                          },
-                          firstDay: listing.checkIn.parseDate(),
-                          lastDay: listing.checkOut.parseDate(),
-                          calendarFormat: CalendarFormat.month,
-                          headerStyle: const HeaderStyle(
-                            formatButtonVisible: false,
-                            titleCentered: true,
-                          ),
-                          calendarStyle: const CalendarStyle(
-                            outsideDaysVisible: false,
-                            weekendTextStyle: TextStyle(color: Colors.red),
-                          ),
-                          daysOfWeekStyle: const DaysOfWeekStyle(
-                            weekendStyle: TextStyle(color: Colors.red),
-                          ),
-                        ); */
+                                    padding: EdgeInsets.only(
+                                        left: isStart ? 20 : 0,
+                                        right: isStart ? 0 : 20),
+                                    child: Container(
+                                      child: Center(
+                                        child: !isStart
+                                            ? Text(
+                                                date.day.toString(),
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              )
+                                            : image == null
+                                                ? Icon(Icons.person)
+                                                : Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: CircleAvatar(
+                                                      radius: 10,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(1000),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl: StringConstants
+                                                                  .baseStorageUrl +
+                                                              image,
+                                                          fit: BoxFit.cover,
+                                                          width:
+                                                              size.width * 0.1,
+                                                          height: size.height *
+                                                              0.04,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                      ),
+                                      height: size.height * 0.04,
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          right: BorderSide(
+                                              color: Colors.black,
+                                              width: isStart ? 0 : 1),
+                                          left: BorderSide(
+                                              color: Colors.black,
+                                              width: isStart ? 1 : 0),
+                                          top: BorderSide(
+                                              color: Colors.black, width: 1),
+                                          bottom: BorderSide(
+                                              color: Colors.black, width: 1),
+                                        ),
+                                        borderRadius: isStart
+                                            ? BorderRadius.only(
+                                                topLeft: Radius.circular(10),
+                                                bottomLeft: Radius.circular(10),
+                                              )
+                                            : BorderRadius.only(
+                                                topRight: Radius.circular(10),
+                                                bottomRight:
+                                                    Radius.circular(10),
+                                              ),
+                                      ),
+                                    ))
+                                : Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: Colors.grey.shade300),
+                                    ),
+                                    child: Container(
+                                      height: size.height * 0.04,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                          border: isBetween
+                                              ? Border(
+                                                  right: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 0),
+                                                  left: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 0),
+                                                  top: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1),
+                                                  bottom: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1),
+                                                )
+                                              : Border()),
+                                      child: Center(
+                                        child: Text(
+                                          date.day.toString(),
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                      },
+                    );
             }));
   }
 }
