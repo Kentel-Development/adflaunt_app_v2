@@ -246,7 +246,20 @@ class _CustomerPageState extends State<CustomerPage> {
                                   SizedBox(
                                     height: 8,
                                   ),
-                                  approveProofs(context)
+                                  approveProofs(context),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    S
+                                        .of(context)
+                                        .theBookingWillBeCompletedOnceYouApproveTheProofs,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "Poppins",
+                                    ),
+                                  ),
                                 ],
                               )
                             : Container()
@@ -496,7 +509,7 @@ class _CustomerPageState extends State<CustomerPage> {
                         colors: [Colors.white],
                         indicatorType: Indicator.ballPulseSync))
                 : Text(
-                    S.of(context).leaveAReviewAndCompleteTheBooking,
+                    S.of(context).completeBooking,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 14,
