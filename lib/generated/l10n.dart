@@ -1939,6 +1939,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Complete Booking`
+  String get completeBooking {
+    return Intl.message(
+      'Complete Booking',
+      name: 'completeBooking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The booking will be completed once you approve the proofs, if you don't approve the proofs within 48 hours the booking will be automatically completed.`
+  String get theBookingWillBeCompletedOnceYouApproveTheProofs {
+    return Intl.message(
+      'The booking will be completed once you approve the proofs, if you don\'t approve the proofs within 48 hours the booking will be automatically completed.',
+      name: 'theBookingWillBeCompletedOnceYouApproveTheProofs',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

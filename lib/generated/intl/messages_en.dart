@@ -81,6 +81,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "clickHereToReadMore":
             MessageLookupByLibrary.simpleMessage("click here to read more"),
         "client": MessageLookupByLibrary.simpleMessage("Client"),
+        "completeBooking":
+            MessageLookupByLibrary.simpleMessage("Complete Booking"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmAndPay":
             MessageLookupByLibrary.simpleMessage("Confirm and Pay"),
@@ -266,6 +268,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "takePicture": MessageLookupByLibrary.simpleMessage("Take picture"),
         "tellUsAboutYourAdSpace":
             MessageLookupByLibrary.simpleMessage("Tell us about your AD Space"),
+        "theBookingWillBeCompletedOnceYouApproveTheProofs":
+            MessageLookupByLibrary.simpleMessage(
+                "The booking will be completed once you approve the proofs, if you don\'t approve the proofs within 48 hours the booking will be automatically completed."),
         "theCommentCannotBeEmpty":
             MessageLookupByLibrary.simpleMessage("The comment cannot be empty"),
         "theDataYouShareWillBeEncryptedStoredSecurelyAnd":

@@ -23,6 +23,7 @@ import '../../product/services/chat.dart';
 import '../../product/services/user.dart';
 import '../../product/models/chat/inbox.dart' as chat;
 
+// ignore: must_be_immutable
 class HostPage extends StatefulWidget {
   HostPage(this.asHost, this.bookingId, {super.key});
   As? asHost;
@@ -241,10 +242,48 @@ class _HostPageState extends State<HostPage> {
                         asHost!.status == "active"
                             ? asHost!.data!.proofs == null
                                 ? buildUploadProof()
-                                : buildImageView()
+                                : Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          S.of(context).proofs,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "Poppins",
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      buildImageView(),
+                                    ],
+                                  )
                             : asHost!.status == "waitingForApproval"
                                 ? buildApproveDeclineButtons(loading, loading2)
-                                : Container(),
+                                : asHost!.status == "completed"
+                                    ? Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              S.of(context).proofs,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: "Poppins",
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                          buildImageView(),
+                                        ],
+                                      )
+                                    : Container(),
                         SizedBox(
                           height: 12,
                         ),
@@ -444,7 +483,7 @@ class _HostPageState extends State<HostPage> {
           if (!loading) {
             final imagePicker = ImagePicker();
             final pickedFile =
-                await imagePicker.pickMultiImage(imageQuality: 50);
+                await imagePicker.pickMultiImage(imageQuality: 1);
             if (pickedFile.length > 0) {
               state(() {
                 loading = true;

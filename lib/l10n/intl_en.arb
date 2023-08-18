@@ -187,5 +187,7 @@
   "theRatingCannotBe0": "The rating cannot be 0",
   "theCommentCannotBeEmpty": "The comment cannot be empty",
   "theRatingAndCommentCannotBeEmpty": "The rating and comment cannot be empty",
-  "leaveAReviewAndCompleteTheBooking": "Leave a review and complete the booking"
+  "leaveAReviewAndCompleteTheBooking": "Leave a review and complete the booking",
+  "completeBooking": "Complete Booking",
+  "theBookingWillBeCompletedOnceYouApproveTheProofs": "The booking will be completed once you approve the proofs, if you don't approve the proofs within 48 hours the booking will be automatically completed."
 }
