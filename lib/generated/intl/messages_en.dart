@@ -186,6 +186,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "newHere": MessageLookupByLibrary.simpleMessage("New Here?"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
+        "noBookingFound":
+            MessageLookupByLibrary.simpleMessage("No Booking Found"),
         "noDigitalListingsFound":
             MessageLookupByLibrary.simpleMessage("No Digital Listings Found"),
         "noFilesUploaded":
@@ -254,6 +256,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Repeat Password"),
         "reviews": MessageLookupByLibrary.simpleMessage("Reviews"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "searchSpaces": MessageLookupByLibrary.simpleMessage("Search Spaces"),
         "seeYourAd": MessageLookupByLibrary.simpleMessage("See your Ad"),
         "selectLocation":
             MessageLookupByLibrary.simpleMessage("Select Location"),

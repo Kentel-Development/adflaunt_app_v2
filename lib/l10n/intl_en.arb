@@ -196,5 +196,7 @@
   "noNearbyListingsFound": "No Nearby Listings Found",
   "photo": "Photo",
   "asHost": "As Host",
-  "asCustomer": "As Customer"
+  "asCustomer": "As Customer",
+  "searchSpaces": "Search Spaces",
+  "noBookingFound": "No Booking Found"
 }

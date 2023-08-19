@@ -2029,6 +2029,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Search Spaces`
+  String get searchSpaces {
+    return Intl.message(
+      'Search Spaces',
+      name: 'searchSpaces',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Booking Found`
+  String get noBookingFound {
+    return Intl.message(
+      'No Booking Found',
+      name: 'noBookingFound',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

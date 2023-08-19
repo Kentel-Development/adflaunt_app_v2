@@ -295,32 +295,6 @@ class _HomeViewState extends State<HomeView> {
                                   },
                                   controller:
                                       context.read<HomeCubit>().controller,
-                                  /*onMapCreated: (controller) {
-                                      mapController = controller;
-                                      context
-                                          .read<HomeCubit>()
-                                          .onMapMove(selectedCategory);
-                                    },
-                                    onCameraIdle: () {
-                                      context
-                                          .read<HomeCubit>()
-                                          .onMapMove(selectedCategory);
-                                    },
-                                    onCameraMove: (position) {
-                                      context
-                                          .read<HomeCubit>()
-                                          .mapPosition = position.target;
-                                    },
-                                    markers: context
-                                        .watch<HomeCubit>()
-                                        .markers
-                                        .toSet(),
-                                    initialCameraPosition: CameraPosition(
-                                        target:
-                                            currentLocation ?? LatLng(0, 0),
-                                        zoom: 15),
-                                    mapToolbarEnabled: false,
-                                    myLocationButtonEnabled: false,*/
                                 ),
                               ),
                             );

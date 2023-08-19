@@ -53,7 +53,7 @@ class _SearchViewState extends State<SearchView> {
         preferredSize: const Size.fromHeight(42),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Header(hasBackBtn: true, title: 'Search Spaces'),
+          child: Header(hasBackBtn: true, title: S.of(context).searchSpaces),
         ),
       ),
       body: Padding(

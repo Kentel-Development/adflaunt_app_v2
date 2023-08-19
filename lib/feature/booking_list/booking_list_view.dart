@@ -19,6 +19,7 @@ class BookingListView extends StatefulWidget {
 }
 
 class _BookingListViewState extends State<BookingListView> {
+  List<Widget> tabs = [];
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -29,13 +30,95 @@ class _BookingListViewState extends State<BookingListView> {
             asHost!.removeWhere((element) => element.status == "Not found");
             final asCustomer = snapshot.data!.asCustomer;
             asCustomer!.removeWhere((element) => element.status == "Not found");
+            if (asCustomer.length == 0 && asHost.length == 0) {
+              return Scaffold(
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(42),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child:
+                        Header(hasBackBtn: false, title: S.of(context).booking),
+                  ),
+                ),
+                backgroundColor: ColorConstants.backgroundColor,
+                body: Center(
+                  child: Text(S.of(context).noBookingFound),
+                ),
+              );
+            }
+            if (asCustomer.length > 0) {
+              tabs.insert(
+                  0,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) => const Divider(
+                        color: Colors.transparent,
+                      ),
+                      itemCount: asCustomer.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(
+                                  MaterialPageRoute<dynamic>(
+                                    builder: (context) => CustomerPage(
+                                      asCustomer: asCustomer[index],
+                                    ),
+                                  ),
+                                )
+                                .then((value) => setState(() {}));
+                          },
+                          child: BookingList(
+                            listingData: asCustomer[index].listingData!,
+                            status: asCustomer[index].status,
+                          ),
+                        );
+                      },
+                    ),
+                  ));
+            }
+            if (asHost.length > 0) {
+              tabs.insert(
+                0,
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => const Divider(
+                      color: Colors.transparent,
+                    ),
+                    itemCount: asHost.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(
+                                MaterialPageRoute<dynamic>(
+                                  builder: (context) => HostPage(
+                                    asHost[index],
+                                    asHost[index].data!.bookingId!,
+                                  ),
+                                ),
+                              )
+                              .then((value) => setState(() {}));
+                        },
+                        child: BookingList(
+                          listingData: asHost[index].listingData!,
+                          status: asHost[index].status,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            }
             log(snapshot.data.toString());
             return DefaultTabController(
-              length: 2,
+              length: asCustomer.length == 0 || asHost.length == 0 ? 1 : 2,
               child: Scaffold(
                   backgroundColor: ColorConstants.backgroundColor,
                   appBar: PreferredSize(
-                    preferredSize: const Size.fromHeight(104),
+                    preferredSize: Size.fromHeight(104),
                     child: Column(
                       children: [
                         Container(
@@ -43,87 +126,51 @@ class _BookingListViewState extends State<BookingListView> {
                           child: Header(
                               hasBackBtn: false, title: S.of(context).booking),
                         ),
-                        TabBar(
-                            indicatorColor: Colors.black,
-                            labelColor: ColorConstants.colorPrimary,
-                            tabs: [
-                              Tab(
-                                text: S.of(context).asHost,
-                              ),
-                              Tab(
-                                text: S.of(context).asCustomer,
-                              ),
-                            ])
+                        SizedBox(
+                          height: 12,
+                        ),
+                        asCustomer.length == 0 || asHost.length == 0
+                            ? Text(
+                                asCustomer.length > 0
+                                    ? S.of(context).asCustomer
+                                    : S.of(context).asHost,
+                                style: TextStyle(
+                                    color: ColorConstants.colorPrimary,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
+                              )
+                            : TabBar(
+                                indicatorColor: Colors.black,
+                                labelColor: ColorConstants.colorPrimary,
+                                tabs: [
+                                    Tab(
+                                      text: S.of(context).asCustomer,
+                                    ),
+                                    Tab(
+                                      text: S.of(context).asHost,
+                                    ),
+                                  ])
                       ],
                     ),
                   ),
                   body: TabBarView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: GestureDetector(
-                          child: ListView.separated(
-                            separatorBuilder: (context, index) => const Divider(
-                              color: Colors.transparent,
-                            ),
-                            itemCount: asHost.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .push(
-                                        MaterialPageRoute<dynamic>(
-                                          builder: (context) => HostPage(
-                                            asHost[index],
-                                            asHost[index].data!.bookingId!,
-                                          ),
-                                        ),
-                                      )
-                                      .then((value) => setState(() {}));
-                                },
-                                child: BookingList(
-                                  listingData: asHost[index].listingData!,
-                                  status: asHost[index].status,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) => const Divider(
-                            color: Colors.transparent,
-                          ),
-                          itemCount: asCustomer.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .push(
-                                      MaterialPageRoute<dynamic>(
-                                        builder: (context) => CustomerPage(
-                                          asCustomer: asCustomer[index],
-                                        ),
-                                      ),
-                                    )
-                                    .then((value) => setState(() {}));
-                              },
-                              child: BookingList(
-                                listingData: asCustomer[index].listingData!,
-                                status: asCustomer[index].status,
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
+                    children: tabs,
                   )),
             );
           } else {
-            return const Center(
-              child: LoadingWidget(),
+            return Scaffold(
+              appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(104),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child:
+                      Header(hasBackBtn: false, title: S.of(context).booking),
+                ),
+              ),
+              backgroundColor: ColorConstants.backgroundColor,
+              body: const Center(
+                child: LoadingWidget(),
+              ),
             );
           }
         });
