@@ -11,6 +11,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:paged_vertical_calendar/utils/date_utils.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -68,6 +69,10 @@ class _InboxViewState extends State<InboxView> {
               ),
               itemCount: snapshot.data!.chatOutput.length,
               itemBuilder: (context, index) {
+                final date = DateTime.fromMillisecondsSinceEpoch(
+                  (snapshot.data!.chatOutput[index].lastMessageTime * 1000)
+                      .toInt(),
+                );
                 LastMessageClass? lastMessage =
                     snapshot.data!.chatOutput[index].lastMessage.toString() ==
                             ""
@@ -126,13 +131,11 @@ class _InboxViewState extends State<InboxView> {
                                           fontWeight: FontWeight.w600,
                                         )),
                                     Text(
-                                      DateFormat().add_Hm().format(DateTime
-                                              .fromMillisecondsSinceEpoch(
-                                            (snapshot.data!.chatOutput[index]
-                                                        .lastMessageTime *
-                                                    1000)
-                                                .toInt(),
-                                          )),
+                                      date.isSameDay(DateTime.now()) == true
+                                          ? DateFormat().add_Hm().format(date)
+                                          : DateFormat()
+                                              .add_yMMMd()
+                                              .format(date),
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: 'Poppins',
@@ -147,7 +150,9 @@ class _InboxViewState extends State<InboxView> {
                                 child: Text(
                                   lastMessage == null
                                       ? ""
-                                      : lastMessage.content,
+                                      : lastMessage.bookingData == null
+                                          ? S.of(context).photo
+                                          : "${lastMessage.bookingData!.data!.customer != currentUser.id ? "You have a new booking for your ${lastMessage.bookingData!.listingData!.title!} listing." : "You made a booking for ${lastMessage.bookingData!.listingData!.title!} listing."}",
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontFamily: 'Poppins',

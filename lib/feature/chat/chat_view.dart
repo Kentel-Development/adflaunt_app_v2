@@ -2,6 +2,7 @@ import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/chat/mixin/chat_mixin.dart';
 import 'package:adflaunt/product/models/chat/inbox.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
@@ -32,7 +33,8 @@ class _ChatViewState extends State<ChatView> with ChatMixin {
                   Align(alignment: Alignment.topLeft, child: BackButton()),
                   Column(
                     children: [
-                      widget.user.profileImage == null
+                      widget.user.profileImage == null ||
+                              widget.user.profileImage == ''
                           ? CircleAvatar(
                               radius: 26,
                               backgroundColor: ColorConstants.grey200,
@@ -70,8 +72,13 @@ class _ChatViewState extends State<ChatView> with ChatMixin {
             theme: DefaultChatTheme(
               backgroundColor: ColorConstants.backgroundColor,
               primaryColor: Colors.black,
-              attachmentButtonIcon: Icon(Icons.photo, color: Colors.white),
+              secondaryColor: ColorConstants.grey2000,
+              attachmentButtonIcon: Icon(
+                Icons.photo,
+                color: Colors.white,
+              ),
             ),
+            onMessageDoubleTap: handleMessageTap,
             onEndReached: handleEndReached,
             isAttachmentUploading: loading,
             onAttachmentPressed: handleImageSelection,

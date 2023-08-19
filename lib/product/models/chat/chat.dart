@@ -2,10 +2,9 @@
 //
 //     final chat = chatFromJson(jsonString);
 
+import 'package:adflaunt/product/models/orders/orders_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
-
-import '../listings/results.dart';
 
 part 'chat.g.dart';
 
@@ -95,11 +94,8 @@ class Message {
   double at;
   @JsonKey(name: "_id")
   String id;
-  @JsonKey(name: "listingID")
-  String? listingId;
-  @JsonKey(name: "listingData")
-  Output? listingData;
-
+  @JsonKey(name: "bookingData")
+  As? bookingData;
   Message({
     required this.content,
     required this.image,
@@ -107,8 +103,7 @@ class Message {
     required this.receiver,
     required this.at,
     required this.id,
-    this.listingId,
-    this.listingData,
+    this.bookingData,
   });
 
   factory Message.fromJson(Map<String, dynamic> json) =>

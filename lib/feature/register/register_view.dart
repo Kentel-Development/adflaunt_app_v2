@@ -3,6 +3,7 @@ import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/padding_constants.dart';
 import 'package:adflaunt/feature/login/login_view.dart';
 import 'package:adflaunt/feature/register/code_verify_view.dart';
+import 'package:adflaunt/feature/tab_view.dart';
 import 'package:adflaunt/product/widgets/common_btn.dart';
 import 'package:adflaunt/product/widgets/img_button.dart';
 import 'package:adflaunt/product/widgets/inputs/auth_input.dart';
@@ -39,6 +40,15 @@ class RegisterView extends StatelessWidget {
                 SnackBar(
                   content: Text(state.error),
                   backgroundColor: ColorConstants.colorPrimary,
+                ),
+              );
+            } else if (state is RegisterSuccess) {
+              Navigator.push(
+                context,
+                MaterialPageRoute<dynamic>(
+                  builder: (context) {
+                    return TabView();
+                  },
                 ),
               );
             }

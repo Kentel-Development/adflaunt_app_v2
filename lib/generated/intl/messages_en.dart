@@ -50,6 +50,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "apply": MessageLookupByLibrary.simpleMessage("Apply"),
         "approveBooking":
             MessageLookupByLibrary.simpleMessage("Approve Booking"),
+        "asCustomer": MessageLookupByLibrary.simpleMessage("As Customer"),
+        "asHost": MessageLookupByLibrary.simpleMessage("As Host"),
         "backOfId": MessageLookupByLibrary.simpleMessage("Back of ID"),
         "balance": MessageLookupByLibrary.simpleMessage("Balance"),
         "bookNow": MessageLookupByLibrary.simpleMessage("Book Now"),
@@ -207,6 +209,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "perDay": MessageLookupByLibrary.simpleMessage("per day"),
         "phone": MessageLookupByLibrary.simpleMessage("Phone"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
+        "photo": MessageLookupByLibrary.simpleMessage("Photo"),
         "pleaseEnterADifferentTagNameThisIsAdType":
             MessageLookupByLibrary.simpleMessage(
                 "Please enter a different tag name, this is ad type name"),

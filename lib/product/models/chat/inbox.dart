@@ -2,6 +2,7 @@
 //
 //     final inbox = inboxFromJson(jsonString);
 
+import 'package:adflaunt/product/models/orders/orders_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 
@@ -64,6 +65,8 @@ class LastMessageClass {
   String receiver;
   @JsonKey(name: "sender")
   String sender;
+  @JsonKey(name: "bookingData")
+  As? bookingData;
 
   LastMessageClass({
     required this.id,
@@ -72,6 +75,7 @@ class LastMessageClass {
     required this.image,
     required this.receiver,
     required this.sender,
+    this.bookingData,
   });
 
   factory LastMessageClass.fromJson(Map<String, dynamic> json) =>

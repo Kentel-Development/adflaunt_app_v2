@@ -80,7 +80,8 @@ class BookingService {
       String id,
       String description,
       String? file,
-      String paymentID) async {
+      String paymentID,
+      String chatID) async {
     ProfileAdapter currentUser =
         Hive.box<ProfileAdapter>("user").get("userData")!;
     final response = await http
@@ -93,9 +94,11 @@ class BookingService {
       "description": description,
       "email": currentUser.email,
       "password": currentUser.password,
+      "chatID": chatID,
       if (file != null) "printingFile": file
     });
     final json = jsonDecode(response.body) as Map<String, dynamic>;
+    log("testas" + response.body);
     if (response.statusCode == 200 && json["SCC"] == true) {
       log(response.body);
       return response;

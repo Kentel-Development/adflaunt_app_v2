@@ -25,9 +25,10 @@ import '../../product/models/chat/inbox.dart' as chat;
 
 // ignore: must_be_immutable
 class HostPage extends StatefulWidget {
-  HostPage(this.asHost, this.bookingId, {super.key});
+  HostPage(this.asHost, this.bookingId, {this.fromChat = false, super.key});
   As? asHost;
   String bookingId;
+  bool fromChat;
   @override
   State<HostPage> createState() => _HostPageState();
 }
@@ -54,15 +55,20 @@ class _HostPageState extends State<HostPage> {
     bool loading2 = false;
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(42),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Header(
-              hasBackBtn: true,
-              title: asHost == null ? "" : asHost!.listingData!.title!),
-        ),
-      ),
+      appBar: widget.fromChat == true
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Container(),
+            )
+          : PreferredSize(
+              preferredSize: const Size.fromHeight(42),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Header(
+                    hasBackBtn: true,
+                    title: asHost == null ? "" : asHost!.listingData!.title!),
+              ),
+            ),
       body: asHost == null
           ? Center(
               child: LoadingWidget(),
@@ -291,9 +297,11 @@ class _HostPageState extends State<HostPage> {
                         ),
                         buildDownloadAdFiles(context),
                         SizedBox(
-                          height: 12,
+                          height: widget.fromChat ? 0 : 12,
                         ),
-                        buildMessageButton(context, asHost!),
+                        widget.fromChat
+                            ? Container()
+                            : buildMessageButton(context, asHost!),
                         SizedBox(
                           height: 16,
                         ),

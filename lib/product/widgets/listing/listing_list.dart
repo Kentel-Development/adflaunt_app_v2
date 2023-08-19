@@ -248,7 +248,7 @@ class _ListingListState extends State<ListingList>
                                 )),
                             Container(
                               child: Text(
-                                "${listing.height.round()}in X ${listing.width.round()}in ${listing.sqfeet.round()}sqft",
+                                "${listing.height.round()}in X ${listing.width.round()}in = ${listing.sqfeet.round()}sqft",
                                 style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w500,
@@ -264,13 +264,16 @@ class _ListingListState extends State<ListingList>
                             Container(
                               width: 50,
                               height: 23,
-                              child: Text(
-                                listing.tags.first,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "Poppins",
+                              child: Center(
+                                child: Text(
+                                  listing.tags.first,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "Poppins",
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                               padding: EdgeInsets.all(4),

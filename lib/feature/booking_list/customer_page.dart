@@ -25,8 +25,9 @@ import '../../product/models/profile/profile_model.dart';
 import '../chat/chat_view.dart';
 
 class CustomerPage extends StatefulWidget {
-  const CustomerPage({this.asCustomer, super.key});
+  const CustomerPage({this.asCustomer, this.fromChat = false, super.key});
   final As? asCustomer;
+  final bool fromChat;
   @override
   State<CustomerPage> createState() => _CustomerPageState();
 }
@@ -47,14 +48,19 @@ class _CustomerPageState extends State<CustomerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(42),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child:
-              Header(hasBackBtn: true, title: asCustomer.listingData!.title!),
-        ),
-      ),
+      appBar: widget.fromChat
+          ? PreferredSize(
+              child: Container(),
+              preferredSize: const Size.fromHeight(42),
+            )
+          : PreferredSize(
+              preferredSize: const Size.fromHeight(42),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Header(
+                    hasBackBtn: true, title: asCustomer.listingData!.title!),
+              ),
+            ),
       body: FutureBuilder(
           future: UserServices.getUser(asCustomer.listingData!.user!),
           builder: (context, snapshot) {
@@ -289,9 +295,9 @@ class _CustomerPageState extends State<CustomerPage> {
                     ),
                     buildDownloadAdFiles(context),
                     SizedBox(
-                      height: 12,
+                      height: widget.fromChat ? 0 : 12,
                     ),
-                    buildMessageButton(context),
+                    widget.fromChat ? Container() : buildMessageButton(context),
                     SizedBox(
                       height: 16,
                     ),

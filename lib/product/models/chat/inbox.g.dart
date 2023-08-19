@@ -41,6 +41,9 @@ LastMessageClass _$LastMessageClassFromJson(Map<String, dynamic> json) =>
       image: json['image'] as String? ?? '',
       receiver: json['receiver'] as String,
       sender: json['sender'] as String,
+      bookingData: json['bookingData'] == null
+          ? null
+          : As.fromJson(json['bookingData'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$LastMessageClassToJson(LastMessageClass instance) =>
@@ -51,6 +54,7 @@ Map<String, dynamic> _$LastMessageClassToJson(LastMessageClass instance) =>
       'image': instance.image,
       'receiver': instance.receiver,
       'sender': instance.sender,
+      'bookingData': instance.bookingData,
     };
 
 Them _$ThemFromJson(Map<String, dynamic> json) => Them(

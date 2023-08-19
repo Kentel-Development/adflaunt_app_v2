@@ -193,5 +193,8 @@
   "adSpacesNearYou": "Ad Spaces Near You",
   "noDigitalListingsFound": "No Digital Listings Found",
   "noPopularListingsFound": "No Popular Listings Found",
-  "noNearbyListingsFound": "No Nearby Listings Found"
+  "noNearbyListingsFound": "No Nearby Listings Found",
+  "photo": "Photo",
+  "asHost": "As Host",
+  "asCustomer": "As Customer"
 }

@@ -1999,6 +1999,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Photo`
+  String get photo {
+    return Intl.message(
+      'Photo',
+      name: 'photo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `As Host`
+  String get asHost {
+    return Intl.message(
+      'As Host',
+      name: 'asHost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `As Customer`
+  String get asCustomer {
+    return Intl.message(
+      'As Customer',
+      name: 'asCustomer',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

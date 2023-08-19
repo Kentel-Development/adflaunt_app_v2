@@ -9,6 +9,7 @@ import 'package:adflaunt/feature/tab_view.dart';
 import 'package:adflaunt/generated/l10n.dart';
 import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hive/hive.dart';
@@ -55,26 +56,29 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MainCubit()..checkConnection(),
-      child: BlocBuilder<MainCubit, MainState>(
-        builder: (context, state) {
-          if (state is MainLoading) {
-            return Scaffold(
-              body: Center(
-                child: LoadingWidget(),
-              ),
-            );
-          } else if (state is MainLoggedIn) {
-            return const TabView();
-          } else if (state is MainLoggedOut) {
-            return const LandingView();
-          } else if (state is MainNoInternet) {
-            return NoInternet();
-          } else {
-            return const Scaffold(
-              body: LoadingWidget(),
-            );
-          }
-        },
+      child: AnnotatedRegion(
+        value: SystemUiOverlayStyle.dark,
+        child: BlocBuilder<MainCubit, MainState>(
+          builder: (context, state) {
+            if (state is MainLoading) {
+              return Scaffold(
+                body: Center(
+                  child: LoadingWidget(),
+                ),
+              );
+            } else if (state is MainLoggedIn) {
+              return const TabView();
+            } else if (state is MainLoggedOut) {
+              return const LandingView();
+            } else if (state is MainNoInternet) {
+              return NoInternet();
+            } else {
+              return const Scaffold(
+                body: LoadingWidget(),
+              );
+            }
+          },
+        ),
       ),
     );
   }

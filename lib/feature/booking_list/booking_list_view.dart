@@ -48,10 +48,10 @@ class _BookingListViewState extends State<BookingListView> {
                             labelColor: ColorConstants.colorPrimary,
                             tabs: [
                               Tab(
-                                text: "As Host",
+                                text: S.of(context).asHost,
                               ),
                               Tab(
-                                text: "As Customer",
+                                text: S.of(context).asCustomer,
                               ),
                             ])
                       ],

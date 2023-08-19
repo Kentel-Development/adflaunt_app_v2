@@ -60,10 +60,9 @@ Message _$MessageFromJson(Map<String, dynamic> json) => Message(
       receiver: json['receiver'] as String,
       at: (json['at'] as num).toDouble(),
       id: json['_id'] as String,
-      listingId: json['listingID'] as String?,
-      listingData: json['listingData'] == null
+      bookingData: json['bookingData'] == null
           ? null
-          : Output.fromJson(json['listingData'] as Map<String, dynamic>),
+          : As.fromJson(json['bookingData'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
@@ -73,8 +72,7 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'receiver': instance.receiver,
       'at': instance.at,
       '_id': instance.id,
-      'listingID': instance.listingId,
-      'listingData': instance.listingData,
+      'bookingData': instance.bookingData,
     };
 
 Opposition _$OppositionFromJson(Map<String, dynamic> json) => Opposition(

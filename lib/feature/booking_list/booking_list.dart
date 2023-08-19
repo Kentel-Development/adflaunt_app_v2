@@ -119,7 +119,7 @@ class _BookingListState extends State<BookingList> {
                           )),
                       Container(
                         child: Text(
-                          "${widget.listingData.height!.round()}in X ${widget.listingData.width!.round()}in ${widget.listingData.sqfeet!.round()}sqft",
+                          "${widget.listingData.height!.round()}in X ${widget.listingData.width!.round()}in = ${widget.listingData.sqfeet!.round()}sqft",
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w500,
@@ -135,13 +135,15 @@ class _BookingListState extends State<BookingList> {
                       Container(
                         width: 50,
                         height: 23,
-                        child: Text(
-                          widget.listingData.tags!.first,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "Poppins",
+                        child: Center(
+                          child: Text(
+                            widget.listingData.tags!.first,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "Poppins",
+                            ),
                           ),
                         ),
                         padding: EdgeInsets.all(4),

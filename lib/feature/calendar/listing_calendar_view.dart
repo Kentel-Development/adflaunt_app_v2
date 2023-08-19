@@ -12,15 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:paged_vertical_calendar/paged_vertical_calendar.dart';
 import 'package:paged_vertical_calendar/utils/date_utils.dart';
 
-class ListingCalendarView extends StatefulWidget {
+class ListingCalendarView extends StatelessWidget {
   const ListingCalendarView({required this.listing, super.key});
   final results.Output listing;
 
-  @override
-  State<ListingCalendarView> createState() => _ListingCalendarViewState();
-}
-
-class _ListingCalendarViewState extends State<ListingCalendarView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -30,20 +25,19 @@ class _ListingCalendarViewState extends State<ListingCalendarView> {
           preferredSize: const Size.fromHeight(42),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Header(hasBackBtn: true, title: widget.listing.title),
+            child: Header(hasBackBtn: true, title: listing.title),
           ),
         ),
         body: FutureBuilder(
-            future:
-                BookingService.getBookingsWithProfileImages(widget.listing.id!),
+            future: BookingService.getBookingsWithProfileImages(listing.id!),
             builder: (context, snapshot) {
               return !snapshot.hasData
                   ? Center(
                       child: LoadingWidget(),
                     )
                   : PagedVerticalCalendar(
-                      minDate: widget.listing.checkIn.parseDate(),
-                      maxDate: widget.listing.checkOut.parseDate(),
+                      minDate: listing.checkIn.parseDate(),
+                      maxDate: listing.checkOut.parseDate(),
                       dayBuilder: (context, date) {
                         bool isBetween;
                         bool isStart = snapshot.data!.output!.any((element) {
@@ -82,7 +76,6 @@ class _ListingCalendarViewState extends State<ListingCalendarView> {
                         } else {
                           isBetween = false;
                         }
-                        print(bookingId.toString());
                         return isStartAndLast
                             ? GestureDetector(
                                 onTap: () {
