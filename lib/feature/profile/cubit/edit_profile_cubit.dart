@@ -22,7 +22,10 @@ class EditProfileCubit extends BaseBloc<EditProfileState, EditProfileState> {
   void changeProfileImage() async {
     ImagePicker imagePicker = ImagePicker();
     final pickedFile = await imagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 1);
+        source: ImageSource.gallery,
+        imageQuality: 1,
+        maxHeight: 256,
+        maxWidth: 256);
     if (pickedFile != null) {
       safeEmit(EditProfileLoading());
       try {

@@ -154,81 +154,104 @@ class _ListingCalendarViewState extends State<ListingCalendarView> {
                                     )),
                               )
                             : isStart || isEnd
-                                ? Container(
-                                    alignment: isStart
-                                        ? Alignment.centerRight
-                                        : Alignment.centerLeft,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: Colors.grey.shade300),
-                                    ),
-                                    padding: EdgeInsets.only(
-                                        left: isStart ? 20 : 0,
-                                        right: isStart ? 0 : 20),
+                                ? GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute<dynamic>(
+                                        builder: (context) {
+                                          return HostPage(
+                                            null,
+                                            bookingId!,
+                                          );
+                                        },
+                                      ));
+                                    },
                                     child: Container(
-                                      child: Center(
-                                        child: !isStart
-                                            ? Text(
-                                                date.day.toString(),
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              )
-                                            : image == null
-                                                ? Icon(Icons.person)
-                                                : Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: CircleAvatar(
-                                                      radius: 10,
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(1000),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl: StringConstants
-                                                                  .baseStorageUrl +
-                                                              image,
-                                                          fit: BoxFit.cover,
-                                                          width:
-                                                              size.width * 0.1,
-                                                          height: size.height *
-                                                              0.04,
+                                        alignment: isStart
+                                            ? Alignment.centerRight
+                                            : Alignment.centerLeft,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: Colors.grey.shade300),
+                                        ),
+                                        padding: EdgeInsets.only(
+                                            left: isStart ? 20 : 0,
+                                            right: isStart ? 0 : 20),
+                                        child: Container(
+                                          child: Center(
+                                            child: !isStart
+                                                ? Text(
+                                                    date.day.toString(),
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                : image == null
+                                                    ? Icon(Icons.person)
+                                                    : Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: CircleAvatar(
+                                                          radius: 10,
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        1000),
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              imageUrl:
+                                                                  StringConstants
+                                                                          .baseStorageUrl +
+                                                                      image,
+                                                              fit: BoxFit.cover,
+                                                              width:
+                                                                  size.width *
+                                                                      0.1,
+                                                              height:
+                                                                  size.height *
+                                                                      0.04,
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
+                                          ),
+                                          height: size.height * 0.04,
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                              right: BorderSide(
+                                                  color: Colors.black,
+                                                  width: isStart ? 0 : 1),
+                                              left: BorderSide(
+                                                  color: Colors.black,
+                                                  width: isStart ? 1 : 0),
+                                              top: BorderSide(
+                                                  color: Colors.black,
+                                                  width: 1),
+                                              bottom: BorderSide(
+                                                  color: Colors.black,
+                                                  width: 1),
+                                            ),
+                                            borderRadius: isStart
+                                                ? BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(10),
+                                                    bottomLeft:
+                                                        Radius.circular(10),
+                                                  )
+                                                : BorderRadius.only(
+                                                    topRight:
+                                                        Radius.circular(10),
+                                                    bottomRight:
+                                                        Radius.circular(10),
                                                   ),
-                                      ),
-                                      height: size.height * 0.04,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                              color: Colors.black,
-                                              width: isStart ? 0 : 1),
-                                          left: BorderSide(
-                                              color: Colors.black,
-                                              width: isStart ? 1 : 0),
-                                          top: BorderSide(
-                                              color: Colors.black, width: 1),
-                                          bottom: BorderSide(
-                                              color: Colors.black, width: 1),
-                                        ),
-                                        borderRadius: isStart
-                                            ? BorderRadius.only(
-                                                topLeft: Radius.circular(10),
-                                                bottomLeft: Radius.circular(10),
-                                              )
-                                            : BorderRadius.only(
-                                                topRight: Radius.circular(10),
-                                                bottomRight:
-                                                    Radius.circular(10),
-                                              ),
-                                      ),
-                                    ))
+                                          ),
+                                        )),
+                                  )
                                 : Container(
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(

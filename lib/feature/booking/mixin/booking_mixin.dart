@@ -291,6 +291,9 @@ mixin BookingMixin on State<BookingView> {
         setState(() {
           loading = true;
         });
+        final res = await ChatServices.createChat(
+            widget.listing.user, widget.listing.id!);
+        print(res);
         Map<String, dynamic>? payInt;
         if (selectedPaymentMethod == null) {
           payInt = jsonDecode(await PaymentService().createPaymentIntent(

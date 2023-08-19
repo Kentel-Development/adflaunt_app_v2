@@ -95,12 +95,17 @@ class BookingService {
       "password": currentUser.password,
       if (file != null) "printingFile": file
     });
-    if (response.statusCode == 200) {
+    final json = jsonDecode(response.body) as Map<String, dynamic>;
+    if (response.statusCode == 200 && json["SCC"] == true) {
       log(response.body);
       return response;
     } else {
-      log(response.body);
-      throw Exception('Failed to load data');
+      if (response.statusCode == 500) {
+        log(response.body);
+        throw Exception('Failed to load data');
+      } else {
+        throw Exception(response.body);
+      }
     }
   }
 
