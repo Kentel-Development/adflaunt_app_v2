@@ -6,11 +6,13 @@ import 'package:adflaunt/product/services/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../core/constants/padding_constants.dart';
 
 import '../../../feature/listing_details/listing_details_view.dart';
 import '../../models/listings/results.dart';
+import '../../services/favorites.dart';
 
 class ListingGrid extends StatefulWidget {
   const ListingGrid({
@@ -26,9 +28,10 @@ class ListingGrid extends StatefulWidget {
 class _ListingGridState extends State<ListingGrid>
     with TickerProviderStateMixin {
   late AnimationController _controller;
-
+  late Output listing;
   @override
   void initState() {
+    listing = widget.listing;
     super.initState();
     _controller = AnimationController(
       vsync: this,
@@ -52,17 +55,23 @@ class _ListingGridState extends State<ListingGrid>
     }
 */
     return FutureBuilder(
-        future: UserServices.getUser(widget.listing.user),
+        future: UserServices.getUser(listing.user),
         builder: (context, user) {
           return GestureDetector(
             onTap: () {
               Navigator.push(context, MaterialPageRoute<dynamic>(
                 builder: (context) {
                   return ListingDetailsView(
-                    listing: widget.listing,
+                    listing: listing,
                   );
                 },
-              ));
+              )).then((value) {
+                if (value != null) {
+                  setState(() {
+                    listing = value as Output;
+                  });
+                }
+              });
             },
             child: Container(
               height: 250,
@@ -84,7 +93,7 @@ class _ListingGridState extends State<ListingGrid>
                           image: DecorationImage(
                             image: CachedNetworkImageProvider(
                                 StringConstants.baseStorageUrl +
-                                    widget.listing.images.first),
+                                    listing.images.first),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -113,7 +122,7 @@ class _ListingGridState extends State<ListingGrid>
                                     width: 4,
                                   ),
                                   Text(
-                                    widget.listing.averageRating.toString(),
+                                    listing.averageRating.toString(),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: "Poppins",
@@ -122,7 +131,7 @@ class _ListingGridState extends State<ListingGrid>
                                     ),
                                   ),
                                   Text(
-                                    "(${widget.listing.numberOfReviews})",
+                                    "(${listing.numberOfReviews})",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: "Poppins",
@@ -224,16 +233,34 @@ class _ListingGridState extends State<ListingGrid>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
-                                child: Text(widget.listing.title,
+                                child: Text(listing.title,
                                     style: TextStyle(
                                       fontFamily: "Poppins",
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                     )),
                               ),
-                              SvgPicture.asset(
-                                IconConstants.like,
-                              )
+                              ValueListenableBuilder(
+                                  valueListenable:
+                                      Hive.box<List<String>>("favorites")
+                                          .listenable(),
+                                  builder: (context, box, child) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        FavoriteService.addFavorite(
+                                            box, listing.id.toString());
+                                      },
+                                      child: box.get("favorites",
+                                              defaultValue: [])!.contains(listing.id!)
+                                          ? SvgPicture.asset(
+                                              IconConstants.like,
+                                              color: Colors.black,
+                                            )
+                                          : SvgPicture.asset(
+                                              IconConstants.like,
+                                            ),
+                                    );
+                                  })
                             ],
                           ),
                         ),
@@ -256,7 +283,7 @@ class _ListingGridState extends State<ListingGrid>
                                       width: 4,
                                     ),
                                     Expanded(
-                                      child: Text(widget.listing.location,
+                                      child: Text(listing.location,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                             fontFamily: "Poppins",
@@ -267,7 +294,7 @@ class _ListingGridState extends State<ListingGrid>
                                   ],
                                 ),
                               ),
-                              Text("\$${widget.listing.price}/day",
+                              Text("\$${listing.price}/day",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: "Poppins",

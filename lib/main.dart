@@ -38,6 +38,7 @@ void main() async {
   await Hive.openBox<LocationAdapter>("location");
   await Hive.openBox<List<String>>("recentSearch");
   await Hive.openBox<String>("translator");
+  await Hive.openBox<List<String>>("favorites");
   runApp(MaterialApp(
       theme: ThemeData(useMaterial3: false),
       supportedLocales: const [

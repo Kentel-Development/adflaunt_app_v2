@@ -5,9 +5,11 @@ import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/edit_listing/edit_listing_view.dart';
 import 'package:adflaunt/feature/listing_details/listing_details_view.dart';
+import 'package:adflaunt/product/services/favorites.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../generated/l10n.dart';
 import '../../models/listings/results.dart';
@@ -209,11 +211,27 @@ class _ListingListState extends State<ListingList>
                                 ),
                               ),
                             )
-                          : SvgPicture.asset(
-                              IconConstants.like,
-                              height: 13,
-                              width: 13,
-                            ),
+                          : ValueListenableBuilder(
+                              valueListenable:
+                                  Hive.box<List<String>>("favorites")
+                                      .listenable(),
+                              builder: (context, box, child) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    FavoriteService.addFavorite(
+                                        box, listing.id.toString());
+                                  },
+                                  child: box.get("favorites",
+                                          defaultValue: [])!.contains(listing.id!)
+                                      ? SvgPicture.asset(
+                                          IconConstants.like,
+                                          color: Colors.black,
+                                        )
+                                      : SvgPicture.asset(
+                                          IconConstants.like,
+                                        ),
+                                );
+                              }),
                     ],
                   ),
                 ),
