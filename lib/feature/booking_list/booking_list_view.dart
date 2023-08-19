@@ -42,7 +42,14 @@ class _BookingListViewState extends State<BookingListView> {
                 ),
                 backgroundColor: ColorConstants.backgroundColor,
                 body: Center(
-                  child: Text(S.of(context).noBookingFound),
+                  child: Text(
+                    S.of(context).noBookingFound,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromRGBO(0, 0, 0, 0.5),
+                    ),
+                  ),
                 ),
               );
             }
@@ -112,7 +119,7 @@ class _BookingListViewState extends State<BookingListView> {
             log(snapshot.data.toString());
             log(asHost.length.toString());
             return DefaultTabController(
-              length: asCustomer.length == 0 || asHost.length == 0 ? 1 : 2,
+              length: tabs.length,
               child: Scaffold(
                   backgroundColor: ColorConstants.backgroundColor,
                   appBar: PreferredSize(

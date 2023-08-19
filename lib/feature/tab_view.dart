@@ -1,5 +1,6 @@
 import 'package:adflaunt/feature/booking_list/booking_list_view.dart';
 import 'package:adflaunt/feature/calendar/calendar_view.dart';
+import 'package:adflaunt/feature/favorites/favorites_view.dart';
 import 'package:adflaunt/feature/home/home_view.dart';
 import 'package:adflaunt/feature/inbox/inbox_view.dart';
 import 'package:adflaunt/product/services/listings.dart';
@@ -27,7 +28,7 @@ class _TabViewState extends State<TabView> {
         builder: (context, snapshot) {
           final List<Widget> _widgetOptions = <Widget>[
             HomeView(),
-            Placeholder(),
+            FavoritesView(),
             BookingListView(),
             InboxView(),
           ];

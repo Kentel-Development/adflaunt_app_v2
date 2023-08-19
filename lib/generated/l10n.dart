@@ -2049,6 +2049,16 @@ class S {
       args: [],
     );
   }
+
+  /// `You have no favorites yet`
+  String get youHaveNoFavoritesYet {
+    return Intl.message(
+      'You have no favorites yet',
+      name: 'youHaveNoFavoritesYet',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

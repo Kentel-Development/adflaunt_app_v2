@@ -331,6 +331,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "youDontHaveEnoughBalanceToWithdraw":
             MessageLookupByLibrary.simpleMessage(
                 "You don\'t have enough balance to withdraw"),
+        "youHaveNoFavoritesYet":
+            MessageLookupByLibrary.simpleMessage("You have no favorites yet"),
         "youHaventAddedAnyPaymentMethodsAddAPaymentMethod":
             MessageLookupByLibrary.simpleMessage(
                 "You haven’t added any payment methods. Add a payment method"),

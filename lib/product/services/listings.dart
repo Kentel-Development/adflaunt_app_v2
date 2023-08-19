@@ -10,6 +10,22 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class ListingsAPI {
+  static Future<Output> getListing(String id) async {
+    var url = Uri.parse('${StringConstants.baseUrl}/api/listing/$id');
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      log(response.body);
+      final json = jsonDecode(response.body) as Map<String, dynamic>;
+      final uid = json["user"]["_id"];
+      json.remove("user");
+      json.addAll({"user": uid});
+      return Output.fromJson(json);
+    } else {
+      log('Request failed with status: ${response.statusCode}.');
+      throw Exception('Failed to load listings');
+    }
+  }
+
   static Future<http.Response> editListing(
       String id,
       List<String> images,

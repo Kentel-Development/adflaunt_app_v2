@@ -198,5 +198,6 @@
   "asHost": "As Host",
   "asCustomer": "As Customer",
   "searchSpaces": "Search Spaces",
-  "noBookingFound": "No Booking Found"
+  "noBookingFound": "No Booking Found",
+  "youHaveNoFavoritesYet": "You have no favorites yet"
 }

@@ -236,7 +236,7 @@ class _ListingListState extends State<ListingList>
                   ),
                 ),
                 Text(
-                  "\$" + listing.price.toString() + "/day",
+                  listing.tags.first + " | " + listing.tags[1],
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
