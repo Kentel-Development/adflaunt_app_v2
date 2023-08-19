@@ -46,41 +46,38 @@ class _BookingListViewState extends State<BookingListView> {
                 ),
               );
             }
-            if (asCustomer.length > 0) {
-              tabs.insert(
-                  0,
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: ListView.separated(
-                      separatorBuilder: (context, index) => const Divider(
-                        color: Colors.transparent,
-                      ),
-                      itemCount: asCustomer.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .push(
-                                  MaterialPageRoute<dynamic>(
-                                    builder: (context) => CustomerPage(
-                                      asCustomer: asCustomer[index],
-                                    ),
-                                  ),
-                                )
-                                .then((value) => setState(() {}));
-                          },
-                          child: BookingList(
-                            listingData: asCustomer[index].listingData!,
-                            status: asCustomer[index].status,
-                          ),
-                        );
+            if (asCustomer.length != 0) {
+              tabs.add(Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => const Divider(
+                    color: Colors.transparent,
+                  ),
+                  itemCount: asCustomer.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(
+                              MaterialPageRoute<dynamic>(
+                                builder: (context) => CustomerPage(
+                                  asCustomer: asCustomer[index],
+                                ),
+                              ),
+                            )
+                            .then((value) => setState(() {}));
                       },
-                    ),
-                  ));
+                      child: BookingList(
+                        listingData: asCustomer[index].listingData!,
+                        status: asCustomer[index].status,
+                      ),
+                    );
+                  },
+                ),
+              ));
             }
-            if (asHost.length > 0) {
-              tabs.insert(
-                0,
+            if (asHost.length != 0) {
+              tabs.add(
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: ListView.separated(
@@ -113,6 +110,7 @@ class _BookingListViewState extends State<BookingListView> {
               );
             }
             log(snapshot.data.toString());
+            log(asHost.length.toString());
             return DefaultTabController(
               length: asCustomer.length == 0 || asHost.length == 0 ? 1 : 2,
               child: Scaffold(
