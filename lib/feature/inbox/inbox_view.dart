@@ -151,7 +151,9 @@ class _InboxViewState extends State<InboxView> {
                                   lastMessage == null
                                       ? ""
                                       : lastMessage.bookingData == null
-                                          ? S.of(context).photo
+                                          ? lastMessage.image == ""
+                                              ? lastMessage.content
+                                              : S.of(context).photo
                                           : "${lastMessage.bookingData!.data!.customer != currentUser.id ? "You have a new booking for your ${lastMessage.bookingData!.listingData!.title!} listing." : "You made a booking for ${lastMessage.bookingData!.listingData!.title!} listing."}",
                                   style: TextStyle(
                                     fontSize: 14,

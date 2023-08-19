@@ -1,6 +1,7 @@
 import 'package:adflaunt/feature/all_listings/all_listings.dart';
 import 'package:adflaunt/feature/home/cubit/home_cubit.dart';
 import 'package:adflaunt/product/services/listings.dart';
+import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -337,11 +338,7 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                         );
                                       }
                                     } else {
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.black,
-                                        ),
-                                      );
+                                      return Center(child: Container());
                                     }
                                   },
                                 ),
@@ -476,11 +473,7 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                         );
                                       }
                                     } else {
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.black,
-                                        ),
-                                      );
+                                      return Center(child: LoadingWidget());
                                     }
                                   },
                                 ),
@@ -613,11 +606,7 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                         );
                                       }
                                     } else {
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.black,
-                                        ),
-                                      );
+                                      return Center(child: Container());
                                     }
                                   },
                                 ),

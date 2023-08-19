@@ -38,8 +38,6 @@ class _CustomerPageState extends State<CustomerPage> {
   void initState() {
     if (widget.asCustomer != null) {
       asCustomer = widget.asCustomer!;
-    } else {
-      //TODO(): Get booking info from server
     }
     super.initState();
   }

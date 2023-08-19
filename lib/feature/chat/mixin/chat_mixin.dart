@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
-import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/booking_list/customer_page.dart';
 import 'package:adflaunt/feature/booking_list/host_page.dart';
@@ -13,7 +12,6 @@ import 'package:adflaunt/product/services/upload.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:image_picker/image_picker.dart';
@@ -218,7 +216,7 @@ mixin ChatMixin on State<ChatView> {
         listingData: message.metadata!["listingData"] as ListingData,
       );
       if (data.data!.customer != currentUser.id.toString()) {
-        showCupertinoModalBottomSheet(
+        showCupertinoModalBottomSheet<dynamic>(
             context: context,
             builder: (context) => SizedBox(
                 height: MediaQuery.of(context).size.height - 250,
@@ -239,7 +237,7 @@ mixin ChatMixin on State<ChatView> {
                   ],
                 )));
       } else {
-        showCupertinoModalBottomSheet(
+        showCupertinoModalBottomSheet<dynamic>(
             context: context,
             builder: (context) => SizedBox(
                 height: MediaQuery.of(context).size.height - 250,
