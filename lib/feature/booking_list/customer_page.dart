@@ -10,6 +10,7 @@ import 'package:adflaunt/product/services/chat.dart';
 import 'package:adflaunt/product/services/download.dart';
 import 'package:adflaunt/product/services/user.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
+import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:adflaunt/product/widgets/review_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -25,19 +26,27 @@ import '../../product/models/profile/profile_model.dart';
 import '../chat/chat_view.dart';
 
 class CustomerPage extends StatefulWidget {
-  const CustomerPage({this.asCustomer, this.fromChat = false, super.key});
+  const CustomerPage(
+      {this.asCustomer, this.fromChat = false, this.bookingId, super.key});
   final As? asCustomer;
   final bool fromChat;
+  final String? bookingId;
   @override
   State<CustomerPage> createState() => _CustomerPageState();
 }
 
 class _CustomerPageState extends State<CustomerPage> {
-  late As asCustomer;
+  As? asCustomer;
   @override
   void initState() {
     if (widget.asCustomer != null) {
       asCustomer = widget.asCustomer!;
+    } else {
+      BookingService.getBookingDetails(widget.bookingId!).then((value) {
+        setState(() {
+          asCustomer = value;
+        });
+      });
     }
     super.initState();
   }
@@ -56,279 +65,132 @@ class _CustomerPageState extends State<CustomerPage> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Header(
-                    hasBackBtn: true, title: asCustomer.listingData!.title!),
+                    hasBackBtn: true, title: asCustomer!.listingData!.title!),
               ),
             ),
-      body: FutureBuilder(
-          future: UserServices.getUser(asCustomer.listingData!.user!),
-          builder: (context, snapshot) {
-            return Container(
-              margin: EdgeInsets.only(top: 24),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24),
-                  topRight: Radius.circular(24),
-                ),
-                color: Colors.white,
-              ),
-              height: double.infinity,
-              width: double.infinity,
-              padding: EdgeInsets.only(top: 36, left: 24, right: 24),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        asCustomer.status!.camelCaseToNormal.capitalizeFirst,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromRGBO(122, 122, 122, 1),
-                        ),
-                      ),
+      body: asCustomer == null
+          ? Center(
+              child: LoadingWidget(),
+            )
+          : FutureBuilder(
+              future: UserServices.getUser(asCustomer!.listingData!.user!),
+              builder: (context, snapshot) {
+                return Container(
+                  margin: EdgeInsets.only(top: 24),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
                     ),
-                    SizedBox(height: 8),
-                    Row(
+                    color: Colors.white,
+                  ),
+                  height: double.infinity,
+                  width: double.infinity,
+                  padding: EdgeInsets.only(top: 36, left: 24, right: 24),
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: [
-                        snapshot.hasData && snapshot.data!.profileImage != null
-                            ? CircleAvatar(
-                                radius: 24,
-                                backgroundImage: CachedNetworkImageProvider(
-                                    StringConstants.baseStorageUrl +
-                                        snapshot.data!.profileImage.toString()),
-                              )
-                            : CircleAvatar(
-                                radius: 24,
-                                backgroundColor: Colors.grey,
-                                child: Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                  size: 24,
-                                ),
-                              ),
-                        SizedBox(width: 8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              snapshot.hasData
-                                  ? snapshot.data!.fullName.toString()
-                                  : '',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Poppins",
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(S.of(context).host,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "Poppins",
-                                ))
-                          ],
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          asCustomer.listingData!.title!,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: "Poppins",
-                          ),
-                        ),
-                        Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.black,
-                          ),
+                        Align(
+                          alignment: Alignment.centerLeft,
                           child: Text(
-                            asCustomer.listingData!.typeOfAdd!,
+                            asCustomer!
+                                .status!.camelCaseToNormal.capitalizeFirst,
                             style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "Poppins",
-                                color: Colors.white),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Color.fromRGBO(122, 122, 122, 1),
+                            ),
                           ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        S.of(context).inquiryFor +
-                            asCustomer.data!.daysWantToBook!.length.toString() +
-                            S.of(context).days,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "Poppins",
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 6,
-                    ),
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "\$" + asCustomer.data!.price.toString(),
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "Poppins",
-                          ),
-                        )),
-                    SizedBox(
-                      height: 6,
-                    ),
-                    snapshot.hasData
-                        ? Align(
-                            alignment: Alignment.centerLeft,
-                            child: Row(
+                        SizedBox(height: 8),
+                        Row(
+                          children: [
+                            snapshot.hasData &&
+                                    snapshot.data!.profileImage != null
+                                ? CircleAvatar(
+                                    radius: 24,
+                                    backgroundImage: CachedNetworkImageProvider(
+                                        StringConstants.baseStorageUrl +
+                                            snapshot.data!.profileImage
+                                                .toString()),
+                                  )
+                                : CircleAvatar(
+                                    radius: 24,
+                                    backgroundColor: Colors.grey,
+                                    child: Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                      size: 24,
+                                    ),
+                                  ),
+                            SizedBox(width: 8),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SvgPicture.asset(
-                                  snapshot.data!.idVerified
-                                      ? IconConstants.check_ring
-                                      : IconConstants.cross_ring,
-                                  // ignore: deprecated_member_use
-                                  color: Color.fromRGBO(161, 161, 161, 1),
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
                                 Text(
-                                  snapshot.data!.idVerified
-                                      ? S.of(context).idVerified
-                                      : S.of(context).idNotVerified,
+                                  snapshot.hasData
+                                      ? snapshot.data!.fullName.toString()
+                                      : '',
                                   style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color.fromRGBO(161, 161, 161, 1),
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
                                     fontFamily: "Poppins",
                                   ),
                                 ),
-                              ],
-                            ),
-                          )
-                        : SizedBox(),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    asCustomer.status == "active"
-                        ? asCustomer.data!.proofs != null
-                            ? Column(
-                                children: [
-                                  Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        S.of(context).proofs,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: "Poppins",
-                                        ),
-                                      )),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  buildImageView(),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  approveProofs(context),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    S
-                                        .of(context)
-                                        .theBookingWillBeCompletedOnceYouApproveTheProofs,
+                                SizedBox(height: 4),
+                                Text(S.of(context).host,
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "Poppins",
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Container()
-                        : asCustomer.status == "completed"
-                            ? Column(
-                                children: [
-                                  Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        S.of(context).proofs,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: "Poppins",
-                                        ),
-                                      )),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  buildImageView(),
-                                ],
-                              )
-                            : Container(),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    buildDownloadAdFiles(context),
-                    SizedBox(
-                      height: widget.fromChat ? 0 : 12,
-                    ),
-                    widget.fromChat ? Container() : buildMessageButton(context),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    snapshot.hasData
-                        ? snapshot.data!.phoneNumber == null
-                            ? Container()
-                            : Text(S.of(context).phone +
-                                ": +" +
-                                snapshot.data!.phoneNumber.toString())
-                        : Container(),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            S.of(context).bookingInformation,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: "Poppins",
-                            ),
-                          ),
+                                    ))
+                              ],
+                            )
+                          ],
                         ),
                         SizedBox(
-                          height: 8,
+                          height: 18,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              asCustomer!.listingData!.title!,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: "Poppins",
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.black,
+                              ),
+                              child: Text(
+                                asCustomer!.listingData!.typeOfAdd!,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "Poppins",
+                                    color: Colors.white),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 4,
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            S.of(context).spaceSize,
+                            S.of(context).inquiryFor +
+                                asCustomer!.data!.daysWantToBook!.length
+                                    .toString() +
+                                S.of(context).days,
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -337,105 +199,266 @@ class _CustomerPageState extends State<CustomerPage> {
                           ),
                         ),
                         SizedBox(
-                          height: 4,
+                          height: 6,
                         ),
                         Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            asCustomer.listingData!.height!.round().toString() +
-                                " x " +
-                                asCustomer.listingData!.width!
-                                    .round()
-                                    .toString() +
-                                " = " +
-                                asCustomer.listingData!.sqfeet!
-                                    .round()
-                                    .toString() +
-                                " sqft",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "Poppins",
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "\$" + asCustomer!.data!.price.toString(),
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "Poppins",
+                              ),
+                            )),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        snapshot.hasData
+                            ? Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      snapshot.data!.idVerified
+                                          ? IconConstants.check_ring
+                                          : IconConstants.cross_ring,
+                                      // ignore: deprecated_member_use
+                                      color: Color.fromRGBO(161, 161, 161, 1),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      snapshot.data!.idVerified
+                                          ? S.of(context).idVerified
+                                          : S.of(context).idNotVerified,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color.fromRGBO(161, 161, 161, 1),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "Poppins",
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : SizedBox(),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        asCustomer!.status == "active"
+                            ? asCustomer!.data!.proofs != null
+                                ? Column(
+                                    children: [
+                                      Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            S.of(context).proofs,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Poppins",
+                                            ),
+                                          )),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      buildImageView(),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      approveProofs(context),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Text(
+                                        S
+                                            .of(context)
+                                            .theBookingWillBeCompletedOnceYouApproveTheProofs,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "Poppins",
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Container()
+                            : asCustomer!.status == "completed"
+                                ? Column(
+                                    children: [
+                                      Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            S.of(context).proofs,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Poppins",
+                                            ),
+                                          )),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      buildImageView(),
+                                    ],
+                                  )
+                                : Container(),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        buildDownloadAdFiles(context),
+                        SizedBox(
+                          height: widget.fromChat ? 0 : 12,
+                        ),
+                        widget.fromChat
+                            ? Container()
+                            : buildMessageButton(context),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        snapshot.hasData
+                            ? snapshot.data!.phoneNumber == null
+                                ? Container()
+                                : Text(S.of(context).phone +
+                                    ": +" +
+                                    snapshot.data!.phoneNumber.toString())
+                            : Container(),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                S.of(context).bookingInformation,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                S.of(context).spaceSize,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                asCustomer!.listingData!.height!
+                                        .round()
+                                        .toString() +
+                                    " x " +
+                                    asCustomer!.listingData!.width!
+                                        .round()
+                                        .toString() +
+                                    " = " +
+                                    asCustomer!.listingData!.sqfeet!
+                                        .round()
+                                        .toString() +
+                                    " sqft",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Row(
                                 children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Text(
+                                        S.of(context).bookingStarts,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "Poppins",
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 4,
+                                      ),
+                                      Text(
+                                        DateFormat(StringConstants.dateFormat)
+                                            .format(DateTime.parse(asCustomer!
+                                                .data!.daysWantToBook!.first
+                                                .toString())),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "Poppins",
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   SizedBox(
-                                    height: 8,
+                                    width: 16,
                                   ),
-                                  Text(
-                                    S.of(context).bookingStarts,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "Poppins",
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(
-                                    DateFormat(StringConstants.dateFormat)
-                                        .format(DateTime.parse(asCustomer
-                                            .data!.daysWantToBook!.first
-                                            .toString())),
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: "Poppins",
-                                    ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Text(
+                                        S.of(context).bookingEnds,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "Poppins",
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 4,
+                                      ),
+                                      Text(
+                                        DateFormat(StringConstants.dateFormat)
+                                            .format(DateTime.parse(asCustomer!
+                                                .data!.daysWantToBook!.last
+                                                .toString())),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "Poppins",
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                              SizedBox(
-                                width: 16,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    S.of(context).bookingEnds,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "Poppins",
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(
-                                    DateFormat(StringConstants.dateFormat)
-                                        .format(DateTime.parse(asCustomer
-                                            .data!.daysWantToBook!.last
-                                            .toString())),
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: "Poppins",
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                            )
+                          ],
                         )
                       ],
-                    )
-                  ],
-                ),
-              ),
-            );
-          }),
+                    ),
+                  ),
+                );
+              }),
     );
   }
 
@@ -472,13 +495,13 @@ class _CustomerPageState extends State<CustomerPage> {
                     loading = true;
                   });
                   final response = await BookingService.addReview(
-                      asCustomer.listingData!.id!,
-                      asCustomer.data!.bookingId!,
+                      asCustomer!.listingData!.id!,
+                      asCustomer!.data!.bookingId!,
                       value["rating"].toString(),
                       value["comment"].toString());
                   if (jsonDecode(response.body)["SCC"] == true) {
                     final res = await BookingService.getBookingDetails(
-                        asCustomer.data!.bookingId!);
+                        asCustomer!.data!.bookingId!);
                     setState(() {
                       asCustomer = res;
                     });
@@ -536,7 +559,7 @@ class _CustomerPageState extends State<CustomerPage> {
           state(() {
             loading = true;
           });
-          if (asCustomer.data!.printingFile == null) {
+          if (asCustomer!.data!.printingFile == null) {
             ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(S.of(context).noFilesUploaded)));
             state(() {
@@ -544,7 +567,7 @@ class _CustomerPageState extends State<CustomerPage> {
             });
           } else {
             final file = await DownloadService.downloadFile(
-                asCustomer.data!.printingFile.toString());
+                asCustomer!.data!.printingFile.toString());
             state(() {
               loading = false;
             });
@@ -652,14 +675,14 @@ class _CustomerPageState extends State<CustomerPage> {
       height: 100,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: asCustomer.data!.proofs!.length,
+        itemCount: asCustomer!.data!.proofs!.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
               Navigator.push(context, MaterialPageRoute<dynamic>(
                 builder: (context) {
                   return PhotoGalleryView(
-                      images: asCustomer.data!.proofs!, currentIndex: index);
+                      images: asCustomer!.data!.proofs!, currentIndex: index);
                 },
               ));
             },
@@ -672,7 +695,7 @@ class _CustomerPageState extends State<CustomerPage> {
                 image: DecorationImage(
                   image: CachedNetworkImageProvider(
                       StringConstants.baseStorageUrl +
-                          asCustomer.data!.proofs![index].toString()),
+                          asCustomer!.data!.proofs![index].toString()),
                   fit: BoxFit.cover,
                 ),
               ),

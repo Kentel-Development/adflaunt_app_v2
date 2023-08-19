@@ -223,7 +223,7 @@ mixin ChatMixin on State<ChatView> {
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
-                    HostPage(data, data.data!.bookingId!, fromChat: true),
+                    HostPage(null, data.data!.bookingId!, fromChat: true),
                     Positioned(
                         top: 10,
                         child: Container(
@@ -244,7 +244,10 @@ mixin ChatMixin on State<ChatView> {
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
-                    CustomerPage(asCustomer: data, fromChat: true),
+                    CustomerPage(
+                        asCustomer: null,
+                        bookingId: data.data!.bookingId,
+                        fromChat: true),
                     Positioned(
                         top: 10,
                         child: Container(
