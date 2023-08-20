@@ -73,14 +73,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  bottom_sheet_draggable:
-    dependency: "direct main"
-    description:
-      name: bottom_sheet_draggable
-      sha256: "0a5e8e9721672d9ba0a9e43ef693dd8d8302ef1964968db513f0112a135856d6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4+1"
   build:
     dependency: transitive
     description:
@@ -225,6 +217,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  cli_util:
+    dependency: transitive
+    description:
+      name: cli_util
+      sha256: b8db3080e59b2503ca9e7922c3df2072cf13992354d5e944074ffa836fba43b7
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   clock:
     dependency: transitive
     description:
@@ -321,14 +321,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
-  custom_ratio_camera:
-    dependency: "direct main"
-    description:
-      name: custom_ratio_camera
-      sha256: d4627f45f7447203413d2f857e21f02251e734ffe31ef75cdf89022eabf51f73
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.3"
   dart_style:
     dependency: transitive
     description:
@@ -353,22 +345,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
-  dio:
-    dependency: transitive
-    description:
-      name: dio
-      sha256: "7d328c4d898a61efc3cd93655a0955858e29a0aa647f0f9e02d59b3bb275e2e8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.6"
-  draggable_bottom_sheet:
-    dependency: "direct main"
-    description:
-      name: draggable_bottom_sheet
-      sha256: "21470ca0ec2014778691ae1d0df7bb2530bc0c9e7b77dee3442f33b5546f2fc1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   dropdown_button2:
     dependency: "direct main"
     description:
@@ -457,14 +433,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3"
-  fine_stepper:
-    dependency: "direct main"
-    description:
-      name: fine_stepper
-      sha256: e2bc3245960d95954a3d644ea427c320b285e4dfe3651fec2eb0a674ffa5c0c2
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0+2"
   firebase_core:
     dependency: "direct main"
     description:
@@ -543,7 +511,7 @@ packages:
     source: hosted
     version: "0.7.0"
   flutter_cache_manager:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_cache_manager
       sha256: "8207f27539deb83732fdda03e259349046a39a4c767269285f449ade355d54ba"
@@ -574,6 +542,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.1"
+  flutter_launcher_icons:
+    dependency: "direct dev"
+    description:
+      name: flutter_launcher_icons
+      sha256: "526faf84284b86a4cb36d20a5e45147747b7563d921373d4ee0559c54fcdbcea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.1"
   flutter_link_previewer:
     dependency: transitive
     description:
@@ -805,14 +781,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1+0"
-  google_places_flutter:
-    dependency: "direct main"
-    description:
-      name: google_places_flutter
-      sha256: "02b81fee590a694a096ea5a7882b31b7cef69994a88833ed02318cadb3343a20"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.6"
   google_sign_in:
     dependency: "direct main"
     description:
@@ -917,6 +885,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  image:
+    dependency: transitive
+    description:
+      name: image
+      sha256: a72242c9a0ffb65d03de1b7113bc4e189686fc07c7147b8b41811d0dd0e0d9bf
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.17"
   image_picker:
     dependency: "direct main"
     description:
@@ -1423,14 +1399,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
-  simple_gesture_detector:
-    dependency: transitive
-    description:
-      name: simple_gesture_detector
-      sha256: "86d08f85f1f58583b7b4b941d989f48ea6ce08c1724a1d10954a277c2ec36592"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1596,14 +1564,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
-  table_calendar:
-    dependency: "direct main"
-    description:
-      name: table_calendar
-      sha256: "1e3521a3e6d3fc7f645a58b135ab663d458ab12504f1ea7f9b4b81d47086c478"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.9"
   term_glyph:
     dependency: transitive
     description:
@@ -1788,14 +1748,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
-  widget_to_marker:
-    dependency: "direct main"
-    description:
-      name: widget_to_marker
-      sha256: "44df9d5e2cf9418108eaf635e54b0a34a2eeb7f8959aeab7f69f3015e13baadd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
   win32:
     dependency: transitive
     description:
