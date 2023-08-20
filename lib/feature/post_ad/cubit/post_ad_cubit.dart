@@ -72,7 +72,7 @@ class PostAdCubit extends BaseBloc<PostAdState, PostAdState> {
           zip,
           0,
           0,
-          false,
+          cancelPolicy,
           height,
           width,
           selectedCategory,

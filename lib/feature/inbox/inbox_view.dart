@@ -87,7 +87,6 @@ class _InboxViewState extends State<InboxView> {
                       builder: (context) {
                         return ChatView(
                           chatId: snapshot.data!.chatOutput[index].chatId,
-                          user: snapshot.data!.chatOutput[index].them,
                         );
                       },
                     )).then((value) => setState(() {}));

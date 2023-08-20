@@ -4,7 +4,7 @@ class StringConstants {
   static const String dateFormat = "dd/MM/yyyy";
   static const String dateFormatBackend = "yyyy-MM-dd";
   static const String googleClientID =
-      "1087459357839-vu5aeu3bis896tbcjamc9d10f7ep4ft7.apps.googleusercontent.com";
+      "602413865867-fika6irn2gm13kmvmpev8q8cge0mlio3.apps.googleusercontent.com";
   static const String firebaseNotificationKey =
-      "AAAAxQ6B5GM:APA91bFA_Gh8ZOGCgZIptwMS5yV0QOniMO_pDb_mZ1b9k--sjLvgzRCAiniJIEwEhfU-6urVfoMT9mjUryn4Q-D60GhR7-3VjDoViVQeHNEQd9JZxZRR7NfWafkh0a55Ff-_MxviPrbl";
+      "AAAAjEKqG4s:APA91bELONOJAGKeB5Fbsklz17bV-tXsoXaOSgyNm59g9pDrKm2z_B_PSH93VsbAdV840wfVdpOl411NDINR84I7ON5jmigD6Tlt3JujSSyaunrTO7Opa4yFwb17bItj7XTShOWI_ieq";
 }

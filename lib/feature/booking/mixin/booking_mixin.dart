@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:adflaunt/core/extensions/date_parser_extension.dart';
@@ -17,14 +18,10 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-import '../../../product/models/profile/profile_model.dart';
 import '../../../product/services/chat.dart';
 import '../../../product/services/payment_service.dart';
-import '../../../product/services/user.dart';
 import '../../../product/widgets/common_btn.dart';
 import '../../chat/chat_view.dart';
-
-import 'package:adflaunt/product/models/chat/inbox.dart' as chat;
 
 mixin BookingMixin on State<BookingView> {
   late int selectedPage;
@@ -97,7 +94,6 @@ mixin BookingMixin on State<BookingView> {
   }
 
   void onChatTap() async {
-    ProfileModel user = await UserServices.getUser(widget.listing.user);
     String id =
         await ChatServices.createChat(widget.listing.user, widget.listing.id!);
     try {
@@ -105,25 +101,6 @@ mixin BookingMixin on State<BookingView> {
         builder: (context) {
           return ChatView(
             chatId: id,
-            user: chat.Them(
-                id: user.id,
-                fullName: user.fullName,
-                backPhotoId: "",
-                dateOfBirth: user.dateOfBirth == null
-                    ? DateTime.now().toString()
-                    : DateTime.parse(user.dateOfBirth.toString()).toString(),
-                deliveryAddress: "",
-                email: user.email,
-                idVerified: user.idVerified,
-                inbox: [""],
-                ipdata: chat.Ipdata.fromJson(user.ipdata.toJson()),
-                ipraw: user.ipraw,
-                lastTimeLoggedIn: 0,
-                profileImage: user.profileImage,
-                phoneNumber:
-                    user.phoneNumber == null ? "" : user.phoneNumber.toString(),
-                photoOfId: "",
-                thirdParty: user.thirdParty),
           );
         },
       ));
@@ -266,28 +243,29 @@ mixin BookingMixin on State<BookingView> {
 
   void confirmAndPay() async {
     bool isBlackouted = false;
-    if (unavailableDates.length > 0) {
-      for (var element in unavailableDates) {
-        if (datePickerController.selectedRange!.startDate!
-                .isBefore(element.parseBookingDate()) &&
-            (datePickerController.selectedRange!.endDate ?? DateTime.now())
-                .isAfter(element.parseBookingDate())) {
-          isBlackouted = true;
+
+    if (bookedDays > 0) {
+      if (unavailableDates.length > 0) {
+        for (var element in unavailableDates) {
+          if (datePickerController.selectedRange!.startDate!
+                  .isBefore(element.parseBookingDate()) &&
+              (datePickerController.selectedRange!.endDate ?? DateTime.now())
+                  .isAfter(element.parseBookingDate())) {
+            isBlackouted = true;
+          }
         }
       }
-    }
-    if (isBlackouted) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: const Color.fromRGBO(241, 95, 95, 1),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        content:
-            Text(S.of(context).pleaseSelectADateRangeWithoutUnavailableDates),
-      ));
-    } else {
-      if (bookedDays > 0) {
+      if (isBlackouted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: const Color.fromRGBO(241, 95, 95, 1),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          content:
+              Text(S.of(context).pleaseSelectADateRangeWithoutUnavailableDates),
+        ));
+      } else {
         setState(() {
           loading = true;
         });
@@ -339,19 +317,27 @@ mixin BookingMixin on State<BookingView> {
         }
         try {
           if (selectedPaymentMethod == null) {
-            await Stripe.instance.confirmPlatformPayPaymentIntent(
-                clientSecret: payInt["paymentIntent"].toString(),
-                confirmParams: PlatformPayConfirmParams.applePay(
-                    applePay: ApplePayParams(
-                        merchantCountryCode: "US",
-                        currencyCode: "USD",
-                        cartItems: [
-                      ApplePayCartSummaryItem.immediate(
-                          label: widget.listing.title,
-                          amount: ((widget.listing.price * bookedDays) +
-                                  printFee!.toDouble())
-                              .toString())
-                    ])));
+            if (Platform.isAndroid) {
+              await Stripe.instance.confirmPlatformPayPaymentIntent(
+                  clientSecret: payInt["paymentIntent"].toString(),
+                  confirmParams: PlatformPayConfirmParams.googlePay(
+                      googlePay: GooglePayParams(
+                          merchantCountryCode: "USA", currencyCode: "USD")));
+            } else if (Platform.isIOS) {
+              await Stripe.instance.confirmPlatformPayPaymentIntent(
+                  clientSecret: payInt["paymentIntent"].toString(),
+                  confirmParams: PlatformPayConfirmParams.applePay(
+                      applePay: ApplePayParams(
+                          merchantCountryCode: "US",
+                          currencyCode: "USD",
+                          cartItems: [
+                        ApplePayCartSummaryItem.immediate(
+                            label: widget.listing.title,
+                            amount: ((widget.listing.price * bookedDays) +
+                                    printFee!.toDouble())
+                                .toString())
+                      ])));
+            }
           } else {
             await Stripe.instance.confirmPayment(
               paymentIntentClientSecret: payInt["paymentIntent"].toString(),
@@ -448,16 +434,16 @@ mixin BookingMixin on State<BookingView> {
             loading = false;
           });
         }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: const Color.fromRGBO(241, 95, 95, 1),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          content: Text(S.of(context).pleaseSelectAtLeastOneDayToBook),
-        ));
       }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: const Color.fromRGBO(241, 95, 95, 1),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        content: Text(S.of(context).pleaseSelectAtLeastOneDayToBook),
+      ));
     }
   }
 }

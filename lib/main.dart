@@ -3,11 +3,14 @@ import 'dart:io';
 import 'package:adflaunt/core/adapters/location/location_adapter.dart';
 import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/cubit/main_cubit.dart';
+import 'package:adflaunt/feature/chat/chat_view.dart';
 import 'package:adflaunt/feature/landing_view.dart';
 import 'package:adflaunt/feature/no_internet.dart';
 import 'package:adflaunt/feature/tab_view.dart';
 import 'package:adflaunt/generated/l10n.dart';
 import 'package:adflaunt/product/widgets/loading_widget.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +34,8 @@ void main() async {
       "pk_test_51LkdT2BwxpdnO2PUdAlSZzzOM4bAIG9abSAc3e3llUFjDh5KhnlBUrdcfouBgUB2b6JE0WyVUMRgCC6gvF2lTdJp00BgLoJQLk";
   Stripe.merchantIdentifier = "merchant.com.adflaunt";
   await Stripe.instance.applySettings();
+  await Firebase.initializeApp();
+  await FirebaseMessaging.instance.requestPermission();
   Hive.init((await getApplicationDocumentsDirectory()).path);
   Hive.registerAdapter(ProfileAdapterAdapter());
   Hive.registerAdapter(LocationAdapterAdapter());
@@ -50,9 +55,32 @@ void main() async {
       home: MainApp()));
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   MainApp({super.key});
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
   final ProfileAdapter? user = Hive.box<ProfileAdapter>('user').get('userData');
+
+  @override
+  void initState() {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      if (message.data['page'] == 'chat') {
+        Navigator.push(context, MaterialPageRoute<dynamic>(
+          builder: (context) {
+            return ChatView(
+              chatId: message.data["chatID"].toString(),
+            );
+          },
+        ));
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

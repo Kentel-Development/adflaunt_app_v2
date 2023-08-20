@@ -18,10 +18,8 @@ import 'package:share_plus/share_plus.dart';
 import '../../core/constants/icon_constants.dart';
 import '../../core/constants/string_constants.dart';
 import '../../generated/l10n.dart';
-import '../../product/models/profile/profile_model.dart';
 import '../../product/services/chat.dart';
 import '../../product/services/user.dart';
-import '../../product/models/chat/inbox.dart' as chat;
 
 // ignore: must_be_immutable
 class HostPage extends StatefulWidget {
@@ -729,7 +727,6 @@ class _HostPageState extends State<HostPage> {
 GestureDetector buildMessageButton(BuildContext context, As asHost) {
   return GestureDetector(
     onTap: () async {
-      ProfileModel user = await UserServices.getUser(asHost.data!.customer!);
       String id = await ChatServices.createChat(
           asHost.data!.customer!, asHost.listingData!.id!);
       try {
@@ -737,26 +734,6 @@ GestureDetector buildMessageButton(BuildContext context, As asHost) {
           builder: (context) {
             return ChatView(
               chatId: id,
-              user: chat.Them(
-                  id: user.id,
-                  fullName: user.fullName,
-                  backPhotoId: "",
-                  dateOfBirth: user.dateOfBirth == null
-                      ? DateTime.now().toString()
-                      : user.dateOfBirth!,
-                  deliveryAddress: "",
-                  email: user.email,
-                  idVerified: user.idVerified,
-                  inbox: [""],
-                  ipdata: chat.Ipdata.fromJson(user.ipdata.toJson()),
-                  ipraw: user.ipraw,
-                  lastTimeLoggedIn: 0,
-                  profileImage: user.profileImage,
-                  phoneNumber: user.phoneNumber == null
-                      ? ""
-                      : user.phoneNumber.toString(),
-                  photoOfId: "",
-                  thirdParty: user.thirdParty),
             );
           },
         ));

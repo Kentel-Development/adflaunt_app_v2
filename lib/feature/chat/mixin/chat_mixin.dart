@@ -8,6 +8,7 @@ import 'package:adflaunt/feature/chat/chat_view.dart';
 import 'package:adflaunt/product/models/chat/chat.dart';
 import 'package:adflaunt/product/models/orders/orders_model.dart';
 import 'package:adflaunt/product/services/chat.dart';
+import 'package:adflaunt/product/services/notification_service.dart';
 import 'package:adflaunt/product/services/upload.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +21,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 mixin ChatMixin on State<ChatView> {
+  Opposition? themUser;
   IO.Socket socket = IO.io(StringConstants.baseUrl,
       IO.OptionBuilder().setTransports(['websocket']).enableForceNew().build());
   ProfileAdapter currentUser =
@@ -33,23 +35,6 @@ mixin ChatMixin on State<ChatView> {
   int _page = 1;
   @override
   void initState() {
-    log("initState");
-    user = types.User(
-      id: currentUser.id.toString(),
-      firstName: currentUser.fullName.toString(),
-      imageUrl: currentUser.profileImage == null
-          ? null
-          : StringConstants.baseStorageUrl +
-              currentUser.profileImage.toString(),
-    );
-    otherUser = types.User(
-      id: widget.user.id,
-      firstName: widget.user.fullName.toString(),
-      imageUrl: widget.user.profileImage == null
-          ? null
-          : StringConstants.baseStorageUrl +
-              widget.user.profileImage.toString(),
-    );
     socket.onConnect((data) {
       log("onConnect");
       log(currentUser.email.toString());
@@ -63,6 +48,23 @@ mixin ChatMixin on State<ChatView> {
         log("ack");
         log(jsonEncode(data));
         Chat chat = Chat.fromJson(data as Map<String, dynamic>);
+        themUser = chat.opposition;
+        user = types.User(
+          id: currentUser.id.toString(),
+          firstName: currentUser.fullName.toString(),
+          imageUrl: currentUser.profileImage == null
+              ? null
+              : StringConstants.baseStorageUrl +
+                  currentUser.profileImage.toString(),
+        );
+        otherUser = types.User(
+          id: themUser!.id,
+          firstName: themUser!.fullName.toString(),
+          imageUrl: themUser!.profileImage == null
+              ? null
+              : StringConstants.baseStorageUrl +
+                  themUser!.profileImage.toString(),
+        );
         chat.chat.messages.forEach((element) async {
           if (element.content != "") {
             messages.add(types.TextMessage(
@@ -103,6 +105,7 @@ mixin ChatMixin on State<ChatView> {
       });
     });
     socket.on('receive', (data) {
+      print("received");
       final json = (data as Map<String, dynamic>);
       if (json["chatID"].toString() == widget.chatId) {
         if (json["content"] != "") {
@@ -134,6 +137,8 @@ mixin ChatMixin on State<ChatView> {
             _addMessage(message);
           }));
         }
+      } else {
+        print("not same chat");
       }
     });
     super.initState();
@@ -170,18 +175,19 @@ mixin ChatMixin on State<ChatView> {
     });
   }
 
-  void handleSendPressed(types.PartialText message) {
+  void handleSendPressed(types.PartialText message) async {
     log("handleSendPressed");
     log(message.text);
     log(sid);
-    socket.emitWithAck(
-        'send_msg',
-        {
-          "SID": sid,
-          "content": message.text,
-          "image": "",
-        },
-        ack: (data) {});
+    socket.emitWithAck('send_msg', {
+      "SID": sid,
+      "content": message.text,
+      "image": "",
+    }, ack: (dynamic data) {
+      print(data);
+    });
+    await NotificationService.sendChatNotification(
+        otherUser.id, message.text, otherUser.firstName!, widget.chatId);
   }
 
   void handleImageSelection() async {

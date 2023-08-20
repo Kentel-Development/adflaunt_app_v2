@@ -7,8 +7,10 @@ import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../core/constants/string_constants.dart';
+import '../../product/services/favorites.dart';
 
 class AllListingsView extends StatelessWidget {
   const AllListingsView(
@@ -112,7 +114,34 @@ class AllListingsView extends StatelessWidget {
                                               fontWeight: FontWeight.w500,
                                               fontFamily: "Poppins",
                                             )),
-                                        SvgPicture.asset(IconConstants.like)
+                                        ValueListenableBuilder(
+                                            valueListenable:
+                                                Hive.box<List<String>>(
+                                                        "favorites")
+                                                    .listenable(),
+                                            builder: (context, box, child) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  FavoriteService.addFavorite(
+                                                      box,
+                                                      snapshot.data![index].id
+                                                          .toString());
+                                                },
+                                                child:
+                                                    box.get("favorites", defaultValue: [])!.contains(
+                                                            snapshot
+                                                                .data![index]
+                                                                .id!)
+                                                        ? SvgPicture.asset(
+                                                            IconConstants.like,
+                                                            // ignore: deprecated_member_use
+                                                            color: Colors.black,
+                                                          )
+                                                        : SvgPicture.asset(
+                                                            IconConstants.like,
+                                                          ),
+                                              );
+                                            }),
                                       ],
                                     ),
                                   ),
@@ -169,20 +198,22 @@ class AllListingsView extends StatelessWidget {
                                         Container(
                                           width: 50,
                                           height: 23,
-                                          child: Text(
-                                            snapshot.data![index].tags.first,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: "Poppins",
-                                            ),
-                                          ),
                                           padding: EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                             color: ColorConstants.colorGray,
                                             borderRadius:
                                                 BorderRadius.circular(10),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              snapshot.data![index].tags.first,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: "Poppins",
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ],

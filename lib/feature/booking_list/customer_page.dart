@@ -21,8 +21,6 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../generated/l10n.dart';
-import '../../product/models/chat/inbox.dart' as chat;
-import '../../product/models/profile/profile_model.dart';
 import '../chat/chat_view.dart';
 
 class CustomerPage extends StatefulWidget {
@@ -607,8 +605,6 @@ class _CustomerPageState extends State<CustomerPage> {
   GestureDetector buildMessageButton(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        ProfileModel user =
-            await UserServices.getUser(widget.asCustomer!.listingData!.user!);
         String id = await ChatServices.createChat(
             widget.asCustomer!.listingData!.user!,
             widget.asCustomer!.listingData!.id!);
@@ -617,26 +613,6 @@ class _CustomerPageState extends State<CustomerPage> {
             builder: (context) {
               return ChatView(
                 chatId: id,
-                user: chat.Them(
-                    id: user.id,
-                    fullName: user.fullName,
-                    backPhotoId: "",
-                    dateOfBirth: user.dateOfBirth == null
-                        ? DateTime.now().toString()
-                        : user.dateOfBirth!,
-                    deliveryAddress: "",
-                    email: user.email,
-                    idVerified: user.idVerified,
-                    inbox: [""],
-                    ipdata: chat.Ipdata.fromJson(user.ipdata.toJson()),
-                    ipraw: user.ipraw,
-                    lastTimeLoggedIn: 0,
-                    profileImage: user.profileImage,
-                    phoneNumber: user.phoneNumber == null
-                        ? ""
-                        : user.phoneNumber.toString(),
-                    photoOfId: "",
-                    thirdParty: user.thirdParty),
               );
             },
           ));

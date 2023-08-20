@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
@@ -40,16 +41,17 @@ class LoginAPI {
       throw Exception('User ID is null, please try again.');
     }
 
-    /// TODO(): Uncomment this when push notification is implemented
-    /*if (profileModel.id != null) {
+    if (profileModel.id != null) {
       FirebaseMessaging.instance.subscribeToTopic(profileModel.id!);
-    }*/
+    } else {
+      log('User ID is null, please try again.');
+      throw Exception('User ID is null, please try again.');
+    }
   }
 
   static Future<void> logout() async {
-    /// TODO(): Uncomment this when push notification is implemented
-    /// final profileModel = Hive.box<ProfileAdapter>('user').get('userData');
-    /// FirebaseMessaging.instance.unsubscribeFromTopic(profileModel.id!);
+    final profileModel = Hive.box<ProfileAdapter>('user').get('userData')!;
+    FirebaseMessaging.instance.unsubscribeFromTopic(profileModel.id!);
     await Hive.box<ProfileAdapter>('user').delete('userData');
   }
 }

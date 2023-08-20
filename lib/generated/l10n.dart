@@ -2059,6 +2059,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Continue with Google Pay`
+  String get continueWithGooglePay {
+    return Intl.message(
+      'Continue with Google Pay',
+      name: 'continueWithGooglePay',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

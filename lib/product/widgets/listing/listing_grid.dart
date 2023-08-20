@@ -254,6 +254,7 @@ class _ListingGridState extends State<ListingGrid>
                                               defaultValue: [])!.contains(listing.id!)
                                           ? SvgPicture.asset(
                                               IconConstants.like,
+                                              // ignore: deprecated_member_use
                                               color: Colors.black,
                                             )
                                           : SvgPicture.asset(

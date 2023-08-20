@@ -92,6 +92,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Confirm and Pay"),
         "continueWithApplePay":
             MessageLookupByLibrary.simpleMessage("Continue with Apple Pay"),
+        "continueWithGooglePay":
+            MessageLookupByLibrary.simpleMessage("Continue with Google Pay"),
         "country": MessageLookupByLibrary.simpleMessage("Country"),
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("Date of Birth"),
         "dates": MessageLookupByLibrary.simpleMessage("Dates"),

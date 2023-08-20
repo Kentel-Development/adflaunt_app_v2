@@ -225,6 +225,7 @@ class _ListingListState extends State<ListingList>
                                           defaultValue: [])!.contains(listing.id!)
                                       ? SvgPicture.asset(
                                           IconConstants.like,
+                                          // ignore: deprecated_member_use
                                           color: Colors.black,
                                         )
                                       : SvgPicture.asset(

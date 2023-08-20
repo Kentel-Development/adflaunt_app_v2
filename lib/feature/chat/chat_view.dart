@@ -1,16 +1,15 @@
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/chat/mixin/chat_mixin.dart';
-import 'package:adflaunt/product/models/chat/inbox.dart';
+import 'package:adflaunt/product/widgets/loading_widget.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
 class ChatView extends StatefulWidget {
-  const ChatView({required this.chatId, required this.user, super.key});
+  const ChatView({required this.chatId, super.key});
   final String chatId;
-  final Them user;
 
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -19,6 +18,14 @@ class ChatView extends StatefulWidget {
 class _ChatViewState extends State<ChatView> with ChatMixin {
   @override
   Widget build(BuildContext context) {
+    if (themUser == null) {
+      return Scaffold(
+        backgroundColor: ColorConstants.backgroundColor,
+        body: Center(
+          child: LoadingWidget(),
+        ),
+      );
+    }
     return Scaffold(
         backgroundColor: ColorConstants.backgroundColor,
         appBar: PreferredSize(
@@ -33,8 +40,8 @@ class _ChatViewState extends State<ChatView> with ChatMixin {
                   Align(alignment: Alignment.topLeft, child: BackButton()),
                   Column(
                     children: [
-                      widget.user.profileImage == null ||
-                              widget.user.profileImage == ''
+                      themUser!.profileImage == null ||
+                              themUser!.profileImage == ''
                           ? CircleAvatar(
                               radius: 26,
                               backgroundColor: ColorConstants.grey200,
@@ -45,13 +52,13 @@ class _ChatViewState extends State<ChatView> with ChatMixin {
                               radius: 26,
                               backgroundImage: CachedNetworkImageProvider(
                                   StringConstants.baseStorageUrl +
-                                      widget.user.profileImage.toString()),
+                                      themUser!.profileImage.toString()),
                             ),
                       SizedBox(
                         height: 8,
                       ),
                       Text(
-                        widget.user.fullName.toString(),
+                        themUser!.fullName.toString(),
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "602413865867",
+    "project_id": "adflaunt-f4e43",
+    "storage_bucket": "adflaunt-f4e43.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602413865867:android:393f11906853fdf1ffed8e",
+        "android_client_info": {
+          "package_name": "com.adflaunt.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602413865867-4pj6i92mpmopb5hvn5e5p2qabeuu61r1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpQNbwdl_Ylc7MGmJK3yye3syMBp_rooM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602413865867-4pj6i92mpmopb5hvn5e5p2qabeuu61r1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "602413865867-9dkdf75c3sqavrh5uhmfpn890lsgllod.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.adflaunt.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

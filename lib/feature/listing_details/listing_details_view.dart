@@ -6,11 +6,11 @@ import 'package:adflaunt/feature/booking/booking_view.dart';
 import 'package:adflaunt/feature/chat/chat_view.dart';
 import 'package:adflaunt/feature/edit_listing/edit_listing_view.dart';
 import 'package:adflaunt/feature/listing_details/fullscreen_imageview.dart';
-import 'package:adflaunt/product/models/chat/inbox.dart' as chat;
+import 'package:adflaunt/feature/review/review_view.dart';
 import 'package:adflaunt/product/models/listings/results.dart';
-import 'package:adflaunt/product/models/profile/profile_model.dart';
 import 'package:adflaunt/product/services/chat.dart';
-import 'package:adflaunt/product/services/user.dart';
+import 'package:adflaunt/product/services/reviews.dart';
+import 'package:adflaunt/product/widgets/headers/common_heading.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
 import 'package:adflaunt/product/widgets/listing/ad_specs.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -20,6 +20,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../generated/l10n.dart';
 import '../../product/widgets/listing/tags.dart';
@@ -46,6 +47,9 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
       listing.tags[1],
       "${listing.height.round()}in X ${listing.width.round()}in = ${listing.sqfeet.round()} sqft",
     ];
+    if (listing.cancel == true) {
+      adSpecs.add(S.of(context).freeCancellation);
+    }
     selectedPage = 0;
     pageController = PageController(initialPage: selectedPage);
 
@@ -54,9 +58,6 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    if (listing.cancel!) {
-      adSpecs.add(S.of(context).freeCancellation);
-    }
     return Scaffold(
       bottomNavigationBar: Container(
         color: Colors.white,
@@ -191,8 +192,6 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                           Hive.box<ProfileAdapter>("user")
                               .get("userData")!
                               .id!) {
-                        ProfileModel user =
-                            await UserServices.getUser(listing.user);
                         String id = await ChatServices.createChat(
                             listing.user, listing.id!);
                         try {
@@ -200,27 +199,6 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                             builder: (context) {
                               return ChatView(
                                 chatId: id,
-                                user: chat.Them(
-                                    id: user.id,
-                                    fullName: user.fullName,
-                                    backPhotoId: "",
-                                    dateOfBirth: user.dateOfBirth == null
-                                        ? DateTime.now().toString()
-                                        : user.dateOfBirth!,
-                                    deliveryAddress: "",
-                                    email: user.email,
-                                    idVerified: user.idVerified,
-                                    inbox: [""],
-                                    ipdata: chat.Ipdata.fromJson(
-                                        user.ipdata.toJson()),
-                                    ipraw: user.ipraw,
-                                    lastTimeLoggedIn: 0,
-                                    profileImage: user.profileImage,
-                                    phoneNumber: user.phoneNumber == null
-                                        ? ""
-                                        : user.phoneNumber.toString(),
-                                    photoOfId: "",
-                                    thirdParty: user.thirdParty),
                               );
                             },
                           ));
@@ -507,14 +485,21 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                 SizedBox(
                   height: 32,
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    S.of(context).reviews,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute<dynamic>(
+                      builder: (context) {
+                        return ReviewView(
+                          listingId: listing.id!,
+                        );
+                      },
+                    ));
+                  },
+                  child: CommonHeading(
+                    headingText: S.of(context).reviews,
+                    hasMargin: false,
+                    hasSpacing: false,
+                    onPress: false,
                   ),
                 ),
                 SizedBox(
@@ -542,6 +527,7 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                 SizedBox(
                   height: 12,
                 ),
+                buildCategorizeReviews(),
                 buildReviews()
               ],
             ),
@@ -551,8 +537,286 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
     );
   }
 
+  FutureBuilder<Map<String, dynamic>> buildCategorizeReviews() {
+    return FutureBuilder(
+      future: ReviewService.categorizeReviews(widget.listing.id!),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data as Map<String, dynamic>;
+          Map<String, dynamic> ratings = {
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0,
+          };
+          data.forEach((key, value) {
+            key.substring(0, 1);
+            ratings[key.substring(0, 1)] = ratings[key.substring(0, 1)] + value;
+          });
+          print(ratings);
+          return Padding(
+            padding: const EdgeInsets.only(right: 8.0, bottom: 16.0),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    Expanded(
+                      child: LinearPercentIndicator(
+                        barRadius: Radius.circular(8),
+                        lineHeight: 8.0,
+                        percent: double.parse(
+                            (ratings["1"] / listing.numberOfReviews)
+                                .toString()),
+                        backgroundColor: ColorConstants.grey2000,
+                        progressColor: Color.fromRGBO(254, 195, 13, 1),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        ratings["1"].toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            color: Color.fromRGBO(161, 161, 170, 1),
+                            fontFamily: "Poppins"),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Expanded(
+                      child: LinearPercentIndicator(
+                        barRadius: Radius.circular(8),
+                        lineHeight: 8.0,
+                        percent: double.parse(
+                            (ratings["2"] / listing.numberOfReviews)
+                                .toString()),
+                        backgroundColor: ColorConstants.grey2000,
+                        progressColor: Color.fromRGBO(254, 195, 13, 1),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        ratings["2"].toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            color: Color.fromRGBO(161, 161, 170, 1),
+                            fontFamily: "Poppins"),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Expanded(
+                      child: LinearPercentIndicator(
+                        barRadius: Radius.circular(8),
+                        lineHeight: 8.0,
+                        percent: double.parse(
+                            (ratings["3"] / listing.numberOfReviews)
+                                .toString()),
+                        backgroundColor: ColorConstants.grey2000,
+                        progressColor: Color.fromRGBO(254, 195, 13, 1),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        ratings["3"].toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            color: Color.fromRGBO(161, 161, 170, 1),
+                            fontFamily: "Poppins"),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Expanded(
+                      child: LinearPercentIndicator(
+                        barRadius: Radius.circular(8),
+                        lineHeight: 8.0,
+                        percent: double.parse(
+                            (ratings["4"] / listing.numberOfReviews)
+                                .toString()),
+                        backgroundColor: ColorConstants.grey2000,
+                        progressColor: Color.fromRGBO(254, 195, 13, 1),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        ratings["4"].toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            color: Color.fromRGBO(161, 161, 170, 1),
+                            fontFamily: "Poppins"),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SvgPicture.asset(
+                      IconConstants.star,
+                      height: 18,
+                    ),
+                    Expanded(
+                      child: LinearPercentIndicator(
+                        barRadius: Radius.circular(8),
+                        lineHeight: 8.0,
+                        percent: double.parse(
+                            (ratings["5"] / listing.numberOfReviews)
+                                .toString()),
+                        backgroundColor: ColorConstants.grey2000,
+                        progressColor: Color.fromRGBO(254, 195, 13, 1),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        ratings["5"].toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            color: Color.fromRGBO(161, 161, 170, 1),
+                            fontFamily: "Poppins"),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+
   ListView buildReviews() {
-    return ListView.builder(
+    return ListView.separated(
+      separatorBuilder: (context, index) {
+        return SizedBox(
+          height: 8,
+        );
+      },
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,

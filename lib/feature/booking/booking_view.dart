@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/extensions/date_parser_extension.dart';
 import 'package:adflaunt/feature/booking/mixin/booking_mixin.dart';
@@ -77,6 +79,9 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
                     height: 16,
                   ),
                   pageIndicator(),
+                  SizedBox(
+                    height: 16,
+                  ),
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24),
                       child: Column(
@@ -329,7 +334,6 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
         SizedBox(
           height: 8,
         ),
-
         paymentMethods == null
             ? Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
@@ -401,7 +405,6 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
                           ),
                         )),
               ),
-        //TODO: Implement google pay
         GestureDetector(
           onTap: () {
             setState(() {
@@ -425,12 +428,16 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
               padding: EdgeInsets.all(10),
               child: Row(
                 children: [
-                  Image.asset(IconConstants.apple),
+                  Image.asset(Platform.isAndroid
+                      ? IconConstants.google
+                      : IconConstants.apple),
                   SizedBox(
                     width: 8,
                   ),
                   Text(
-                    S.of(context).continueWithApplePay,
+                    Platform.isAndroid
+                        ? S.of(context).continueWithGooglePay
+                        : S.of(context).continueWithApplePay,
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -672,6 +679,9 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
             ),
           ),
           child: SfDateRangePicker(
+            minDate: widget.listing.tags[1] == "Digital"
+                ? DateTime.now().add(Duration(days: 5))
+                : DateTime.now(),
             maxDate: widget.listing.checkOut.parseDate(),
             todayHighlightColor: Colors.black,
             onSelectionChanged: (DateRangePickerSelectionChangedArgs
@@ -721,8 +731,10 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
               bool isBooked = snapshot.contains(cellDetails.date);
               bool isAfter =
                   cellDetails.date.isAfter(widget.listing.checkOut.parseDate());
-              bool isBefore = cellDetails.date
-                  .isBefore(DateTime.now().subtract(Duration(days: 1)));
+              bool isBefore = widget.listing.tags[1] != "Digital"
+                  ? cellDetails.date
+                      .isBefore(DateTime.now().add(Duration(days: 5)))
+                  : cellDetails.date.isBefore(DateTime.now());
               bool isUnavailable = isBooked || isAfter || isBefore;
               bool isRangeStart = datePickerController.selectedRange == null
                   ? false

@@ -199,5 +199,6 @@
   "asCustomer": "As Customer",
   "searchSpaces": "Search Spaces",
   "noBookingFound": "No Booking Found",
-  "youHaveNoFavoritesYet": "You have no favorites yet"
+  "youHaveNoFavoritesYet": "You have no favorites yet",
+  "continueWithGooglePay": "Continue with Google Pay"
 }

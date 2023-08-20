@@ -21,39 +21,43 @@ class FavoritesView extends StatelessWidget {
           child: Header(hasBackBtn: false, title: S.of(context).favorites),
         ),
       ),
-      body: ValueListenableBuilder(
-        valueListenable: Hive.box<List<String>>("favorites").listenable(),
-        builder: (context, box, child) {
-          final favorites = box.get("favorites", defaultValue: <String>[])!;
-          if (favorites.length == 0) {
-            return Center(
-              child: Text(
-                S.of(context).youHaveNoFavoritesYet,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Color.fromRGBO(0, 0, 0, 0.5),
+      body: Container(
+        padding: const EdgeInsets.only(top: 16),
+        color: Colors.white,
+        child: ValueListenableBuilder(
+          valueListenable: Hive.box<List<String>>("favorites").listenable(),
+          builder: (context, box, child) {
+            final favorites = box.get("favorites", defaultValue: <String>[])!;
+            if (favorites.length == 0) {
+              return Center(
+                child: Text(
+                  S.of(context).youHaveNoFavoritesYet,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Color.fromRGBO(0, 0, 0, 0.5),
+                  ),
                 ),
-              ),
-            );
-          } else {
-            return ListView.builder(
-              itemCount: favorites.length,
-              itemBuilder: (context, index) {
-                return FutureBuilder(
-                  future: ListingsAPI.getListing(favorites[index]),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListingList(listing: snapshot.data!);
-                    } else {
-                      return Container();
-                    }
-                  },
-                );
-              },
-            );
-          }
-        },
+              );
+            } else {
+              return ListView.builder(
+                itemCount: favorites.length,
+                itemBuilder: (context, index) {
+                  return FutureBuilder(
+                    future: ListingsAPI.getListing(favorites[index]),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListingList(listing: snapshot.data!);
+                      } else {
+                        return Container();
+                      }
+                    },
+                  );
+                },
+              );
+            }
+          },
+        ),
       ),
     );
   }

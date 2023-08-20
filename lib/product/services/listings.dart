@@ -60,7 +60,7 @@ class ListingsAPI {
       "price": price.substring(1),
       "length": length,
       "width": width,
-      "cancel": cancel.toString(),
+      "cancel": cancel == true ? "1" : "0",
       "tags": tagsWith.join("|-|"),
       "check_in": DateFormat(StringConstants.dateFormat).format(checkIn),
       "check_out": DateFormat(StringConstants.dateFormat).format(checkOut),

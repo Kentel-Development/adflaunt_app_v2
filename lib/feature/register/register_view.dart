@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/padding_constants.dart';
@@ -160,21 +162,23 @@ class RegisterView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: PaddingConstants.largePadding,
-                      ),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ImgButton(
-                          onPressed: () {
-                            context.read<RegisterCubit>().apple();
-                          },
-                          text: S.of(context).signUpWithApple,
-                          img: IconConstants.apple,
-                        ),
-                      ),
-                    ),
+                    Platform.isAndroid
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: PaddingConstants.largePadding,
+                            ),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: ImgButton(
+                                onPressed: () {
+                                  context.read<RegisterCubit>().apple();
+                                },
+                                text: S.of(context).signUpWithApple,
+                                img: IconConstants.apple,
+                              ),
+                            ),
+                          ),
                     const SizedBox(height: 16),
                     RichText(
                       text: TextSpan(
