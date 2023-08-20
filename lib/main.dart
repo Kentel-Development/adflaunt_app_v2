@@ -1,8 +1,11 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:adflaunt/core/adapters/location/location_adapter.dart';
 import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/cubit/main_cubit.dart';
+import 'package:adflaunt/feature/booking_list/customer_page.dart';
+import 'package:adflaunt/feature/booking_list/host_page.dart';
 import 'package:adflaunt/feature/chat/chat_view.dart';
 import 'package:adflaunt/feature/landing_view.dart';
 import 'package:adflaunt/feature/no_internet.dart';
@@ -68,14 +71,31 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      if (message.data['page'] == 'chat') {
-        Navigator.push(context, MaterialPageRoute<dynamic>(
-          builder: (context) {
-            return ChatView(
-              chatId: message.data["chatID"].toString(),
-            );
-          },
-        ));
+      FocusScope.of(context).unfocus();
+      final user = Hive.box<ProfileAdapter>('user').get('userData');
+      log("tesrt" + message.data.toString());
+      if (user != null) {
+        if (message.data['page'] == 'chat') {
+          Navigator.push(context, MaterialPageRoute<dynamic>(
+            builder: (context) {
+              return ChatView(
+                chatId: message.data["chatID"].toString(),
+              );
+            },
+          ));
+        } else if (message.data['page'] == 'bookingPage') {
+          Map<String, dynamic> data = message.data;
+          Navigator.push(context, MaterialPageRoute<dynamic>(
+            builder: (context) {
+              if (data["customer"] != user.id) {
+                return HostPage(null, data["bookingID"].toString());
+              } else {
+                return CustomerPage(
+                    asCustomer: null, bookingId: data["bookingID"].toString());
+              }
+            },
+          ));
+        }
       }
     });
     super.initState();

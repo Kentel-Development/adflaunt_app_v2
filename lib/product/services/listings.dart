@@ -156,7 +156,7 @@ class ListingsAPI {
         if (priceEnd != null) 'priceEnd': priceEnd,
         if (lat != null) 'lat': lat,
         if (lng != null) 'long': lng,
-        if (q != null) 'q': q,
+        if (q != null && q != "" && q != "null") 'q': q,
         if (km != null) 'km': km,
       });
       log(url.toString());

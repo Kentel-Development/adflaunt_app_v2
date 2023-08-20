@@ -302,6 +302,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("The rating cannot be 0"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "typeOfSpace": MessageLookupByLibrary.simpleMessage("Type of space"),
+        "uploadAtLeastOneFile":
+            MessageLookupByLibrary.simpleMessage("Upload at least one file"),
         "uploadFile": MessageLookupByLibrary.simpleMessage("File"),
         "uploadImages": MessageLookupByLibrary.simpleMessage("Image"),
         "uploadPhotos": MessageLookupByLibrary.simpleMessage("Upload photos"),

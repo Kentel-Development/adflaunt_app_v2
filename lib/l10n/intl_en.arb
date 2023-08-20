@@ -200,5 +200,6 @@
   "searchSpaces": "Search Spaces",
   "noBookingFound": "No Booking Found",
   "youHaveNoFavoritesYet": "You have no favorites yet",
-  "continueWithGooglePay": "Continue with Google Pay"
+  "continueWithGooglePay": "Continue with Google Pay",
+  "uploadAtLeastOneFile": "Upload at least one file"
 }

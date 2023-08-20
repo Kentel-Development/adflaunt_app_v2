@@ -132,7 +132,9 @@ class _BookingListViewState extends State<BookingListView> {
                               hasBackBtn: false, title: S.of(context).booking),
                         ),
                         SizedBox(
-                          height: 12,
+                          height: asCustomer.length == 0 || asHost.length == 0
+                              ? 12
+                              : 0,
                         ),
                         asCustomer.length == 0 || asHost.length == 0
                             ? Text(

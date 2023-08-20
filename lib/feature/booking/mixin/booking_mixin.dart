@@ -201,7 +201,19 @@ mixin BookingMixin on State<BookingView> {
 
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);
-                          setState(() {});
+                          PaymentService().listPaymentMethods().then((value) {
+                            final json =
+                                jsonDecode(value) as Map<String, dynamic>;
+                            if (json['SCC'] != false) {
+                              setState(() {
+                                paymentMethods = json['data'] as List<dynamic>;
+                              });
+                            } else {
+                              setState(() {
+                                paymentMethods = [];
+                              });
+                            }
+                          });
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             backgroundColor:
@@ -243,197 +255,220 @@ mixin BookingMixin on State<BookingView> {
 
   void confirmAndPay() async {
     bool isBlackouted = false;
-
-    if (bookedDays > 0) {
-      if (unavailableDates.length > 0) {
-        for (var element in unavailableDates) {
-          if (datePickerController.selectedRange!.startDate!
-                  .isBefore(element.parseBookingDate()) &&
-              (datePickerController.selectedRange!.endDate ?? DateTime.now())
-                  .isAfter(element.parseBookingDate())) {
-            isBlackouted = true;
-          }
-        }
-      }
-      if (isBlackouted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: const Color.fromRGBO(241, 95, 95, 1),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          content:
-              Text(S.of(context).pleaseSelectADateRangeWithoutUnavailableDates),
-        ));
-      } else {
-        setState(() {
-          loading = true;
-        });
-        final res = await ChatServices.createChat(
-            widget.listing.user, widget.listing.id!);
-        print(res);
-        Map<String, dynamic>? payInt;
-        if (selectedPaymentMethod == null) {
-          payInt = jsonDecode(await PaymentService().createPaymentIntent(
-              widget.listing.id!,
-              datePickerController.selectedRange!.startDate!,
-              datePickerController.selectedRange!.endDate ??
-                  datePickerController.selectedRange!.startDate!,
-              null)) as Map<String, dynamic>;
-        } else {
-          payInt = jsonDecode(await PaymentService().createPaymentIntent(
-                  widget.listing.id!,
-                  datePickerController.selectedRange!.startDate!,
-                  datePickerController.selectedRange!.endDate ??
-                      datePickerController.selectedRange!.startDate!,
-                  paymentMethods![selectedPaymentMethod!]["id"].toString()))
-              as Map<String, dynamic>;
-        }
-
-        if (selectedPaymentMethod != null) {
-          showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: AlertDialog(
-                  title: Text(
-                    S.of(context).paymentProcessing,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: const Color.fromRGBO(12, 12, 38, 1),
-                    ),
-                  ),
-                  content: SizedBox(
-                    height: 100,
-                    child: const Center(child: LoadingWidget()),
-                  ),
-                ),
-              );
-            },
-          );
-        }
-        try {
-          if (selectedPaymentMethod == null) {
-            if (Platform.isAndroid) {
-              await Stripe.instance.confirmPlatformPayPaymentIntent(
-                  clientSecret: payInt["paymentIntent"].toString(),
-                  confirmParams: PlatformPayConfirmParams.googlePay(
-                      googlePay: GooglePayParams(
-                          merchantCountryCode: "USA", currencyCode: "USD")));
-            } else if (Platform.isIOS) {
-              await Stripe.instance.confirmPlatformPayPaymentIntent(
-                  clientSecret: payInt["paymentIntent"].toString(),
-                  confirmParams: PlatformPayConfirmParams.applePay(
-                      applePay: ApplePayParams(
-                          merchantCountryCode: "US",
-                          currencyCode: "USD",
-                          cartItems: [
-                        ApplePayCartSummaryItem.immediate(
-                            label: widget.listing.title,
-                            amount: ((widget.listing.price * bookedDays) +
-                                    printFee!.toDouble())
-                                .toString())
-                      ])));
+    if (files.isNotEmpty) {
+      if (bookedDays > 0) {
+        if (unavailableDates.length > 0) {
+          for (var element in unavailableDates) {
+            if (datePickerController.selectedRange!.startDate!
+                    .isBefore(element.parseBookingDate()) &&
+                (datePickerController.selectedRange!.endDate ?? DateTime.now())
+                    .isAfter(element.parseBookingDate())) {
+              isBlackouted = true;
             }
-          } else {
-            await Stripe.instance.confirmPayment(
-              paymentIntentClientSecret: payInt["paymentIntent"].toString(),
-              data: PaymentMethodParams.cardFromMethodId(
-                  paymentMethodData: PaymentMethodDataCardFromMethod(
-                      paymentMethodId: payInt["paymentID"].toString())),
-            );
           }
-          if (selectedPaymentMethod != null) {
-            Navigator.pop(context);
-          }
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) {
-              return BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: AlertDialog(
-                  title: Text(
-                    S.of(context).bookingProcessing,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: const Color.fromRGBO(12, 12, 38, 1),
-                    ),
-                  ),
-                  content: SizedBox(
-                    height: 100,
-                    child: const Center(
-                      child: LoadingWidget(),
-                    ),
-                  ),
-                ),
-              );
-            },
-          );
-          List<String> filePaths = []
-            ..addAll(files.map((e) => e.path.toString()));
-          String? url;
-          if (filePaths.isNotEmpty) {
-            String archivedFileName =
-                await ArchiveService.compressFiles(filePaths);
-            url = await UploadService.uploadImage(archivedFileName);
-          } else {
-            url = null;
-          }
-          await BookingService.makeBooking(
-            datePickerController.selectedRange!.startDate!,
-            datePickerController.selectedRange!.endDate ??
-                datePickerController.selectedRange!.startDate!,
-            widget.listing.title,
-            widget.listing.id!,
-            widget.listing.description,
-            url,
-            payInt["paymentID"].toString(),
-            res,
-          );
-          Navigator.pop(context);
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) {
-              Future.delayed(const Duration(seconds: 2), () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              });
-              return AlertDialog(
-                title: Text(
-                  S.of(context).bookingSuccessful,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: const Color.fromRGBO(12, 12, 38, 1),
-                  ),
-                ),
-              );
-            },
-          );
-          setState(() {
-            loading = false;
-          });
-        } catch (e) {
-          Navigator.pop(context);
+        }
+        if (isBlackouted) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: const Color.fromRGBO(241, 95, 95, 1),
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            content:
-                Text((e as StripeException).error.localizedMessage.toString()),
+            content: Text(
+                S.of(context).pleaseSelectADateRangeWithoutUnavailableDates),
           ));
+        } else {
           setState(() {
-            loading = false;
+            loading = true;
           });
+          final res = await ChatServices.createChat(
+              widget.listing.user, widget.listing.id!);
+          print(res);
+          Map<String, dynamic>? payInt;
+          if (selectedPaymentMethod == null) {
+            payInt = jsonDecode(await PaymentService().createPaymentIntent(
+                widget.listing.id!,
+                datePickerController.selectedRange!.startDate!,
+                datePickerController.selectedRange!.endDate ??
+                    datePickerController.selectedRange!.startDate!,
+                null)) as Map<String, dynamic>;
+          } else {
+            payInt = jsonDecode(await PaymentService().createPaymentIntent(
+                    widget.listing.id!,
+                    datePickerController.selectedRange!.startDate!,
+                    datePickerController.selectedRange!.endDate ??
+                        datePickerController.selectedRange!.startDate!,
+                    paymentMethods![selectedPaymentMethod!]["id"].toString()))
+                as Map<String, dynamic>;
+          }
+
+          if (selectedPaymentMethod != null) {
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: AlertDialog(
+                    title: Text(
+                      S.of(context).paymentProcessing,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(12, 12, 38, 1),
+                      ),
+                    ),
+                    content: SizedBox(
+                      height: 100,
+                      child: const Center(child: LoadingWidget()),
+                    ),
+                  ),
+                );
+              },
+            );
+          }
+          try {
+            if (selectedPaymentMethod == null) {
+              if (Platform.isAndroid) {
+                await Stripe.instance.confirmPlatformPayPaymentIntent(
+                    clientSecret: payInt["paymentIntent"].toString(),
+                    confirmParams: PlatformPayConfirmParams.googlePay(
+                        googlePay: GooglePayParams(
+                            merchantCountryCode: "USA", currencyCode: "USD")));
+              } else if (Platform.isIOS) {
+                await Stripe.instance.confirmPlatformPayPaymentIntent(
+                    clientSecret: payInt["paymentIntent"].toString(),
+                    confirmParams: PlatformPayConfirmParams.applePay(
+                        applePay: ApplePayParams(
+                            merchantCountryCode: "US",
+                            currencyCode: "USD",
+                            cartItems: [
+                          ApplePayCartSummaryItem.immediate(
+                              label: widget.listing.title,
+                              amount: ((widget.listing.price * bookedDays) +
+                                      printFee!.toDouble())
+                                  .toString())
+                        ])));
+              }
+            } else {
+              final paymInt = jsonDecode(await PaymentService()
+                  .createPaymentIntent(
+                      widget.listing.id!,
+                      datePickerController.selectedRange!.startDate!,
+                      datePickerController.selectedRange!.endDate ??
+                          datePickerController.selectedRange!.startDate!,
+                      paymentMethods![selectedPaymentMethod!]["id"]
+                          .toString()));
+
+              log("paymInt" +
+                  paymInt.toString() +
+                  paymentMethods![selectedPaymentMethod!]["id"].toString());
+              await Stripe.instance.confirmPayment(
+                paymentIntentClientSecret: paymInt["paymentIntent"].toString(),
+                data: PaymentMethodParams.cardFromMethodId(
+                    paymentMethodData: PaymentMethodDataCardFromMethod(
+                        paymentMethodId: paymentMethods![selectedPaymentMethod!]
+                                ["id"]
+                            .toString())),
+              );
+            }
+            if (selectedPaymentMethod != null) {
+              Navigator.pop(context);
+            }
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: AlertDialog(
+                    title: Text(
+                      S.of(context).bookingProcessing,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: const Color.fromRGBO(12, 12, 38, 1),
+                      ),
+                    ),
+                    content: SizedBox(
+                      height: 100,
+                      child: const Center(
+                        child: LoadingWidget(),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+            List<String> filePaths = []
+              ..addAll(files.map((e) => e.path.toString()));
+            String? url;
+            if (filePaths.isNotEmpty) {
+              String archivedFileName =
+                  await ArchiveService.compressFiles(filePaths);
+              url = await UploadService.uploadImage(archivedFileName);
+            } else {
+              url = null;
+            }
+            await BookingService.makeBooking(
+              datePickerController.selectedRange!.startDate!,
+              datePickerController.selectedRange!.endDate ??
+                  datePickerController.selectedRange!.startDate!,
+              widget.listing.title,
+              widget.listing.id!,
+              widget.listing.description,
+              url,
+              payInt["paymentID"].toString(),
+              res,
+            );
+            Navigator.pop(context);
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                Future.delayed(const Duration(seconds: 2), () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                });
+                return AlertDialog(
+                  title: Text(
+                    S.of(context).bookingSuccessful,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: const Color.fromRGBO(12, 12, 38, 1),
+                    ),
+                  ),
+                );
+              },
+            );
+            setState(() {
+              loading = false;
+            });
+          } catch (e) {
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: const Color.fromRGBO(241, 95, 95, 1),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              content: Text((e as StripeException).error.toString()),
+            ));
+            setState(() {
+              loading = false;
+            });
+          }
         }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: const Color.fromRGBO(241, 95, 95, 1),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          content: Text(S.of(context).pleaseSelectAtLeastOneDayToBook),
+        ));
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -442,7 +477,7 @@ mixin BookingMixin on State<BookingView> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        content: Text(S.of(context).pleaseSelectAtLeastOneDayToBook),
+        content: Text(S.of(context).uploadAtLeastOneFile),
       ));
     }
   }

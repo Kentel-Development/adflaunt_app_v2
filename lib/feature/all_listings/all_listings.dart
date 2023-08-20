@@ -1,5 +1,6 @@
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
+import 'package:adflaunt/feature/listing_details/listing_details_view.dart';
 import 'package:adflaunt/generated/l10n.dart';
 import 'package:adflaunt/product/services/listings.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
@@ -82,110 +83,140 @@ class AllListingsView extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 16.0),
                 child: ListView.separated(
                     itemBuilder: (context, index) {
-                      return Container(
-                          height: 89,
-                          margin: EdgeInsets.only(left: 14, right: 21),
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            children: [
-                              Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(4),
-                                      bottomLeft: Radius.circular(4),
-                                      bottomRight: Radius.circular(4),
-                                      topRight: Radius.circular(4),
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute<dynamic>(
+                            builder: (context) {
+                              return ListingDetailsView(
+                                listing: snapshot.data![index],
+                              );
+                            },
+                          ));
+                        },
+                        child: Container(
+                            height: 89,
+                            margin: EdgeInsets.only(left: 14, right: 21),
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(4),
+                                        bottomLeft: Radius.circular(4),
+                                        bottomRight: Radius.circular(4),
+                                        topRight: Radius.circular(4),
+                                      ),
+                                      child: CachedNetworkImage(
+                                        imageUrl: StringConstants
+                                                .baseStorageUrl +
+                                            snapshot.data![index].images.first,
+                                        width: 92,
+                                        height: 69,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                    child: CachedNetworkImage(
-                                      imageUrl: StringConstants.baseStorageUrl +
-                                          snapshot.data![index].images.first,
-                                      width: 92,
-                                      height: 69,
-                                      fit: BoxFit.cover,
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 25,
+                                      width: MediaQuery.of(context).size.width -
+                                          155,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(snapshot.data![index].title,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: "Poppins",
+                                              )),
+                                          ValueListenableBuilder(
+                                              valueListenable:
+                                                  Hive.box<List<String>>(
+                                                          "favorites")
+                                                      .listenable(),
+                                              builder: (context, box, child) {
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    FavoriteService.addFavorite(
+                                                        box,
+                                                        snapshot.data![index].id
+                                                            .toString());
+                                                  },
+                                                  child:
+                                                      box.get("favorites", defaultValue: [])!.contains(
+                                                              snapshot
+                                                                  .data![index]
+                                                                  .id!)
+                                                          ? SvgPicture.asset(
+                                                              IconConstants
+                                                                  .like,
+                                                              // ignore: deprecated_member_use
+                                                              color:
+                                                                  Colors.black,
+                                                            )
+                                                          : SvgPicture.asset(
+                                                              IconConstants
+                                                                  .like,
+                                                            ),
+                                                );
+                                              }),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 25,
-                                    width:
-                                        MediaQuery.of(context).size.width - 155,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(snapshot.data![index].title,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: "Poppins",
-                                            )),
-                                        ValueListenableBuilder(
-                                            valueListenable:
-                                                Hive.box<List<String>>(
-                                                        "favorites")
-                                                    .listenable(),
-                                            builder: (context, box, child) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  FavoriteService.addFavorite(
-                                                      box,
-                                                      snapshot.data![index].id
-                                                          .toString());
-                                                },
-                                                child:
-                                                    box.get("favorites", defaultValue: [])!.contains(
-                                                            snapshot
-                                                                .data![index]
-                                                                .id!)
-                                                        ? SvgPicture.asset(
-                                                            IconConstants.like,
-                                                            // ignore: deprecated_member_use
-                                                            color: Colors.black,
-                                                          )
-                                                        : SvgPicture.asset(
-                                                            IconConstants.like,
-                                                          ),
-                                              );
-                                            }),
-                                      ],
+                                    Text(
+                                      "\$" +
+                                          snapshot.data![index].price
+                                              .toString() +
+                                          "/day",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "Poppins",
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "\$" +
-                                        snapshot.data![index].price.toString() +
-                                        "/day",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "Poppins",
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width - 155,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width -
+                                          155,
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                              child: Text(
+                                                snapshot.data![index].typeOfAdd,
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "Poppins",
+                                                ),
+                                              ),
+                                              padding: EdgeInsets.all(4),
+                                              decoration: BoxDecoration(
+                                                color: ColorConstants.colorGray,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              )),
+                                          Container(
                                             child: Text(
-                                              snapshot.data![index].typeOfAdd,
+                                              "${snapshot.data![index].height.round()}in X ${snapshot.data![index].width.round()}in ${snapshot.data![index].sqfeet.round()}sqft",
                                               style: TextStyle(
                                                 fontSize: 10,
                                                 fontWeight: FontWeight.w500,
@@ -197,52 +228,39 @@ class AllListingsView extends StatelessWidget {
                                               color: ColorConstants.colorGray,
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                            )),
-                                        Container(
-                                          child: Text(
-                                            "${snapshot.data![index].height.round()}in X ${snapshot.data![index].width.round()}in ${snapshot.data![index].sqfeet.round()}sqft",
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: "Poppins",
                                             ),
                                           ),
-                                          padding: EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                            color: ColorConstants.colorGray,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 50,
-                                          height: 23,
-                                          padding: EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                            color: ColorConstants.colorGray,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              snapshot.data![index].tags.first,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: "Poppins",
+                                          Container(
+                                            width: 50,
+                                            height: 23,
+                                            padding: EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                              color: ColorConstants.colorGray,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                snapshot
+                                                    .data![index].tags.first,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "Poppins",
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Spacer(),
-                            ],
-                          ));
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Spacer(),
+                              ],
+                            )),
+                      );
                     },
                     separatorBuilder: (context, index) {
                       return Divider(

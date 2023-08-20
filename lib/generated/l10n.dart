@@ -2069,6 +2069,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Upload at least one file`
+  String get uploadAtLeastOneFile {
+    return Intl.message(
+      'Upload at least one file',
+      name: 'uploadAtLeastOneFile',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

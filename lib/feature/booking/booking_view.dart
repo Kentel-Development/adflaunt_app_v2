@@ -679,9 +679,9 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
             ),
           ),
           child: SfDateRangePicker(
-            minDate: widget.listing.tags[1] == "Digital"
+            minDate: widget.listing.tags[1] != "Digital"
                 ? DateTime.now().add(Duration(days: 5))
-                : DateTime.now(),
+                : DateTime.now().add(Duration(days: 1)),
             maxDate: widget.listing.checkOut.parseDate(),
             todayHighlightColor: Colors.black,
             onSelectionChanged: (DateRangePickerSelectionChangedArgs
@@ -711,8 +711,9 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
             selectableDayPredicate: (date) {
               bool isBooked = snapshot.contains(date);
               bool isAfter = date.isAfter(widget.listing.checkOut.parseDate());
-              bool isBefore =
-                  date.isBefore(DateTime.now().subtract(Duration(days: 1)));
+              bool isBefore = widget.listing.tags[1] != "Digital"
+                  ? date.isBefore(DateTime.now().add(Duration(days: 5)))
+                  : date.isBefore(DateTime.now());
               bool isUnavailable = isBooked || isAfter || isBefore;
               return !isUnavailable;
             },
