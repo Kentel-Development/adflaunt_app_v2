@@ -102,6 +102,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "decline": MessageLookupByLibrary.simpleMessage("Decline"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
+        "digitalAdDisplayPanel":
+            MessageLookupByLibrary.simpleMessage("Digital Ad Display Panel"),
         "digitalAds": MessageLookupByLibrary.simpleMessage("Digital Ads"),
         "downloadAdFiles":
             MessageLookupByLibrary.simpleMessage("Download Ad Files"),
@@ -300,6 +302,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "The rating and comment cannot be empty"),
         "theRatingCannotBe0":
             MessageLookupByLibrary.simpleMessage("The rating cannot be 0"),
+        "thisBookingHasBeenDeleted": MessageLookupByLibrary.simpleMessage(
+            "This booking has been deleted"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "typeOfSpace": MessageLookupByLibrary.simpleMessage("Type of space"),
         "uploadAtLeastOneFile":

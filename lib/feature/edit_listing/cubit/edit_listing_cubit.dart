@@ -26,7 +26,7 @@ class EditListingCubit extends BaseBloc<EditListingState, EditListingState> {
   late String description = listing.description;
   late String height = listing.height.toString();
   late String width = listing.width.toString();
-  bool cancelPolicy = false;
+  late bool cancelPolicy = listing.cancel!;
   late String states = listing.state;
   late String city = listing.city;
   late String country = listing.country;
@@ -221,6 +221,9 @@ class EditListingCubit extends BaseBloc<EditListingState, EditListingState> {
       final json = jsonDecode(response.body) as Map<String, dynamic>;
       json.addAll({"_id": listing.id});
       final output = Output.fromJson(json);
+      output.numberOfReviews = listing.numberOfReviews;
+      output.averageRating = listing.averageRating;
+      output.reviews = listing.reviews;
       Navigator.pop(context, output);
     } else {
       safeEmit(EditListingFailure(response.body));

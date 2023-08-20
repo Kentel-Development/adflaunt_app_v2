@@ -47,9 +47,6 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
       listing.tags[1],
       "${listing.height.round()}in X ${listing.width.round()}in = ${listing.sqfeet.round()} sqft",
     ];
-    if (listing.cancel == true) {
-      adSpecs.add(S.of(context).freeCancellation);
-    }
     selectedPage = 0;
     pageController = PageController(initialPage: selectedPage);
 
@@ -58,6 +55,15 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
 
   @override
   Widget build(BuildContext context) {
+    if (listing.cancel == true &&
+        !adSpecs.contains(S.of(context).freeCancellation)) {
+      adSpecs.add(S.of(context).freeCancellation);
+    }
+    if (listing.cancel == false &&
+        adSpecs.contains(S.of(context).freeCancellation)) {
+      adSpecs.remove(S.of(context).freeCancellation);
+    }
+
     return Scaffold(
       bottomNavigationBar: Container(
         color: Colors.white,
@@ -186,57 +192,56 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
               Positioned(
                   bottom: 18,
                   right: 25,
-                  child: GestureDetector(
-                    onTap: () async {
-                      if (listing.user !=
-                          Hive.box<ProfileAdapter>("user")
-                              .get("userData")!
-                              .id!) {
-                        String id = await ChatServices.createChat(
-                            listing.user, listing.id!);
-                        try {
-                          Navigator.push(context, MaterialPageRoute<dynamic>(
-                            builder: (context) {
-                              return ChatView(
-                                chatId: id,
+                  child: (listing.user ==
+                          Hive.box<ProfileAdapter>("user").get("userData")!.id!)
+                      ? Container()
+                      : GestureDetector(
+                          onTap: () async {
+                            String id = await ChatServices.createChat(
+                                listing.user, listing.id!);
+                            try {
+                              Navigator.push(context,
+                                  MaterialPageRoute<dynamic>(
+                                builder: (context) {
+                                  return ChatView(
+                                    chatId: id,
+                                  );
+                                },
+                              ));
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(e.toString()),
+                                ),
                               );
-                            },
-                          ));
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(e.toString()),
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          );
-                        }
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(IconConstants.chat),
-                          SizedBox(
-                            width: 16,
-                          ),
-                          Text(
-                            S.of(context).chat,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(IconConstants.chat),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Text(
+                                  S.of(context).chat,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ))
+                        ))
             ],
           ),
           SizedBox(
@@ -487,19 +492,26 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute<dynamic>(
-                      builder: (context) {
-                        return ReviewView(
-                          listingId: listing.id!,
-                        );
-                      },
-                    ));
+                    if (listing.reviews!.length > 0) {
+                      Navigator.push(context, MaterialPageRoute<dynamic>(
+                        builder: (context) {
+                          return ReviewView(
+                            listingId: listing.id!,
+                          );
+                        },
+                      ));
+                    }
                   },
                   child: CommonHeading(
                     headingText: S.of(context).reviews,
                     hasMargin: false,
                     hasSpacing: false,
                     onPress: false,
+                    hasBtn: listing.reviews != null
+                        ? listing.reviews!.length > 0
+                            ? true
+                            : false
+                        : false,
                   ),
                 ),
                 SizedBox(
@@ -528,7 +540,10 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                   height: 12,
                 ),
                 buildCategorizeReviews(),
-                buildReviews()
+                buildReviews(),
+                SizedBox(
+                  height: 24,
+                ),
               ],
             ),
           ),

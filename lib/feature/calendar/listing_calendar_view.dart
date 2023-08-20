@@ -149,15 +149,17 @@ class ListingCalendarView extends StatelessWidget {
                             : isStart || isEnd
                                 ? GestureDetector(
                                     onTap: () {
-                                      Navigator.push(context,
-                                          MaterialPageRoute<dynamic>(
-                                        builder: (context) {
-                                          return HostPage(
-                                            null,
-                                            bookingId!,
-                                          );
-                                        },
-                                      ));
+                                      if (isStart) {
+                                        Navigator.push(context,
+                                            MaterialPageRoute<dynamic>(
+                                          builder: (context) {
+                                            return HostPage(
+                                              null,
+                                              bookingId!,
+                                            );
+                                          },
+                                        ));
+                                      }
                                     },
                                     child: Container(
                                         alignment: isStart

@@ -2079,6 +2079,26 @@ class S {
       args: [],
     );
   }
+
+  /// `This booking has been deleted`
+  String get thisBookingHasBeenDeleted {
+    return Intl.message(
+      'This booking has been deleted',
+      name: 'thisBookingHasBeenDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Digital Ad Display Panel`
+  String get digitalAdDisplayPanel {
+    return Intl.message(
+      'Digital Ad Display Panel',
+      name: 'digitalAdDisplayPanel',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

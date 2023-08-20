@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/feature/booking_list/booking_list.dart';
 import 'package:adflaunt/feature/booking_list/customer_page.dart';
@@ -20,6 +18,11 @@ class BookingListView extends StatefulWidget {
 
 class _BookingListViewState extends State<BookingListView> {
   List<Widget> tabs = [];
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -53,7 +56,7 @@ class _BookingListViewState extends State<BookingListView> {
                 ),
               );
             }
-            if (asCustomer.length != 0) {
+            if (asCustomer.length != 0 && tabs.length < 2) {
               tabs.add(Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: ListView.separated(
@@ -83,7 +86,7 @@ class _BookingListViewState extends State<BookingListView> {
                 ),
               ));
             }
-            if (asHost.length != 0) {
+            if (asHost.length != 0 && tabs.length < 2) {
               tabs.add(
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
@@ -116,8 +119,6 @@ class _BookingListViewState extends State<BookingListView> {
                 ),
               );
             }
-            log(snapshot.data.toString());
-            log(asHost.length.toString());
             return DefaultTabController(
               length: tabs.length,
               child: Scaffold(
