@@ -23,6 +23,12 @@ class AllListingsView extends StatelessWidget {
       required this.priceEnd,
       required this.lat,
       required this.lng,
+      required this.installationDate,
+      required this.removalDate,
+      required this.states,
+      required this.city,
+      required this.country,
+      required this.zip,
       super.key});
   final String title;
   final int? type;
@@ -33,6 +39,12 @@ class AllListingsView extends StatelessWidget {
   final String? priceEnd;
   final String? lat;
   final String? lng;
+  final DateTime? installationDate;
+  final DateTime? removalDate;
+  final String? states;
+  final String? city;
+  final String? country;
+  final String? zip;
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +59,23 @@ class AllListingsView extends StatelessWidget {
         ),
         body: FutureBuilder(
           future: ListingsAPI.listingsFilterer(
-              type,
-              category,
-              from,
-              to,
-              priceStart,
-              priceEnd,
-              lat,
-              lng,
-              title == S.of(context).digitalAds ? "Digital" : "",
-              title == S.of(context).adSpacesNearYou ? "20" : null),
+            type,
+            category,
+            from,
+            to,
+            priceStart,
+            priceEnd,
+            lat,
+            lng,
+            title == S.of(context).digitalAds ? "Digital" : "",
+            title == S.of(context).adSpacesNearYou ? "20" : null,
+            city,
+            states,
+            country,
+            zip,
+            installationDate,
+            removalDate,
+          ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Padding(

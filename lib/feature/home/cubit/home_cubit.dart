@@ -82,7 +82,13 @@ class HomeCubit extends BaseBloc<HomeState, HomeState> {
           lat.toString(),
           long.toString(),
           null,
-          radius.toString());
+          radius.toString(),
+          "",
+          "",
+          "",
+          "",
+          null,
+          null);
 
       await addMarker(listings);
 

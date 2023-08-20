@@ -24,6 +24,12 @@ class DraggableBottomSheet extends StatefulWidget {
   final String? priceEnd;
   final String? lat;
   final String? lng;
+  final DateTime? installationDate;
+  final DateTime? removalDate;
+  final String states;
+  final String city;
+  final String country;
+  final String zip;
   DraggableBottomSheet({
     required this.backgroundWidget,
     required this.type,
@@ -34,6 +40,12 @@ class DraggableBottomSheet extends StatefulWidget {
     required this.priceEnd,
     required this.lat,
     required this.lng,
+    required this.states,
+    required this.city,
+    required this.country,
+    required this.zip,
+    required this.installationDate,
+    required this.removalDate,
   });
 
   @override
@@ -221,6 +233,12 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                     widget.lng,
                                     "",
                                     null,
+                                    widget.states,
+                                    widget.city,
+                                    widget.country,
+                                    widget.zip,
+                                    widget.installationDate,
+                                    widget.removalDate,
                                   ),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
@@ -270,6 +288,14 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                                       priceEnd: widget.priceEnd,
                                                       lat: widget.lat,
                                                       lng: widget.lng,
+                                                      states: widget.states,
+                                                      city: widget.city,
+                                                      country: widget.country,
+                                                      zip: widget.zip,
+                                                      installationDate: widget
+                                                          .installationDate,
+                                                      removalDate:
+                                                          widget.removalDate,
                                                     );
                                                   },
                                                 ));
@@ -357,6 +383,12 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                     widget.lng,
                                     "",
                                     "20",
+                                    widget.states,
+                                    widget.city,
+                                    widget.country,
+                                    widget.zip,
+                                    widget.installationDate,
+                                    widget.removalDate,
                                   ),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
@@ -405,6 +437,14 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                                       priceEnd: widget.priceEnd,
                                                       lat: widget.lat,
                                                       lng: widget.lng,
+                                                      states: widget.states,
+                                                      city: widget.city,
+                                                      country: widget.country,
+                                                      zip: widget.zip,
+                                                      installationDate: widget
+                                                          .installationDate,
+                                                      removalDate:
+                                                          widget.removalDate,
                                                     );
                                                   },
                                                 ));
@@ -492,6 +532,12 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                     widget.lng,
                                     "Digital",
                                     null,
+                                    widget.states,
+                                    widget.city,
+                                    widget.country,
+                                    widget.zip,
+                                    widget.installationDate,
+                                    widget.removalDate,
                                   ),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
@@ -540,6 +586,14 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                                       priceEnd: widget.priceEnd,
                                                       lat: widget.lat,
                                                       lng: widget.lng,
+                                                      states: widget.states,
+                                                      city: widget.city,
+                                                      country: widget.country,
+                                                      zip: widget.zip,
+                                                      installationDate: widget
+                                                          .installationDate,
+                                                      removalDate:
+                                                          widget.removalDate,
                                                     );
                                                   },
                                                 ));

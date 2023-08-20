@@ -43,6 +43,12 @@ class _HomeViewState extends State<HomeView> {
   String? lat;
   String? lng;
   String? text;
+  DateTime? installationDate;
+  DateTime? removalDate;
+  String states = '';
+  String city = '';
+  String country = '';
+  String zip = '';
   @override
   void initState() {
     LocationService().getLocation().then((value) {
@@ -90,6 +96,13 @@ class _HomeViewState extends State<HomeView> {
                           priceEnd = value["priceEnd"].toString();
                           lat = value["lat"].toString();
                           lng = value["lng"].toString();
+                          installationDate =
+                              value["installationDate"] as DateTime?;
+                          removalDate = value["removalDate"] as DateTime?;
+                          states = value["states"].toString();
+                          city = value["city"].toString();
+                          country = value["country"].toString();
+                          zip = value["zip"].toString();
                         });
                       }
                     });
@@ -135,6 +148,12 @@ class _HomeViewState extends State<HomeView> {
                                     priceEnd = null;
                                     lat = currentLocation!.latitude.toString();
                                     lng = currentLocation!.longitude.toString();
+                                    installationDate = null;
+                                    removalDate = null;
+                                    states = '';
+                                    city = '';
+                                    country = '';
+                                    zip = '';
                                   });
                                 },
                                 child: Icon(Icons.close))
@@ -163,7 +182,13 @@ class _HomeViewState extends State<HomeView> {
                     lat,
                     lng,
                     "",
-                    null),
+                    null,
+                    city,
+                    states,
+                    country,
+                    zip,
+                    installationDate,
+                    removalDate),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.done ||
                       !snapshot.hasData ||
@@ -308,6 +333,12 @@ class _HomeViewState extends State<HomeView> {
                         priceEnd: priceEnd,
                         lat: lat,
                         lng: lng,
+                        states: states,
+                        city: city,
+                        country: country,
+                        zip: zip,
+                        installationDate: installationDate,
+                        removalDate: removalDate,
                       ),
                     );
                   }

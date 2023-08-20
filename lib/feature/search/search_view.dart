@@ -28,6 +28,12 @@ class _SearchViewState extends State<SearchView> {
   SfRangeValues priceValues = SfRangeValues(0, 200);
   String? spaceType;
   String? adType;
+  DateTime? installationDate;
+  DateTime? removalDate;
+  String states = '';
+  String city = '';
+  String country = '';
+  String zip = '';
   void onSearchChanged(String query) {
     if (debounce?.isActive ?? false) debounce?.cancel();
     debounce = Timer(const Duration(milliseconds: 600), () {
@@ -111,10 +117,17 @@ class _SearchViewState extends State<SearchView> {
                       ));
                       if (result != null) {
                         setState(() {
-                          inchesValues = result["size"] as SfRangeValues;
+                          inchesValues = result["inches"] as SfRangeValues;
                           priceValues = result["price"] as SfRangeValues;
                           spaceType = result["spaceType"] as String?;
                           adType = result["adType"] as String?;
+                          installationDate =
+                              result["installationDate"] as DateTime?;
+                          removalDate = result["removalDate"] as DateTime?;
+                          states = result["states"] as String;
+                          city = result["city"] as String;
+                          country = result["country"] as String;
+                          zip = result["zip"] as String;
                         });
                       }
                     },
@@ -149,6 +162,12 @@ class _SearchViewState extends State<SearchView> {
                                 "priceEnd": priceValues.end,
                                 "sizeStart": inchesValues.start,
                                 "sizeEnd": inchesValues.end,
+                                "installationDate": installationDate,
+                                "removalDate": removalDate,
+                                "states": states,
+                                "city": city,
+                                "country": country,
+                                "zip": zip,
                               },
                             );
                             List<String> searches =
@@ -213,6 +232,12 @@ class _SearchViewState extends State<SearchView> {
                                     "priceEnd": priceValues.end,
                                     "sizeStart": inchesValues.start,
                                     "sizeEnd": inchesValues.end,
+                                    "installationDate": installationDate,
+                                    "removalDate": removalDate,
+                                    "states": states,
+                                    "city": city,
+                                    "country": country,
+                                    "zip": zip,
                                   },
                                 );
                                 list.insert(0, list.removeAt(index));

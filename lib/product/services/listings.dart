@@ -118,24 +118,40 @@ class ListingsAPI {
   }
 
   static Future<List<Output>> listingsFilterer(
-      int? type,
-      String? category,
-      String? from,
-      String? to,
-      String? priceStart,
-      String? priceEnd,
-      String? lat,
-      String? lng,
-      String? q,
-      String? km) async {
+    int? type,
+    String? category,
+    String? from,
+    String? to,
+    String? priceStart,
+    String? priceEnd,
+    String? lat,
+    String? lng,
+    String? q,
+    String? km,
+    String? city,
+    String? state,
+    String? country,
+    String? zip,
+    DateTime? checkIn,
+    DateTime? checkOut,
+  ) async {
     try {
       var url =
           Uri.parse('${StringConstants.baseUrl}/api/get/listingsFilterer');
       url = Uri.http(url.authority, url.path, {
         if (type != null) 'type': type.toString(),
         if (category != null) 'category': category,
-        //if (from != null) 'from': from,
-        //if (to != null) 'to': to,
+        if (checkIn != null)
+          'from': DateFormat(StringConstants.dateFormat).format(checkIn),
+        if (checkOut != null)
+          'to': DateFormat(StringConstants.dateFormat).format(checkOut),
+        if (from != null) 'minsq': from,
+        if (to != null) 'maxsq': to,
+        if (city != "" && city != null && city != "null") 'city': city,
+        if (state != "" && state != null && city != "null") 'state': state,
+        if (country != "" && country != null && city != "null")
+          'country': country,
+        if (zip != "" && zip != null && city != "null") 'zipCode': zip,
         if (priceStart != null) 'priceStart': priceStart,
         if (priceEnd != null) 'priceEnd': priceEnd,
         if (lat != null) 'lat': lat,
