@@ -18,7 +18,7 @@ class FavoritesView extends StatelessWidget {
         preferredSize: const Size.fromHeight(42),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Header(hasBackBtn: false, title: S.of(context).favorites),
+          child: Header(hasBackBtn: true, title: S.of(context).favorites),
         ),
       ),
       body: Container(

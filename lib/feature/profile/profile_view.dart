@@ -7,6 +7,7 @@ import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/balance/balance_view.dart';
+import 'package:adflaunt/feature/favorites/favorites_view.dart';
 import 'package:adflaunt/feature/my_listings/my_listings_view.dart';
 import 'package:adflaunt/feature/payment_method/payment_method_view.dart';
 import 'package:adflaunt/feature/profile/edit_profile_view.dart';
@@ -275,6 +276,35 @@ class _ProfileViewState extends State<ProfileView> {
                                   ),
                                   VerifyBadge(isVerified: userModel.idVerified),
                                 ],
+                              ),
+                              trailing: SvgPicture.asset(
+                                IconConstants.arrow_right,
+                                height: 24,
+                                width: 24,
+                              ),
+                            ),
+                            ListTile(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute<dynamic>(
+                                  builder: (context) {
+                                    return const FavoritesView();
+                                  },
+                                ));
+                              },
+                              leading: SvgPicture.asset(
+                                IconConstants.like,
+                                height: 24,
+                                width: 24,
+                              ),
+                              horizontalTitleGap: 0,
+                              title: Text(
+                                S.of(context).favorites,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Poppins",
+                                ),
                               ),
                               trailing: SvgPicture.asset(
                                 IconConstants.arrow_right,
