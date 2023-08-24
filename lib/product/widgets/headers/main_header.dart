@@ -25,15 +25,15 @@ class Header extends StatelessWidget {
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       centerTitle: true,
       leading: hasBackBtn
-          ? GestureDetector(
-              onTap: () {
+          ? IconButton(
+              onPressed: () {
                 if (onLeftIconTap == null) {
                   Navigator.pop(context);
                 } else {
                   onLeftIconTap!();
                 }
               },
-              child: Row(
+              icon: Row(
                 children: [
                   SizedBox(
                     width: 20,
