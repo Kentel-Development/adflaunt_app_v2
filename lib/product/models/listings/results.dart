@@ -210,9 +210,9 @@ class Customer {
   @JsonKey(name: "fullName")
   String fullName;
   @JsonKey(name: "idVerified")
-  bool idVerified;
+  bool? idVerified;
   @JsonKey(name: "ipraw")
-  String ipraw;
+  String? ipraw;
   @JsonKey(name: "lastTimeLoggedIn")
   double lastTimeLoggedIn;
   @JsonKey(name: "lat")
@@ -220,13 +220,13 @@ class Customer {
   @JsonKey(name: "long")
   double? long;
   @JsonKey(name: "orders")
-  List<Order> orders;
+  List<Order>? orders;
   @JsonKey(name: "phoneNumber")
-  String phoneNumber;
+  String? phoneNumber;
   @JsonKey(name: "profileImage")
   dynamic profileImage;
   @JsonKey(name: "stripeCustomerID")
-  String stripeCustomerId;
+  String? stripeCustomerId;
   @JsonKey(name: "thirdParty")
   String thirdParty;
 

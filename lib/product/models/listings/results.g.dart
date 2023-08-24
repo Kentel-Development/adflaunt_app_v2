@@ -138,17 +138,17 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) => Customer(
       dateOfBirth: json['dateOfBirth'] as String,
       email: json['email'] as String,
       fullName: json['fullName'] as String,
-      idVerified: json['idVerified'] as bool,
-      ipraw: json['ipraw'] as String,
+      idVerified: json['idVerified'] as bool?,
+      ipraw: json['ipraw'] as String?,
       lastTimeLoggedIn: (json['lastTimeLoggedIn'] as num).toDouble(),
       lat: (json['lat'] as num?)?.toDouble(),
       long: (json['long'] as num?)?.toDouble(),
-      orders: (json['orders'] as List<dynamic>)
-          .map((e) => Order.fromJson(e as Map<String, dynamic>))
+      orders: (json['orders'] as List<dynamic>?)
+          ?.map((e) => Order.fromJson(e as Map<String, dynamic>))
           .toList(),
-      phoneNumber: json['phoneNumber'] as String,
+      phoneNumber: json['phoneNumber'] as String?,
       profileImage: json['profileImage'],
-      stripeCustomerId: json['stripeCustomerID'] as String,
+      stripeCustomerId: json['stripeCustomerID'] as String?,
       thirdParty: json['thirdParty'] as String,
     );
 

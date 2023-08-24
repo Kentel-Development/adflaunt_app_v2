@@ -30,7 +30,7 @@ class _EditProfileViewState extends State<EditProfileView> {
       child: Scaffold(
         bottomNavigationBar: BlocBuilder<EditProfileCubit, EditProfileState>(
           builder: (context, state) {
-            return state is EditProfileLoading || state is EditProfileError
+            return state is EditProfileLoading
                 ? Container(
                     height: 0,
                   )

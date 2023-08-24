@@ -92,6 +92,7 @@ class _InboxViewState extends State<InboxView> {
                     )).then((value) => setState(() {}));
                   },
                   child: Container(
+                    height: 92,
                     color: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 26),
                     child: Row(
@@ -159,6 +160,7 @@ class _InboxViewState extends State<InboxView> {
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w400,
                                   ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],

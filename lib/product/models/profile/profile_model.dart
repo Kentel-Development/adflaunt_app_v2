@@ -20,13 +20,13 @@ class ProfileModel {
   @JsonKey(name: "dateOfBirth", includeIfNull: false)
   String? dateOfBirth;
   @JsonKey(name: "email")
-  String email;
+  String? email;
   @JsonKey(name: "fullName")
-  String fullName;
+  String? fullName;
   @JsonKey(name: "idVerified")
   bool idVerified;
   @JsonKey(name: "ipraw")
-  String ipraw;
+  String? ipraw;
   @JsonKey(name: "lastTimeLoggedIn", includeIfNull: false)
   double? lastTimeLoggedIn;
   @JsonKey(name: "password", includeIfNull: false)
@@ -36,7 +36,7 @@ class ProfileModel {
   @JsonKey(name: "profileImage", includeIfNull: false)
   dynamic profileImage;
   @JsonKey(name: "thirdParty")
-  String thirdParty;
+  String? thirdParty;
 
   ProfileModel({
     required this.ipdata,

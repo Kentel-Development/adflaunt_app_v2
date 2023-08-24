@@ -77,13 +77,15 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
 
 Opposition _$OppositionFromJson(Map<String, dynamic> json) => Opposition(
       id: json['_id'] as String,
-      email: json['email'] as String,
-      password: json['password'] as String,
-      dateOfBirth: json['dateOfBirth'] as String,
-      ipdata: Ipdata.fromJson(json['IPDATA'] as Map<String, dynamic>),
+      email: json['email'] as String?,
+      password: json['password'] as String?,
+      dateOfBirth: json['dateOfBirth'] as String?,
+      ipdata: json['IPDATA'] == null
+          ? null
+          : Ipdata.fromJson(json['IPDATA'] as Map<String, dynamic>),
       fullName: json['fullName'] as String,
       profileImage: json['profileImage'],
-      phoneNumber: json['phoneNumber'] as String,
+      phoneNumber: json['phoneNumber'] as String?,
       lastTimeLoggedIn: (json['lastTimeLoggedIn'] as num).toDouble(),
       ipraw: json['ipraw'] as String,
       idVerified: json['idVerified'] as bool,

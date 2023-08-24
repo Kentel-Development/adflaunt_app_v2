@@ -66,7 +66,6 @@ class ProfileService {
         'email': email,
         'password': password,
         'fullName': name,
-        'phoneNumber': currentUser!.phoneNumber!,
       };
       if (date != null) {
         body["dateOfBirth"] =

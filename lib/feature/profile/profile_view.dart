@@ -27,8 +27,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../post_ad/post_ad_view.dart';
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
-
+  const ProfileView({this.isFromDrawer = false, super.key});
+  final bool isFromDrawer;
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
@@ -43,7 +43,8 @@ class _ProfileViewState extends State<ProfileView> {
           preferredSize: const Size.fromHeight(42),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Header(hasBackBtn: true, title: S.of(context).profile),
+            child: Header(
+                hasBackBtn: !widget.isFromDrawer, title: S.of(context).profile),
           ),
         ),
         body: FutureBuilder(

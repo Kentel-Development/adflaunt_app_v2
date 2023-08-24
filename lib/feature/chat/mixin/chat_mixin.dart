@@ -46,7 +46,7 @@ mixin ChatMixin on State<ChatView> {
         "ChatID": widget.chatId.toString(),
       }, ack: (dynamic data) async {
         log("ack");
-        log(jsonEncode(data));
+        log("testAppleId" + jsonEncode(data));
         Chat chat = Chat.fromJson(data as Map<String, dynamic>);
         themUser = chat.opposition;
         user = types.User(

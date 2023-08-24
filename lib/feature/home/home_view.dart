@@ -32,7 +32,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  int selectedCategory = 0;
+  int selectedCategory = 1;
   LatLng? currentLocation;
   Future<List<Output>>? listings;
   int? type;
@@ -385,24 +385,24 @@ class _HomeViewState extends State<HomeView> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedCategory = 0;
-              });
-            },
-            child: CategoryTab(
-              category: 0,
-              isSelected: selectedCategory == 0,
-            ),
-          ),
-          GestureDetector(
               onTap: () {
                 setState(() {
                   selectedCategory = 1;
                 });
               },
               child:
-                  CategoryTab(category: 1, isSelected: selectedCategory == 1)),
+                  CategoryTab(category: 0, isSelected: selectedCategory == 1)),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedCategory = 0;
+              });
+            },
+            child: CategoryTab(
+              category: 1,
+              isSelected: selectedCategory == 0,
+            ),
+          ),
           GestureDetector(
             onTap: () {
               setState(() {

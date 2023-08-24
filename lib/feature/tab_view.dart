@@ -1,6 +1,5 @@
 import 'package:adflaunt/feature/booking_list/booking_list_view.dart';
 import 'package:adflaunt/feature/calendar/calendar_view.dart';
-import 'package:adflaunt/feature/favorites/favorites_view.dart';
 import 'package:adflaunt/feature/home/home_view.dart';
 import 'package:adflaunt/feature/inbox/inbox_view.dart';
 import 'package:adflaunt/product/services/listings.dart';
@@ -11,6 +10,7 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../core/constants/color_constants.dart';
 import '../core/constants/icon_constants.dart';
 import '../generated/l10n.dart';
+import 'profile/profile_view.dart';
 
 class TabView extends StatefulWidget {
   const TabView({super.key});
@@ -28,27 +28,29 @@ class _TabViewState extends State<TabView> {
         builder: (context, snapshot) {
           final List<Widget> _widgetOptions = <Widget>[
             HomeView(),
-            FavoritesView(),
             BookingListView(),
             InboxView(),
+            ProfileView(
+              isFromDrawer: true,
+            ),
           ];
           final List<String> _titles = [
             S.of(context).home,
-            S.of(context).favorites,
             S.of(context).booking,
             S.of(context).chat,
+            S.of(context).profile
           ];
           final List<String> _activeIcons = [
             IconConstants.home_active,
-            IconConstants.like,
             IconConstants.booking_active,
             IconConstants.inbox_active,
+            IconConstants.profile_active
           ];
           final List<String> _unactiveIcons = [
             IconConstants.home_unactive,
-            IconConstants.like,
             IconConstants.booking_unactive,
             IconConstants.inbox_unactive,
+            IconConstants.profile_unactive
           ];
           if (snapshot.hasData) {
             if (snapshot.data!.length > 0) {

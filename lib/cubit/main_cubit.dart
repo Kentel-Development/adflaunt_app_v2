@@ -14,9 +14,10 @@ part 'main_state.dart';
 class MainCubit extends Cubit<MainState> {
   MainCubit() : super(MainInitial());
   INetworkChangeManager networkChange = NetworkChangeManager();
-
+  late NetworkResult previousState;
   void checkConnection() {
-    networkChange.checkNetworkFirstTime().then((result) {
+    networkChange.checkNetworkFirstTime().then((result) async {
+      previousState = result;
       if (result == NetworkResult.off) {
         emit(MainNoInternet());
       } else {
@@ -24,10 +25,13 @@ class MainCubit extends Cubit<MainState> {
       }
     });
     networkChange.handleNetworkChange((result) {
-      if (result == NetworkResult.off) {
+      if (result == NetworkResult.off && previousState == NetworkResult.on) {
+        previousState = result;
         emit(MainNoInternet());
-      } else {
-        checkLogin();
+      } else if (result == NetworkResult.on &&
+          previousState == NetworkResult.off) {
+        previousState = result;
+        emit(MainLoggedIn());
       }
     });
   }

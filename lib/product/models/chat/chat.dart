@@ -117,19 +117,19 @@ class Opposition {
   @JsonKey(name: "_id")
   String id;
   @JsonKey(name: "email")
-  String email;
+  String? email;
   @JsonKey(name: "password")
-  String password;
+  String? password;
   @JsonKey(name: "dateOfBirth")
-  String dateOfBirth;
+  String? dateOfBirth;
   @JsonKey(name: "IPDATA")
-  Ipdata ipdata;
+  Ipdata? ipdata;
   @JsonKey(name: "fullName")
   String fullName;
   @JsonKey(name: "profileImage")
   dynamic profileImage;
   @JsonKey(name: "phoneNumber")
-  String phoneNumber;
+  String? phoneNumber;
   @JsonKey(name: "lastTimeLoggedIn")
   double lastTimeLoggedIn;
   @JsonKey(name: "ipraw")

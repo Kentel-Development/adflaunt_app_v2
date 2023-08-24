@@ -11,15 +11,15 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
       scc: json['SCC'] as bool?,
       id: json['_id'] as String,
       dateOfBirth: json['dateOfBirth'] as String?,
-      email: json['email'] as String,
-      fullName: json['fullName'] as String,
+      email: json['email'] as String?,
+      fullName: json['fullName'] as String?,
       idVerified: json['idVerified'] as bool,
-      ipraw: json['ipraw'] as String,
+      ipraw: json['ipraw'] as String?,
       lastTimeLoggedIn: (json['lastTimeLoggedIn'] as num?)?.toDouble(),
       password: json['password'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       profileImage: json['profileImage'],
-      thirdParty: json['thirdParty'] as String,
+      thirdParty: json['thirdParty'] as String?,
     );
 
 Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) {
