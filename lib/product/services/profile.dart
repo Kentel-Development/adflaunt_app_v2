@@ -26,7 +26,6 @@ class ProfileService {
 
   static Future<http.Response> editProfile(String email, String password,
       String name, File? file, DateTime? date) async {
-    final currentUser = Hive.box<ProfileAdapter>("user").get("userData");
     var url = Uri.parse('${StringConstants.baseUrl}/api/updateprofile');
     if (file != null) {
       var request = http.MultipartRequest(
@@ -35,7 +34,6 @@ class ProfileService {
         "email": email,
         "password": password,
         "fullName": name,
-        "phoneNumber": Hive.box("user").get("phoneNumber"),
       });*/
       request.files.add(
         http.MultipartFile(
@@ -54,7 +52,6 @@ class ProfileService {
           'email': email,
           'password': password,
           'fullName': name,
-          'phoneNumber': currentUser!.phoneNumber!,
           'profileImage': jsonDecode(data.body)["file"],
         });
         return responseOfEdit;

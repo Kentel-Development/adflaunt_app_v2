@@ -19,8 +19,10 @@ class MainCubit extends Cubit<MainState> {
     networkChange.checkNetworkFirstTime().then((result) async {
       previousState = result;
       if (result == NetworkResult.off) {
+        print("no internet");
         emit(MainNoInternet());
       } else {
+        print("internet");
         checkLogin();
       }
     });
@@ -31,7 +33,7 @@ class MainCubit extends Cubit<MainState> {
       } else if (result == NetworkResult.on &&
           previousState == NetworkResult.off) {
         previousState = result;
-        emit(MainLoggedIn());
+        checkLogin();
       }
     });
   }
@@ -43,6 +45,7 @@ class MainCubit extends Cubit<MainState> {
         currentUser.password == null ||
         currentUser.email == "" ||
         currentUser.password == "") {
+      print("logged out");
       emit(MainLoggedOut());
     } else {
       emit(MainLoading());

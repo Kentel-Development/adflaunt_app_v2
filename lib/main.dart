@@ -109,6 +109,7 @@ class _MainAppState extends State<MainApp> {
         value: SystemUiOverlayStyle.dark,
         child: BlocBuilder<MainCubit, MainState>(
           builder: (context, state) {
+            print(state.toString());
             if (state is MainLoading) {
               return Scaffold(
                 body: Center(
