@@ -11,7 +11,6 @@ import 'package:adflaunt/product/services/download.dart';
 import 'package:adflaunt/product/services/user.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
 import 'package:adflaunt/product/widgets/loading_widget.dart';
-import 'package:adflaunt/product/widgets/review_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:adflaunt/core/extensions/string_extensions.dart';
@@ -19,6 +18,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../generated/l10n.dart';
 import '../chat/chat_view.dart';
@@ -319,9 +319,24 @@ class _CustomerPageState extends State<CustomerPage> {
                         snapshot.hasData
                             ? snapshot.data!.phoneNumber == null
                                 ? Container()
-                                : Text(S.of(context).phone +
-                                    ": +" +
-                                    snapshot.data!.phoneNumber.toString())
+                                : GestureDetector(
+                                    onTap: () {
+                                      launchUrlString("tel://" +
+                                          snapshot.data!.phoneNumber
+                                              .toString());
+                                    },
+                                    child: Text(
+                                      S.of(context).phone +
+                                          ": +" +
+                                          snapshot.data!.phoneNumber.toString(),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "Poppins",
+                                          decoration: TextDecoration.underline,
+                                          color: Colors.black),
+                                    ),
+                                  )
                             : Container(),
                         SizedBox(
                           height: 16,
@@ -466,10 +481,95 @@ class _CustomerPageState extends State<CustomerPage> {
       return GestureDetector(
         onTap: () async {
           if (!loading) {
-            showModalBottomSheet<dynamic>(
-              context: context,
-              builder: (context) => const ReviewModalSheet(),
-            ).then((value) async {
+            showDialog<dynamic>(
+                context: context,
+                builder: (context) {
+                  double _rating = 0.0;
+                  String _comment = "";
+                  return StatefulBuilder(builder: (context, state) {
+                    return Dialog(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 24.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              S.of(context).leaveAReview,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 16.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.star,
+                                    color: Colors.amber, size: 40.0),
+                                const SizedBox(width: 16.0),
+                                Text(
+                                  _rating.toStringAsFixed(1),
+                                  style: const TextStyle(fontSize: 24.0),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16.0),
+                            Slider(
+                              value: _rating,
+                              activeColor: Colors.amber,
+                              inactiveColor: Colors.amber.withOpacity(0.3),
+                              min: 0.0,
+                              max: 5.0,
+                              divisions: 10,
+                              onChanged: (value) {
+                                state(() {
+                                  _rating = value;
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 16.0),
+                            TextField(
+                              cursorColor: ColorConstants.colorPrimary,
+                              decoration: InputDecoration(
+                                hintText: S.of(context).writeAComment,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: ColorConstants.colorPrimary)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: ColorConstants.colorPrimary)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: ColorConstants.colorPrimary,
+                                        width: 2)),
+                              ),
+                              maxLines: 3,
+                              onChanged: (value) {
+                                state(() {
+                                  _comment = value;
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 16.0),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorConstants.colorPrimary,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context, {
+                                  'rating': _rating,
+                                  'comment': _comment,
+                                });
+                              },
+                              child: Text(S.of(context).submit),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+                }).then((value) async {
               if (value != null) {
                 if (value["rating"] == 0.0 &&
                     value["comment"].toString().isEmpty) {

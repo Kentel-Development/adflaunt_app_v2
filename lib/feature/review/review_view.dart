@@ -64,6 +64,7 @@ class _ReviewViewState extends State<ReviewView> {
                           children: [
                             Container(
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
                                     children: [
@@ -102,9 +103,11 @@ class _ReviewViewState extends State<ReviewView> {
                                       ),
                                     ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 2.0, top: 2.0),
+                                  SizedBox(
+                                    height: 4,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerLeft,
                                     child: Text(
                                       DateFormat(StringConstants.dateFormat)
                                           .format(DateTime

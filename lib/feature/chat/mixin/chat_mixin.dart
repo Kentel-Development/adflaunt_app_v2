@@ -146,6 +146,7 @@ mixin ChatMixin on State<ChatView> {
 
   @override
   void dispose() {
+    socket.disconnect();
     super.dispose();
   }
 
@@ -187,7 +188,7 @@ mixin ChatMixin on State<ChatView> {
       print(data);
     });
     await NotificationService.sendChatNotification(
-        otherUser.id, message.text, otherUser.firstName!, widget.chatId);
+        otherUser.id, message.text, currentUser.fullName!, widget.chatId);
   }
 
   void handleImageSelection() async {

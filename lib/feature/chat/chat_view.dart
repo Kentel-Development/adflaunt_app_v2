@@ -15,7 +15,37 @@ class ChatView extends StatefulWidget {
   State<ChatView> createState() => _ChatViewState();
 }
 
-class _ChatViewState extends State<ChatView> with ChatMixin {
+class _ChatViewState extends State<ChatView>
+    with ChatMixin, WidgetsBindingObserver {
+  AppLifecycleState appLifecycleState = AppLifecycleState.resumed;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    setState(() {
+      appLifecycleState = state;
+    });
+    print('state: $state');
+    if (state == AppLifecycleState.resumed) {
+      setState(() {
+        messages = [];
+      });
+      socket.connect();
+    } else if (state == AppLifecycleState.paused) {
+      socket.disconnect();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (themUser == null) {

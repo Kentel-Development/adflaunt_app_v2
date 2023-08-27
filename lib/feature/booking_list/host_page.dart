@@ -15,6 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../core/constants/icon_constants.dart';
 import '../../core/constants/string_constants.dart';
@@ -333,9 +334,26 @@ class _HostPageState extends State<HostPage> {
                             snapshot.hasData
                                 ? snapshot.data!.phoneNumber == null
                                     ? Container()
-                                    : Text(S.of(context).phone +
-                                        ": +" +
-                                        snapshot.data!.phoneNumber.toString())
+                                    : GestureDetector(
+                                        onTap: () {
+                                          launchUrlString("tel://" +
+                                              snapshot.data!.phoneNumber
+                                                  .toString());
+                                        },
+                                        child: Text(
+                                          S.of(context).phone +
+                                              ": +" +
+                                              snapshot.data!.phoneNumber
+                                                  .toString(),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: "Poppins",
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              color: Colors.black),
+                                        ),
+                                      )
                                 : Container(),
                             SizedBox(
                               height: 16,

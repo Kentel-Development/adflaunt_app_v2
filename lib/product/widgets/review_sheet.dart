@@ -18,8 +18,8 @@ class _ReviewModalSheetState extends State<ReviewModalSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
+    return Scaffold(
+      body: Padding(
         padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
