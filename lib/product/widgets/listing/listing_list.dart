@@ -156,14 +156,20 @@ class _ListingListState extends State<ListingList>
                   height: 25,
                   width: MediaQuery.of(context).size.width - 155,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(listing.title,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "Poppins",
-                          )),
+                      Expanded(
+                        child: Text(listing.title,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "Poppins",
+                            )),
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
                       widget.isMyListing
                           ? GestureDetector(
                               onTap: () {

@@ -234,6 +234,8 @@ class _ListingGridState extends State<ListingGrid>
                             children: [
                               Expanded(
                                 child: Text(listing.title,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       fontFamily: "Poppins",
                                       fontSize: 14,
