@@ -38,6 +38,7 @@ class ListingCalendarView extends StatelessWidget {
                   : PagedVerticalCalendar(
                       minDate: listing.checkIn.parseDate(),
                       maxDate: listing.checkOut.parseDate(),
+                      initialDate: listing.checkIn.parseDate(),
                       dayBuilder: (context, date) {
                         bool isBetween;
                         bool isStart = snapshot.data!.output!.any((element) {
