@@ -233,7 +233,7 @@ class _CustomerPageState extends State<CustomerPage> {
                                           : S.of(context).idNotVerified,
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: Color.fromRGBO(161, 161, 161, 1),
+                                        color: Color.fromRGBO(161, 161, 161, 1)  ,
                                         fontWeight: FontWeight.w400,
                                         fontFamily: "Poppins",
                                       ),

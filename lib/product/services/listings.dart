@@ -135,42 +135,36 @@ class ListingsAPI {
     DateTime? checkIn,
     DateTime? checkOut,
   ) async {
-    try {
-      var url =
-          Uri.parse('${StringConstants.baseUrl}/api/get/listingsFilterer');
-      url = Uri.http(url.authority, url.path, {
-        if (type != null) 'type': type.toString(),
-        if (category != null) 'category': category,
-        if (checkIn != null)
-          'from': DateFormat(StringConstants.dateFormat).format(checkIn),
-        if (checkOut != null)
-          'to': DateFormat(StringConstants.dateFormat).format(checkOut),
-        if (from != null) 'minsq': from,
-        if (to != null) 'maxsq': to,
-        if (city != "" && city != null && city != "null") 'city': city,
-        if (state != "" && state != null && city != "null") 'state': state,
-        if (country != "" && country != null && city != "null")
-          'country': country,
-        if (zip != "" && zip != null && city != "null") 'zipCode': zip,
-        if (priceStart != null) 'priceStart': priceStart,
-        if (priceEnd != null) 'priceEnd': priceEnd,
-        if (lat != null) 'lat': lat,
-        if (lng != null) 'long': lng,
-        if (q != null && q != "" && q != "null") 'q': q,
-        if (km != null) 'km': km,
-      });
-      log(url.toString());
-      var response = await http.get(url);
-      if (response.statusCode == 200) {
-        log(response.body);
-        Results data = resultsFromJson(response.body);
-        return data.output;
-      } else {
-        log('Request failed with status: ${response.statusCode}.');
-        throw Exception('Failed to load listings');
-      }
-    } catch (e) {
-      log(e.toString());
+    var url = Uri.parse('${StringConstants.baseUrl}/api/get/listingsFilterer');
+    url = Uri.http(url.authority, url.path, {
+      if (type != null) 'type': type.toString(),
+      if (category != null) 'category': category,
+      if (checkIn != null)
+        'from': DateFormat(StringConstants.dateFormat).format(checkIn),
+      if (checkOut != null)
+        'to': DateFormat(StringConstants.dateFormat).format(checkOut),
+      if (from != null) 'minsq': from,
+      if (to != null) 'maxsq': to,
+      if (city != "" && city != null && city != "null") 'city': city,
+      if (state != "" && state != null && city != "null") 'state': state,
+      if (country != "" && country != null && city != "null")
+        'country': country,
+      if (zip != "" && zip != null && city != "null") 'zipCode': zip,
+      if (priceStart != null) 'priceStart': priceStart,
+      if (priceEnd != null) 'priceEnd': priceEnd,
+      if (lat != null) 'lat': lat,
+      if (lng != null) 'long': lng,
+      if (q != null && q != "" && q != "null") 'q': q,
+      if (km != null) 'km': km,
+    });
+    log(url.toString());
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      log(response.body);
+      Results data = resultsFromJson(response.body);
+      return data.output;
+    } else {
+      log('Request failed with status: ${response.statusCode}.');
       throw Exception('Failed to load listings');
     }
   }

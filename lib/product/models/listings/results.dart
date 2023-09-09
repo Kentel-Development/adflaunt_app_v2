@@ -204,7 +204,7 @@ class Customer {
   @JsonKey(name: "_id")
   String id;
   @JsonKey(name: "dateOfBirth")
-  String dateOfBirth;
+  String? dateOfBirth;
   @JsonKey(name: "email")
   String email;
   @JsonKey(name: "fullName")

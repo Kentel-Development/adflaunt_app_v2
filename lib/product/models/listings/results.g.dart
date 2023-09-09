@@ -135,7 +135,7 @@ Map<String, dynamic> _$ReviewToJson(Review instance) => <String, dynamic>{
 Customer _$CustomerFromJson(Map<String, dynamic> json) => Customer(
       ipdata: Ipdata.fromJson(json['IPDATA'] as Map<String, dynamic>),
       id: json['_id'] as String,
-      dateOfBirth: json['dateOfBirth'] as String,
+      dateOfBirth: json['dateOfBirth'] as String?,
       email: json['email'] as String,
       fullName: json['fullName'] as String,
       idVerified: json['idVerified'] as bool?,

@@ -115,12 +115,20 @@ class BalanceView extends StatelessWidget {
                                                   .toString()) >
                                           0) {
                                         final Email email = Email(
-                                          subject: 'Request Withdraw',
+                                          subject: 'Withdrawal Request',
                                           recipients: ['flauntad@gmail.com'],
                                           isHTML: false,
                                         );
-
-                                        await FlutterEmailSender.send(email);
+                                        try {
+                                          await FlutterEmailSender.send(email);
+                                        } catch (e) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                            content: Text(
+                                                "You have no email app installed. Please send your balance withdrawal request to flauntad@gmail.com"),
+                                            duration: Duration(seconds: 2),
+                                          ));
+                                        }
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(

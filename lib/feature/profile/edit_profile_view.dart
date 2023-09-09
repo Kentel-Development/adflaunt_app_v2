@@ -168,7 +168,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        S.of(context).name,
+                        S.of(context).fullName,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
