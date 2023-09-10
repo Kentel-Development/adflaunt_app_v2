@@ -19,13 +19,12 @@ class _ReviewViewState extends State<ReviewView> {
   final ScrollController _scrollController = ScrollController();
 
   List<Review> reviews = <Review>[];
-  int page = 0;
-  int _currentPage = 1;
+  int page = 1;
   bool _isLoading = false;
 
   @override
   void initState() {
-    ReviewService.getReviews(widget.listingId, _currentPage).then((value) {
+    ReviewService.getReviews(widget.listingId, page).then((value) {
       value['reviews'].forEach((dynamic review) {
         reviews.add(Review.fromJson(review as Map<String, dynamic>));
       });
@@ -39,9 +38,9 @@ class _ReviewViewState extends State<ReviewView> {
     if (_scrollController.offset >=
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
-      page++;
       if (!_isLoading) {
         setState(() {
+          page++;
           _isLoading = true;
         });
         ReviewService.getReviews(widget.listingId, page).then((value) async {

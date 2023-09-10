@@ -242,8 +242,9 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                   ),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
-                                      final list =
-                                          snapshot.data!.reversed.toList();
+                                      final list = snapshot
+                                          .data!.output.reversed
+                                          .toList();
                                       if (list.isEmpty) {
                                         return Column(
                                           children: [
@@ -316,12 +317,15 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                                       height: 200,
                                                       child: Row(
                                                           children: List.generate(
-                                                              snapshot.data!
+                                                              snapshot
+                                                                          .data!
+                                                                          .output
                                                                           .length >
                                                                       2
                                                                   ? 2
                                                                   : snapshot
                                                                       .data!
+                                                                      .output
                                                                       .length,
                                                               (index) {
                                                         return Expanded(
@@ -342,11 +346,12 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                                     ))
                                                 : Column(
                                                     children: List.generate(
-                                                        snapshot.data!.length >
+                                                        snapshot.data!.output
+                                                                    .length >
                                                                 2
                                                             ? 2
-                                                            : snapshot
-                                                                .data!.length,
+                                                            : snapshot.data!
+                                                                .output.length,
                                                         (index) {
                                                       return Padding(
                                                         padding:
@@ -392,7 +397,8 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                   ),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
-                                      final list = snapshot.data!.toList();
+                                      final list =
+                                          snapshot.data!.output.toList();
                                       if (list.isEmpty) {
                                         return Column(
                                           children: [
@@ -465,12 +471,15 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                                       height: 200,
                                                       child: Row(
                                                           children: List.generate(
-                                                              snapshot.data!
+                                                              snapshot
+                                                                          .data!
+                                                                          .output
                                                                           .length >
                                                                       2
                                                                   ? 2
                                                                   : snapshot
                                                                       .data!
+                                                                      .output
                                                                       .length,
                                                               (index) {
                                                         return Expanded(
@@ -491,11 +500,12 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                                     ))
                                                 : Column(
                                                     children: List.generate(
-                                                        snapshot.data!.length >
+                                                        snapshot.data!.output
+                                                                    .length >
                                                                 2
                                                             ? 2
-                                                            : snapshot
-                                                                .data!.length,
+                                                            : snapshot.data!
+                                                                .output.length,
                                                         (index) {
                                                       return Padding(
                                                         padding:
@@ -541,7 +551,8 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                   ),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
-                                      final list = snapshot.data!.toList();
+                                      final list =
+                                          snapshot.data!.output.toList();
                                       if (list.isEmpty) {
                                         return Column(
                                           children: [
@@ -612,12 +623,15 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                                       height: 200,
                                                       child: Row(
                                                           children: List.generate(
-                                                              snapshot.data!
+                                                              snapshot
+                                                                          .data!
+                                                                          .output
                                                                           .length >
                                                                       2
                                                                   ? 2
                                                                   : snapshot
                                                                       .data!
+                                                                      .output
                                                                       .length,
                                                               (index) {
                                                         return Expanded(
@@ -638,11 +652,12 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                                     ))
                                                 : Column(
                                                     children: List.generate(
-                                                        snapshot.data!.length >
+                                                        snapshot.data!.output
+                                                                    .length >
                                                                 2
                                                             ? 2
-                                                            : snapshot
-                                                                .data!.length,
+                                                            : snapshot.data!
+                                                                .output.length,
                                                         (index) {
                                                       return Padding(
                                                         padding:

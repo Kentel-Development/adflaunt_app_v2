@@ -117,7 +117,26 @@ class ListingsAPI {
     }
   }
 
-  static Future<List<Output>> listingsFilterer(
+  static Future<Results> paginatedListingsFilterer(
+      int page, String session) async {
+    var url = Uri.parse('${StringConstants.baseUrl}/api/get/listingsFilterer');
+    url = Uri.http(url.authority, url.path, {
+      "page": page.toString(),
+      "session": session,
+    });
+    log(url.toString());
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      log(response.body);
+      Results data = resultsFromJson(response.body);
+      return data;
+    } else {
+      log('Request failed with status: ${response.statusCode}.');
+      throw Exception('Failed to load listings');
+    }
+  }
+
+  static Future<Results> listingsFilterer(
     int? type,
     String? category,
     String? from,
@@ -162,21 +181,21 @@ class ListingsAPI {
     if (response.statusCode == 200) {
       log(response.body);
       Results data = resultsFromJson(response.body);
-      return data.output;
+      return data;
     } else {
       log('Request failed with status: ${response.statusCode}.');
       throw Exception('Failed to load listings');
     }
   }
 
-  static Future<List<Output>> getPropertiesBySearch(String search) async {
+  static Future<Results> getPropertiesBySearch(String search) async {
     var url = Uri.parse(
         '${StringConstants.baseUrl}/api/get/listings?mode=search&q=$search');
     var response = await http.get(url);
     if (response.statusCode == 200) {
       log(response.body);
-      return Results.fromJson(jsonDecode(response.body) as Map<String, dynamic>)
-          .output;
+      return Results.fromJson(
+          jsonDecode(response.body) as Map<String, dynamic>);
     } else {
       log('Request failed with status: ${response.statusCode}.');
       log(response.body);

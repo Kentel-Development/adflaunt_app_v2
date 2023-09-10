@@ -199,7 +199,9 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     );
                   } else {
-                    context.read<HomeCubit>().onMapCreated(snapshot.data!);
+                    context
+                        .read<HomeCubit>()
+                        .onMapCreated(snapshot.data!.output);
 
                     return Expanded(
                       child: DraggableBottomSheet(

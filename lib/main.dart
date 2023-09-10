@@ -60,6 +60,7 @@ void main() async {
   await Stripe.instance.applySettings();
   await Firebase.initializeApp();
   await FirebaseMessaging.instance.requestPermission();
+  initBackground();
   Hive.init((await getApplicationDocumentsDirectory()).path);
   Hive.registerAdapter(ProfileAdapterAdapter());
   Hive.registerAdapter(LocationAdapterAdapter());

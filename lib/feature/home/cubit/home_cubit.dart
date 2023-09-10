@@ -90,7 +90,7 @@ class HomeCubit extends BaseBloc<HomeState, HomeState> {
           null,
           null);
 
-      await addMarker(listings);
+      await addMarker(listings.output);
 
       safeEmit(HomeMapUpdated());
     } catch (e) {
