@@ -2119,6 +2119,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Completed`
+  String get completed {
+    return Intl.message(
+      'Completed',
+      name: 'completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upcoming`
+  String get upcoming {
+    return Intl.message(
+      'Upcoming',
+      name: 'upcoming',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No upcoming bookings`
+  String get noUpcomingBookings {
+    return Intl.message(
+      'No upcoming bookings',
+      name: 'noUpcomingBookings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No completed bookings`
+  String get noCompletedBookings {
+    return Intl.message(
+      'No completed bookings',
+      name: 'noCompletedBookings',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

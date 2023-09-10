@@ -205,5 +205,9 @@
   "thisBookingHasBeenDeleted": "This booking has been deleted",
   "digitalAdDisplayPanel": "Digital Ad Display Panel",
   "crossStreet": "Cross Street",
-  "enterYourCrossStreet": "Enter your cross street"
+  "enterYourCrossStreet": "Enter your cross street",
+  "completed": "Completed",
+  "upcoming": "Upcoming",
+  "noUpcomingBookings": "No upcoming bookings",
+  "noCompletedBookings": "No completed bookings"
 }

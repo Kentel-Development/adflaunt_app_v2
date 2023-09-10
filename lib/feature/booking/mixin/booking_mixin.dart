@@ -7,6 +7,7 @@ import 'dart:ui';
 
 import 'package:adflaunt/core/extensions/date_parser_extension.dart';
 import 'package:adflaunt/feature/booking/booking_view.dart';
+import 'package:adflaunt/feature/booking_list/customer_page.dart';
 import 'package:adflaunt/generated/l10n.dart';
 import 'package:adflaunt/product/services/booking.dart';
 import 'package:adflaunt/product/services/compress_files.dart';
@@ -410,7 +411,7 @@ mixin BookingMixin on State<BookingView> {
             } else {
               url = null;
             }
-            await BookingService.makeBooking(
+            final responseOfBooking = await BookingService.makeBooking(
               datePickerController.selectedRange!.startDate!,
               datePickerController.selectedRange!.endDate ??
                   datePickerController.selectedRange!.startDate!,
@@ -426,9 +427,19 @@ mixin BookingMixin on State<BookingView> {
               context: context,
               barrierDismissible: false,
               builder: (context) {
+                log(responseOfBooking.body.toString());
+                final data =
+                    jsonDecode(responseOfBooking.body) as Map<String, dynamic>;
                 Future.delayed(const Duration(seconds: 2), () {
                   Navigator.pop(context);
                   Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute<dynamic>(
+                    builder: (context) {
+                      return CustomerPage(
+                        bookingId: data["orderData"]["bookingID"].toString(),
+                      );
+                    },
+                  ));
                 });
                 return AlertDialog(
                   title: Text(

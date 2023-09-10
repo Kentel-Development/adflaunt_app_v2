@@ -87,6 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "client": MessageLookupByLibrary.simpleMessage("Client"),
         "completeBooking":
             MessageLookupByLibrary.simpleMessage("Complete Booking"),
+        "completed": MessageLookupByLibrary.simpleMessage("Completed"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmAndPay":
             MessageLookupByLibrary.simpleMessage("Confirm and Pay"),
@@ -195,6 +196,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "noBookingFound":
             MessageLookupByLibrary.simpleMessage("No Booking Found"),
+        "noCompletedBookings":
+            MessageLookupByLibrary.simpleMessage("No completed bookings"),
         "noDigitalListingsFound":
             MessageLookupByLibrary.simpleMessage("No Digital Listings Found"),
         "noFilesUploaded":
@@ -203,6 +206,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No Nearby Listings Found"),
         "noPopularListingsFound":
             MessageLookupByLibrary.simpleMessage("No Popular Listings Found"),
+        "noUpcomingBookings":
+            MessageLookupByLibrary.simpleMessage("No upcoming bookings"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "or": MessageLookupByLibrary.simpleMessage("Or"),
         "outdoorAds": MessageLookupByLibrary.simpleMessage("Outdoor Ads"),
@@ -309,6 +314,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "This booking has been deleted"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "typeOfSpace": MessageLookupByLibrary.simpleMessage("Type of space"),
+        "upcoming": MessageLookupByLibrary.simpleMessage("Upcoming"),
         "uploadAtLeastOneFile":
             MessageLookupByLibrary.simpleMessage("Upload at least one file"),
         "uploadFile": MessageLookupByLibrary.simpleMessage("File"),
