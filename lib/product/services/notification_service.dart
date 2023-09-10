@@ -19,12 +19,14 @@ class NotificationService {
       final body = {
         "to": "/topics/$externalUserId",
         "notification": {"title": name, "body": message},
+        "sound": "default",
         "data": {
           "page": "chat",
           "id": externalUserId,
           "chatID": chatID,
           "click_action": "FLUTTER_NOTIFICATION_CLICK",
           "name": name,
+          "content_available": true
         }
       };
       final url = Uri.parse("https://fcm.googleapis.com/fcm/send");

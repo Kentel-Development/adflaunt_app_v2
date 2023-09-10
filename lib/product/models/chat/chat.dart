@@ -15,7 +15,7 @@ class Chat {
   @JsonKey(name: "SCC")
   bool scc;
   @JsonKey(name: "SID")
-  String sid;
+  String? sid;
   @JsonKey(name: "chat")
   ChatClass chat;
   @JsonKey(name: "chatID")

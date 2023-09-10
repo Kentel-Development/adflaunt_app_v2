@@ -27,18 +27,23 @@ class CommonHeading extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            headingText,
-            style: TextStyle(
-              color: const Color.fromRGBO(12, 12, 38, 1),
-              fontSize: 18,
-              letterSpacing: -0.02,
-              fontWeight: FontWeight.w700,
+          Flexible(
+            child: Text(
+              headingText,
+              style: TextStyle(
+                color: const Color.fromRGBO(12, 12, 38, 1),
+                fontSize: 18,
+                letterSpacing: -0.02,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
           hasBtn
               ? Row(
                   children: [
+                    SizedBox(
+                      width: 16,
+                    ),
                     Text(
                       hasBtnText,
                       style: TextStyle(

@@ -10,20 +10,23 @@ import 'package:adflaunt/feature/review/review_view.dart';
 import 'package:adflaunt/product/models/listings/results.dart';
 import 'package:adflaunt/product/services/chat.dart';
 import 'package:adflaunt/product/services/reviews.dart';
+import 'package:adflaunt/product/services/user.dart';
 import 'package:adflaunt/product/widgets/headers/common_heading.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
 import 'package:adflaunt/product/widgets/listing/ad_specs.dart';
+import 'package:adflaunt/product/widgets/loading_widget.dart';
+import 'package:adflaunt/product/widgets/review_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
-import 'package:intl/intl.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../generated/l10n.dart';
 import '../../product/widgets/listing/tags.dart';
+import '../user_profile/user_profile_view.dart';
 
 class ListingDetailsView extends StatefulWidget {
   final Output listing;
@@ -33,13 +36,19 @@ class ListingDetailsView extends StatefulWidget {
   State<ListingDetailsView> createState() => _ListingDetailsViewState();
 }
 
-class _ListingDetailsViewState extends State<ListingDetailsView> {
+class _ListingDetailsViewState extends State<ListingDetailsView>
+    with SingleTickerProviderStateMixin {
   late int selectedPage;
   late final PageController pageController;
   late Output listing;
   late List<String> adSpecs;
+  AnimationController? animationController;
   @override
   void initState() {
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
     listing = widget.listing;
     adSpecs = [
       listing.typeOfAdd,
@@ -358,6 +367,112 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                   height: 6,
                 ),
                 Divider(),
+                FutureBuilder(
+                  future: UserServices.getUserProfile(widget.listing.user),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          snapshot.error.toString(),
+                        ),
+                      );
+                    }
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: LoadingWidget(),
+                      );
+                    }
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute<dynamic>(
+                          builder: (context) {
+                            return UserProfileView(
+                              userProfileModel: snapshot.data,
+                              id: widget.listing.user,
+                            );
+                          },
+                        ));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              snapshot.data!.user!.profileImage == null
+                                  ? CircleAvatar(
+                                      radius: 24,
+                                      backgroundColor: ColorConstants.grey500,
+                                      child: Icon(
+                                        Icons.person,
+                                        size: 24,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : CircleAvatar(
+                                      radius: 24,
+                                      backgroundImage:
+                                          CachedNetworkImageProvider(
+                                        StringConstants.baseStorageUrl +
+                                            snapshot.data!.user!.profileImage
+                                                .toString(),
+                                      ),
+                                    ),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    snapshot.data!.user!.fullName!,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                  Text(
+                                    snapshot.data!.yearsOfHosting
+                                            .toString()
+                                            .toLowerCase() +
+                                        " " +
+                                        "hosting",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                IconConstants.star,
+                                height: 18,
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                snapshot.data!.averageRating.toString(),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                Divider(),
                 SizedBox(
                   height: 6,
                 ),
@@ -452,7 +567,7 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
                     ),
                     Row(
                       children: [
-                        Text("Country: ",
+                        Text(S.of(context).crossStreet + ": ",
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
@@ -841,114 +956,12 @@ class _ListingDetailsViewState extends State<ListingDetailsView> {
               ? 3
               : listing.reviews!.length,
       itemBuilder: (context, index) {
-        return Container(
-          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: Colors.white,
-            border: Border.all(
-              color: ColorConstants.grey2000,
-              width: 0.6,
-            ),
-          ),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            listing.reviews![index].customer.profileImage ==
-                                    null
-                                ? Container(
-                                    height: 24,
-                                    padding: EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: ColorConstants.grey500,
-                                    ),
-                                    child: Icon(Icons.person, size: 16),
-                                  )
-                                : CircleAvatar(
-                                    radius: 16,
-                                    backgroundImage: NetworkImage(
-                                      StringConstants.baseStorageUrl +
-                                          listing.reviews![index].customer
-                                              .profileImage
-                                              .toString(),
-                                    ),
-                                  ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            Text(
-                              listing.reviews![index].customer.fullName,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            DateFormat(StringConstants.dateFormat).format(
-                                DateTime.fromMillisecondsSinceEpoch(
-                                    (listing.reviews![index].at * 1000)
-                                        .toInt())),
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        listing.reviews![index].star.toString(),
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: "Poppins",
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 4,
-                      ),
-                      SvgPicture.asset(IconConstants.star),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  listing.reviews![index].review,
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w400),
-                ),
-              )
-            ],
-          ),
-        );
+        return ReviewWidget(
+            profileImage: listing.reviews![index].customer.profileImage,
+            fullName: listing.reviews![index].customer.fullName,
+            review: listing.reviews![index].review,
+            star: listing.reviews![index].star,
+            at: listing.reviews![index].at);
       },
     );
   }

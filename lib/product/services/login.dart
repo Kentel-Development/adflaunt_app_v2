@@ -18,9 +18,8 @@ class LoginAPI {
       final response = await http.post(
         url,
         body: {
-          'email': "ricky@digitalmarketspace.net",
-          'password':
-              "e6fd9d2582efcedc8cbbc0db1424e39f9c7bf8209c8f27c9ef022ba425116acd676ce6aae5e767fd5d77dc7f0762f44ce80f77e0ffda159fdf5e4c8e035362a3",
+          'email': email,
+          'password': password,
           if (lat != null) 'lat': lat,
           if (long != null) 'long': long,
         },

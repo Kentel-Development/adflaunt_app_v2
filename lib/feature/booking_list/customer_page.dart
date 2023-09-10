@@ -222,7 +222,9 @@ class _CustomerPageState extends State<CustomerPage> {
                                           ? IconConstants.check_ring
                                           : IconConstants.cross_ring,
                                       // ignore: deprecated_member_use
-                                      color: Color.fromRGBO(161, 161, 161, 1),
+                                      color: snapshot.data!.idVerified
+                                          ? Color.fromRGBO(9, 140, 38, 1)
+                                          : Color.fromRGBO(221, 27, 73, 1),
                                     ),
                                     SizedBox(
                                       width: 8,
@@ -233,7 +235,9 @@ class _CustomerPageState extends State<CustomerPage> {
                                           : S.of(context).idNotVerified,
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: Color.fromRGBO(161, 161, 161, 1)  ,
+                                        color: snapshot.data!.idVerified
+                                            ? Color.fromRGBO(9, 140, 38, 1)
+                                            : Color.fromRGBO(221, 27, 73, 1),
                                         fontWeight: FontWeight.w400,
                                         fontFamily: "Poppins",
                                       ),

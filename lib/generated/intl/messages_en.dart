@@ -95,6 +95,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "continueWithGooglePay":
             MessageLookupByLibrary.simpleMessage("Continue with Google Pay"),
         "country": MessageLookupByLibrary.simpleMessage("Country"),
+        "crossStreet": MessageLookupByLibrary.simpleMessage("Cross Street"),
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("Date of Birth"),
         "dates": MessageLookupByLibrary.simpleMessage("Dates"),
         "day": MessageLookupByLibrary.simpleMessage("day"),
@@ -124,6 +125,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter your city"),
         "enterYourCountry":
             MessageLookupByLibrary.simpleMessage("Enter your country"),
+        "enterYourCrossStreet":
+            MessageLookupByLibrary.simpleMessage("Enter your cross street"),
         "enterYourState":
             MessageLookupByLibrary.simpleMessage("Enter your state"),
         "enterYourZipCode":

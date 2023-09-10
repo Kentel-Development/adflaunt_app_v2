@@ -15,10 +15,8 @@ import '../../models/listings/results.dart';
 import '../../services/favorites.dart';
 
 class ListingGrid extends StatefulWidget {
-  const ListingGrid({
-    super.key,
-    required this.listing,
-  });
+  const ListingGrid({super.key, required this.listing, this.color});
+  final bool? color;
   final Output listing;
 
   @override
@@ -221,7 +219,9 @@ class _ListingGridState extends State<ListingGrid>
                         bottomLeft: Radius.circular(10),
                         bottomRight: Radius.circular(10),
                       ),
-                      color: Color.fromRGBO(245, 245, 245, 1),
+                      color: widget.color == null
+                          ? Color.fromRGBO(245, 245, 245, 1)
+                          : Colors.white,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

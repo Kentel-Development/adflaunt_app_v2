@@ -6,6 +6,7 @@ import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:intl/intl.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({required this.chatId, super.key});
@@ -41,7 +42,9 @@ class _ChatViewState extends State<ChatView>
         messages = [];
       });
       socket.connect();
-    } else if (state == AppLifecycleState.paused) {
+    } else if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      loading = true;
       socket.disconnect();
     }
   }
@@ -105,22 +108,27 @@ class _ChatViewState extends State<ChatView>
             ),
           ),
         ),
-        body: Chat(
-            theme: DefaultChatTheme(
-              backgroundColor: ColorConstants.backgroundColor,
-              primaryColor: Colors.black,
-              secondaryColor: ColorConstants.grey2000,
-              attachmentButtonIcon: Icon(
-                Icons.photo,
-                color: Colors.white,
-              ),
-            ),
-            onMessageDoubleTap: handleMessageTap,
-            onEndReached: handleEndReached,
-            isAttachmentUploading: loading,
-            onAttachmentPressed: handleImageSelection,
-            messages: messages,
-            onSendPressed: handleSendPressed,
-            user: user));
+        body: loading
+            ? Center(
+                child: LoadingWidget(),
+              )
+            : Chat(
+                timeFormat: DateFormat(DateFormat.HOUR_MINUTE),
+                theme: DefaultChatTheme(
+                  backgroundColor: ColorConstants.backgroundColor,
+                  primaryColor: Colors.black,
+                  secondaryColor: ColorConstants.grey2000,
+                  attachmentButtonIcon: Icon(
+                    Icons.photo,
+                    color: Colors.white,
+                  ),
+                ),
+                onMessageDoubleTap: handleMessageTap,
+                onEndReached: handleEndReached,
+                isAttachmentUploading: loading,
+                onAttachmentPressed: handleImageSelection,
+                messages: messages,
+                onSendPressed: handleSendPressed,
+                user: user));
   }
 }

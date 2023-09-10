@@ -139,12 +139,16 @@ class AllListingsView extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(snapshot.data![index].title,
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: "Poppins",
-                                              )),
+                                          Flexible(
+                                            child: Text(
+                                                snapshot.data![index].title,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "Poppins",
+                                                )),
+                                          ),
                                           ValueListenableBuilder(
                                               valueListenable:
                                                   Hive.box<List<String>>(

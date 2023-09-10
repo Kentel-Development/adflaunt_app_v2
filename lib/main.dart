@@ -16,10 +16,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_background/flutter_background.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:workmanager/workmanager.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -27,6 +29,25 @@ class MyHttpOverrides extends HttpOverrides {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+Future<void> workmanagerListen() async {
+  Workmanager().executeTask((notificationListen, data) {
+    return Future.value(true);
+  });
+}
+
+Future<void> initBackground() async {
+  if (Platform.isAndroid) {
+    bool initalized = await FlutterBackground.initialize();
+
+    if (initalized) {
+      FlutterBackground.enableBackgroundExecution();
+    }
+  }
+  if (Platform.isIOS) {
+    Workmanager().initialize(workmanagerListen);
   }
 }
 
@@ -47,8 +68,9 @@ void main() async {
   await Hive.openBox<List<String>>("recentSearch");
   await Hive.openBox<String>("translator");
   await Hive.openBox<List<String>>("favorites");
+  await Hive.openBox<List<String>>("seenMessages");
   runApp(MaterialApp(
-      theme: ThemeData(useMaterial3: false),
+      theme: ThemeData(useMaterial3: false, primaryColor: Colors.black),
       supportedLocales: const [
         Locale('en', 'US'),
       ],
@@ -70,6 +92,12 @@ class _MainAppState extends State<MainApp> {
 
   @override
   void initState() {
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      if (message != null) {
+        log("tesrt" + message.data.toString());
+        if (message.data['page'] == 'chat') {}
+      }
+    });
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       FocusScope.of(context).unfocus();
       final user = Hive.box<ProfileAdapter>('user').get('userData');

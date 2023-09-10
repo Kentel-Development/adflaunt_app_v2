@@ -37,12 +37,14 @@ class ChatOutput {
   double lastMessageTime;
   @JsonKey(name: "them")
   Them them;
-
+  @JsonKey(name: "unreadMessages")
+  int? unreadMessages;
   ChatOutput({
     required this.chatId,
     required this.lastMessage,
     required this.lastMessageTime,
     required this.them,
+    this.unreadMessages,
   });
 
   factory ChatOutput.fromJson(Map<String, dynamic> json) =>

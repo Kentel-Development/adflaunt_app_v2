@@ -48,9 +48,9 @@ class Output {
   @JsonKey(name: "bookingNote")
   String bookingNote;
   @JsonKey(name: "bookingOffset")
-  int bookingOffset;
+  double? bookingOffset;
   @JsonKey(name: "bookingWindow")
-  int bookingWindow;
+  double? bookingWindow;
   @JsonKey(name: "check_in")
   String checkIn;
   @JsonKey(name: "check_out")
@@ -76,11 +76,11 @@ class Output {
   @JsonKey(name: "long")
   double long;
   @JsonKey(name: "minimumBookingDuration")
-  int minimumBookingDuration;
+  double? minimumBookingDuration;
   @JsonKey(name: "numberOfReviews")
-  int? numberOfReviews;
+  dynamic numberOfReviews;
   @JsonKey(name: "population")
-  int population;
+  double? population;
   @JsonKey(name: "price")
   double price;
   @JsonKey(name: "requirements")

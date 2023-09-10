@@ -864,7 +864,7 @@ class _EditListingViewState extends State<EditListingView> {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            S.of(context).country,
+            S.of(context).crossStreet,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,
@@ -885,7 +885,7 @@ class _EditListingViewState extends State<EditListingView> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: S.of(context).enterYourCountry,
+            hintText: S.of(context).enterYourCrossStreet,
             contentPadding: EdgeInsets.symmetric(horizontal: 12),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),

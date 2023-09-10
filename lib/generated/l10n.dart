@@ -2099,6 +2099,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Cross Street`
+  String get crossStreet {
+    return Intl.message(
+      'Cross Street',
+      name: 'crossStreet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your cross street`
+  String get enterYourCrossStreet {
+    return Intl.message(
+      'Enter your cross street',
+      name: 'enterYourCrossStreet',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

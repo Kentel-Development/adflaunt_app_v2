@@ -8,7 +8,7 @@ part of 'chat.dart';
 
 Chat _$ChatFromJson(Map<String, dynamic> json) => Chat(
       scc: json['SCC'] as bool,
-      sid: json['SID'] as String,
+      sid: json['SID'] as String?,
       chat: ChatClass.fromJson(json['chat'] as Map<String, dynamic>),
       chatId: json['chatID'] as String,
       user: Opposition.fromJson(json['user'] as Map<String, dynamic>),

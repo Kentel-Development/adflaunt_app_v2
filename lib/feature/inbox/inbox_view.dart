@@ -28,13 +28,16 @@ class _InboxViewState extends State<InboxView> {
   final currentUser = Hive.box<ProfileAdapter>('user').get('userData')!;
   @override
   void initState() {
+    socket.connect();
     socket.onConnect((data) {
       print("connected");
     });
     socket.on("receive", (data) {
-      print(data["sender"].toString());
+      print("sender:" + data["sender"].toString());
+      print("receiver:" + data["receiver"].toString());
       if (currentUser.id == data["receiver"] ||
           currentUser.id == data["sender"]) {
+        print("received");
         setState(() {});
       }
     });
@@ -89,10 +92,16 @@ class _InboxViewState extends State<InboxView> {
                           chatId: snapshot.data!.chatOutput[index].chatId,
                         );
                       },
-                    )).then((value) => setState(() {}));
+                    )).then((value) async {
+                      setState(() {
+                        snapshot.data!.chatOutput[index].unreadMessages = 0;
+                      });
+                      socket.connect();
+                    });
                   },
                   child: Container(
                     height: 92,
+                    width: MediaQuery.of(context).size.width,
                     color: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 26),
                     child: Row(
@@ -114,55 +123,97 @@ class _InboxViewState extends State<InboxView> {
                               ),
                         SizedBox(width: 12),
                         Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(
-                                child: Row(
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                         snapshot.data!.chatOutput[index].them
                                             .fullName,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w600,
                                         )),
-                                    Text(
-                                      date.isSameDay(DateTime.now()) == true
-                                          ? DateFormat().add_Hm().format(date)
-                                          : DateFormat()
-                                              .add_yMMMd()
-                                              .format(date),
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w400,
+                                    Flexible(
+                                      child: Text(
+                                        lastMessage == null
+                                            ? ""
+                                            : lastMessage.bookingData == null
+                                                ? lastMessage.image == ""
+                                                    ? lastMessage.content
+                                                    : S.of(context).photo
+                                                : "${lastMessage.bookingData!.data!.customer != currentUser.id ? "You have a new booking for your ${lastMessage.bookingData!.listingData!.title!} listing." : "You made a booking for ${lastMessage.bookingData!.listingData!.title!} listing."}",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  lastMessage == null
-                                      ? ""
-                                      : lastMessage.bookingData == null
-                                          ? lastMessage.image == ""
-                                              ? lastMessage.content
-                                              : S.of(context).photo
-                                          : "${lastMessage.bookingData!.data!.customer != currentUser.id ? "You have a new booking for your ${lastMessage.bookingData!.listingData!.title!} listing." : "You made a booking for ${lastMessage.bookingData!.listingData!.title!} listing."}",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w400,
+                              SizedBox(width: 12),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    date.isSameDay(DateTime.now()) == true
+                                        ? DateFormat(DateFormat.HOUR_MINUTE)
+                                            .format(date)
+                                        : DateFormat().add_yMMMd().format(date),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
+                                  snapshot.data!.chatOutput[index]
+                                              .unreadMessages ==
+                                          0
+                                      ? Container()
+                                      : Container(
+                                          height: 24,
+                                          width: 24,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Color.fromRGBO(221, 27, 73, 1),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              snapshot.data!.chatOutput[index]
+                                                          .unreadMessages! >
+                                                      9
+                                                  ? "9+"
+                                                  : snapshot
+                                                      .data!
+                                                      .chatOutput[index]
+                                                      .unreadMessages
+                                                      .toString(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                ],
+                              )
                             ],
                           ),
                         ),

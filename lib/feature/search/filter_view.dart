@@ -699,7 +699,7 @@ class _FilterViewState extends State<FilterView> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      S.of(context).country,
+                      S.of(context).crossStreet,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -723,7 +723,7 @@ class _FilterViewState extends State<FilterView> {
                         },
                         cursorColor: ColorConstants.colorGray,
                         decoration: InputDecoration(
-                          hintText: S.of(context).country,
+                          hintText: S.of(context).crossStreet,
                           border: InputBorder.none,
                           alignLabelWithHint: false,
                           floatingLabelBehavior: FloatingLabelBehavior.never,

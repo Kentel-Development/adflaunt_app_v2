@@ -98,7 +98,7 @@ class LocationDetailsView extends StatelessWidget {
                   },
                   cursorColor: ColorConstants.colorGray,
                   decoration: InputDecoration(
-                    hintText: S.of(context).enterYourCountry,
+                    hintText: S.of(context).enterYourCrossStreet,
                     border: InputBorder.none,
                     alignLabelWithHint: false,
                     floatingLabelBehavior: FloatingLabelBehavior.never,

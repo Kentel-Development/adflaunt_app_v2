@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 
 import '../../product/widgets/headers/main_header.dart';
 
-class ReviewView extends StatefulWidget {
-  const ReviewView({required this.listingId, super.key});
+class ReviewUserView extends StatefulWidget {
+  const ReviewUserView({required this.listingId, super.key});
   final String listingId;
   @override
-  State<ReviewView> createState() => _ReviewViewState();
+  State<ReviewUserView> createState() => _ReviewUserViewState();
 }
 
-class _ReviewViewState extends State<ReviewView> {
+class _ReviewUserViewState extends State<ReviewUserView> {
   final ScrollController _scrollController = ScrollController();
 
   List<Review> reviews = <Review>[];
@@ -25,7 +25,7 @@ class _ReviewViewState extends State<ReviewView> {
 
   @override
   void initState() {
-    ReviewService.getReviews(widget.listingId, _currentPage).then((value) {
+    ReviewService.getUserReviews(widget.listingId, _currentPage).then((value) {
       value['reviews'].forEach((dynamic review) {
         reviews.add(Review.fromJson(review as Map<String, dynamic>));
       });
@@ -44,7 +44,8 @@ class _ReviewViewState extends State<ReviewView> {
         setState(() {
           _isLoading = true;
         });
-        ReviewService.getReviews(widget.listingId, page).then((value) async {
+        ReviewService.getUserReviews(widget.listingId, page)
+            .then((value) async {
           value['reviews'].forEach((dynamic review) {
             reviews.add(Review.fromJson(review as Map<String, dynamic>));
           });

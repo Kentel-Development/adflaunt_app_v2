@@ -203,5 +203,7 @@
   "continueWithGooglePay": "Continue with Google Pay",
   "uploadAtLeastOneFile": "Upload at least one file",
   "thisBookingHasBeenDeleted": "This booking has been deleted",
-  "digitalAdDisplayPanel": "Digital Ad Display Panel"
+  "digitalAdDisplayPanel": "Digital Ad Display Panel",
+  "crossStreet": "Cross Street",
+  "enterYourCrossStreet": "Enter your cross street"
 }

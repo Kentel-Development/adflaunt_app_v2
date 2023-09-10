@@ -23,6 +23,7 @@ ChatOutput _$ChatOutputFromJson(Map<String, dynamic> json) => ChatOutput(
       lastMessage: json['lastMessage'],
       lastMessageTime: (json['lastMessageTime'] as num).toDouble(),
       them: Them.fromJson(json['them'] as Map<String, dynamic>),
+      unreadMessages: json['unreadMessages'] as int?,
     );
 
 Map<String, dynamic> _$ChatOutputToJson(ChatOutput instance) =>
@@ -31,6 +32,7 @@ Map<String, dynamic> _$ChatOutputToJson(ChatOutput instance) =>
       'lastMessage': instance.lastMessage,
       'lastMessageTime': instance.lastMessageTime,
       'them': instance.them,
+      'unreadMessages': instance.unreadMessages,
     };
 
 LastMessageClass _$LastMessageClassFromJson(Map<String, dynamic> json) =>

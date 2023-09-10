@@ -1,7 +1,7 @@
 class StringConstants {
   static const String baseUrl = 'https://adflaunt.com';
   static const String baseStorageUrl = 'https://adflaunt.com/static/';
-  static const String dateFormat = "dd/MM/yyyy";
+  static const String dateFormat = "MM/dd/yyyy";
   static const String dateFormatBackend = "yyyy-MM-dd";
   static const String googleClientID =
       "602413865867-fika6irn2gm13kmvmpev8q8cge0mlio3.apps.googleusercontent.com";
