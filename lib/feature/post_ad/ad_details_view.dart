@@ -174,7 +174,7 @@ class AdDetailsView extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  S.of(context).installationDate,
+                  S.of(context).available,
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -272,7 +272,7 @@ class AdDetailsView extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  S.of(context).removalDate,
+                  S.of(context).until,
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,

@@ -52,6 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Approve Booking"),
         "asCustomer": MessageLookupByLibrary.simpleMessage("As Customer"),
         "asHost": MessageLookupByLibrary.simpleMessage("As Host"),
+        "available": MessageLookupByLibrary.simpleMessage("Available"),
         "backOfId": MessageLookupByLibrary.simpleMessage("Back of ID"),
         "balance": MessageLookupByLibrary.simpleMessage("Balance"),
         "bookNow": MessageLookupByLibrary.simpleMessage("Book Now"),
@@ -314,6 +315,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "This booking has been deleted"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "typeOfSpace": MessageLookupByLibrary.simpleMessage("Type of space"),
+        "until": MessageLookupByLibrary.simpleMessage("Until"),
         "upcoming": MessageLookupByLibrary.simpleMessage("Upcoming"),
         "uploadAtLeastOneFile":
             MessageLookupByLibrary.simpleMessage("Upload at least one file"),

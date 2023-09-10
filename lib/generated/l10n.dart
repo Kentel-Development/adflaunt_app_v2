@@ -2159,6 +2159,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Available`
+  String get available {
+    return Intl.message(
+      'Available',
+      name: 'available',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Until`
+  String get until {
+    return Intl.message(
+      'Until',
+      name: 'until',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

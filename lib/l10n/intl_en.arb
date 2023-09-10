@@ -209,5 +209,7 @@
   "completed": "Completed",
   "upcoming": "Upcoming",
   "noUpcomingBookings": "No upcoming bookings",
-  "noCompletedBookings": "No completed bookings"
+  "noCompletedBookings": "No completed bookings",
+  "available": "Available",
+  "until": "Until"
 }

@@ -617,7 +617,7 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    S.of(context).installationDate,
+                    S.of(context).available,
                     style: TextStyle(
                       color: Color.fromRGBO(161, 161, 161, 1),
                       fontSize: 14,
@@ -644,7 +644,7 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    S.of(context).removalDate,
+                    S.of(context).until,
                     style: TextStyle(
                       color: Color.fromRGBO(161, 161, 161, 1),
                       fontSize: 14,

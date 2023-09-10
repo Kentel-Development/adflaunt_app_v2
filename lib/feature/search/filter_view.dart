@@ -334,7 +334,7 @@ class _FilterViewState extends State<FilterView> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      S.of(context).installationDate,
+                      S.of(context).available,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -415,7 +415,7 @@ class _FilterViewState extends State<FilterView> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      S.of(context).removalDate,
+                      S.of(context).until,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
