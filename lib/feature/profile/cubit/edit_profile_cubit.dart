@@ -28,6 +28,8 @@ class EditProfileCubit extends BaseBloc<EditProfileState, EditProfileState> {
         maxWidth: 256);
     if (pickedFile != null) {
       safeEmit(EditProfileLoading());
+      print(currentUser.email!);
+      print(currentUser.password!);
       try {
         await ProfileService.deleteOldImage();
         final editResponse = await ProfileService.editProfile(
@@ -50,7 +52,7 @@ class EditProfileCubit extends BaseBloc<EditProfileState, EditProfileState> {
                 phoneNumber: currentUser.phoneNumber,
                 profileImage: updatedUser.profileImage));
       } catch (e) {
-        safeEmit(EditProfileError(e.toString()));
+        safeEmit(EditProfileError("Unexpected error"));
       }
     }
   }

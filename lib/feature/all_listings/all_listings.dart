@@ -55,7 +55,7 @@ class _AllListingsViewState extends State<AllListingsView> {
   late String sid;
   bool _isLoading = false;
   final ScrollController _scrollController = ScrollController();
-  late List<Output> listings;
+  List<Output> listings = <Output>[];
   int page = 1;
   String digitalAds = "Digital Ads";
   String adSpacesNearYou = "Ad Spaces Near You";

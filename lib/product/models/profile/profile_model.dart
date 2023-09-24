@@ -12,7 +12,7 @@ String profileModelToJson(ProfileModel data) => json.encode(data.toJson());
 @JsonSerializable()
 class ProfileModel {
   @JsonKey(name: "IPDATA")
-  Ipdata ipdata;
+  Ipdata? ipdata;
   @JsonKey(name: "SCC", includeIfNull: false)
   bool? scc;
   @JsonKey(name: "_id")

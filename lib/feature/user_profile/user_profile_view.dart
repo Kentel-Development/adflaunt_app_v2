@@ -112,232 +112,236 @@ class _UserProfileViewState extends State<UserProfileView> {
         color: ColorConstants.backgroundColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 12,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(211, 211, 211, 0.25),
-                        spreadRadius: 0,
-                        blurRadius: 0,
-                        offset: Offset(0, 0), // changes position of shadow
-                      ),
-                      BoxShadow(
-                        color: Color.fromRGBO(211, 211, 211, 0.25),
-                        spreadRadius: 0,
-                        blurRadius: 4,
-                        offset: Offset(0, 4), // changes position of shadow
-                      ),
-                      BoxShadow(
-                        color: Color.fromRGBO(211, 211, 211, 0.25),
-                        spreadRadius: 0,
-                        blurRadius: 4,
-                        offset: Offset(0, 10), // changes position of shadow
-                      ),
-                      BoxShadow(
-                        color: Color.fromRGBO(211, 211, 211, 0.25),
-                        spreadRadius: 0,
-                        blurRadius: 0,
-                        offset: Offset(0, 0), // changes position of shadow
-                      ),
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            userProfileModel.numberOfReviews!
-                                .round()
-                                .toString(),
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Poppins'),
-                          ),
-                          Text(
-                            'Reviews',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Poppins'),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            intPart.toString(),
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Poppins'),
-                          ),
-                          Text(
-                            strPart + ' Hosting',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Poppins'),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            userProfileModel.averageRating.toString(),
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Poppins'),
-                          ),
-                          Text(
-                            'Rating',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Poppins'),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 12,
                 ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              userProfileModel.numberOfReviews! < 1
-                  ? Container()
-                  : Column(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromRGBO(211, 211, 211, 0.25),
+                          spreadRadius: 0,
+                          blurRadius: 0,
+                          offset: Offset(0, 0), // changes position of shadow
+                        ),
+                        BoxShadow(
+                          color: Color.fromRGBO(211, 211, 211, 0.25),
+                          spreadRadius: 0,
+                          blurRadius: 4,
+                          offset: Offset(0, 4), // changes position of shadow
+                        ),
+                        BoxShadow(
+                          color: Color.fromRGBO(211, 211, 211, 0.25),
+                          spreadRadius: 0,
+                          blurRadius: 4,
+                          offset: Offset(0, 10), // changes position of shadow
+                        ),
+                        BoxShadow(
+                          color: Color.fromRGBO(211, 211, 211, 0.25),
+                          spreadRadius: 0,
+                          blurRadius: 0,
+                          offset: Offset(0, 0), // changes position of shadow
+                        ),
+                      ],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<dynamic>(
-                                builder: (context) {
-                                  return ReviewUserView(
-                                      listingId: userProfileModel.user!.id!);
-                                },
-                              ),
-                            );
-                          },
-                          child: CommonHeading(
-                            hasMargin: false,
-                            hasSpacing: false,
-                            hasBtn: true,
-                            onPress: false,
-                            headingText:
-                                "${userProfileModel.user!.fullName}'s Reviews",
-                          ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              userProfileModel.numberOfReviews!
+                                  .round()
+                                  .toString(),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Poppins'),
+                            ),
+                            Text(
+                              'Reviews',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Poppins'),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 12,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              intPart.toString(),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Poppins'),
+                            ),
+                            Text(
+                              strPart + ' Hosting',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Poppins'),
+                            ),
+                          ],
                         ),
-                        ListView.separated(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return ReviewWidget(
-                                profileImage: userProfileModel.user!
-                                    .reviews![index].customer!.profileImage,
-                                fullName: userProfileModel
-                                    .user!.reviews![index].customer!.fullName!,
-                                review: userProfileModel
-                                    .user!.reviews![index].review!,
-                                star: userProfileModel
-                                    .user!.reviews![index].star!,
-                                at: userProfileModel.user!.reviews![index].at!);
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: 8,
-                            );
-                          },
-                          itemCount: userProfileModel.user!.reviews!.length,
-                        )
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              userProfileModel.averageRating.toString(),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Poppins'),
+                            ),
+                            Text(
+                              'Rating',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Poppins'),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-              userProfileModel.listings != null &&
-                      userProfileModel.listings!.isNotEmpty
-                  ? Column(
-                      children: [
-                        CommonHeading(
-                            hasMargin: false,
-                            hasSpacing: false,
-                            hasBtn: false,
-                            onPress: false,
-                            headingText:
-                                "${userProfileModel.user!.fullName}'s Listings"),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        SizedBox(
-                          height: 200,
-                          width: MediaQuery.of(context).size.width,
-                          child: ListView.separated(
-                            itemCount: userProfileModel.listings!.length,
-                            scrollDirection: Axis.horizontal,
-                            separatorBuilder: (context, index) {
-                              return SizedBox(
-                                width: 16,
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                userProfileModel.numberOfReviews! < 1
+                    ? Container()
+                    : Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<dynamic>(
+                                  builder: (context) {
+                                    return ReviewUserView(
+                                        listingId: userProfileModel.user!.id!);
+                                  },
+                                ),
                               );
                             },
-                            itemBuilder: (context, index) {
-                              final json =
-                                  userProfileModel.listings![index].toJson();
-                              json["requirements"] = userProfileModel
-                                  .listings![index].requirements!
-                                  .toJson();
-                              json["reviews"] = userProfileModel
-                                  .listings![index].reviews!
-                                  .map((e) {
-                                final json = e.toJson();
-                                final customer = e.customer!.toJson();
-                                customer["IPDATA"] =
-                                    e.customer!.ipdata!.toJson();
-                                customer.remove("orders");
-                                json["customer"] = customer;
-                                return json;
-                              }).toList();
-
-                              return SizedBox(
-                                  height: 200,
-                                  width: MediaQuery.of(context).size.width / 2 -
-                                      32,
-                                  child: ListingGrid(
-                                      listing: Output.fromJson(json),
-                                      color: true));
-                            },
+                            child: CommonHeading(
+                              hasMargin: false,
+                              hasSpacing: false,
+                              hasBtn: true,
+                              onPress: false,
+                              headingText:
+                                  "${userProfileModel.user!.fullName}'s Reviews",
+                            ),
                           ),
-                        ),
-                      ],
-                    )
-                  : Container()
-            ],
+                          SizedBox(
+                            height: 12,
+                          ),
+                          ListView.separated(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return ReviewWidget(
+                                  profileImage: userProfileModel.user!
+                                      .reviews![index].customer!.profileImage,
+                                  fullName: userProfileModel.user!
+                                      .reviews![index].customer!.fullName!,
+                                  review: userProfileModel
+                                      .user!.reviews![index].review!,
+                                  star: userProfileModel
+                                      .user!.reviews![index].star!,
+                                  at: userProfileModel
+                                      .user!.reviews![index].at!);
+                            },
+                            separatorBuilder: (context, index) {
+                              return SizedBox(
+                                height: 8,
+                              );
+                            },
+                            itemCount: userProfileModel.user!.reviews!.length,
+                          )
+                        ],
+                      ),
+                userProfileModel.listings != null &&
+                        userProfileModel.listings!.isNotEmpty
+                    ? Column(
+                        children: [
+                          CommonHeading(
+                              hasMargin: false,
+                              hasSpacing: false,
+                              hasBtn: false,
+                              onPress: false,
+                              headingText:
+                                  "${userProfileModel.user!.fullName}'s Listings"),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          SizedBox(
+                            height: 200,
+                            width: MediaQuery.of(context).size.width,
+                            child: ListView.separated(
+                              itemCount: userProfileModel.listings!.length,
+                              scrollDirection: Axis.horizontal,
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  width: 16,
+                                );
+                              },
+                              itemBuilder: (context, index) {
+                                final json =
+                                    userProfileModel.listings![index].toJson();
+                                json["requirements"] = userProfileModel
+                                    .listings![index].requirements!
+                                    .toJson();
+                                json["reviews"] = userProfileModel
+                                    .listings![index].reviews!
+                                    .map((e) {
+                                  final json = e.toJson();
+                                  final customer = e.customer!.toJson();
+                                  customer["IPDATA"] =
+                                      e.customer!.ipdata!.toJson();
+                                  customer.remove("orders");
+                                  json["customer"] = customer;
+                                  return json;
+                                }).toList();
+
+                                return SizedBox(
+                                    height: 200,
+                                    width:
+                                        MediaQuery.of(context).size.width / 2 -
+                                            32,
+                                    child: ListingGrid(
+                                        listing: Output.fromJson(json),
+                                        color: true));
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container()
+              ],
+            ),
           ),
         ),
       ),

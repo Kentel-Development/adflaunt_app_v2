@@ -7,7 +7,9 @@ part of 'profile_model.dart';
 // **************************************************************************
 
 ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
-      ipdata: Ipdata.fromJson(json['IPDATA'] as Map<String, dynamic>),
+      ipdata: json['IPDATA'] == null
+          ? null
+          : Ipdata.fromJson(json['IPDATA'] as Map<String, dynamic>),
       scc: json['SCC'] as bool?,
       id: json['_id'] as String,
       dateOfBirth: json['dateOfBirth'] as String?,
