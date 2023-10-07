@@ -2179,6 +2179,16 @@ class S {
       args: [],
     );
   }
+
+  /// `This address is where advertisements such as posters, signs, screens etc. will be shipped to.\nYou will be responsible for the installation of these advertisement.`
+  String get thisAddressIsWhereAdvertisementsSuchAsPostersSignsScreens {
+    return Intl.message(
+      'This address is where advertisements such as posters, signs, screens etc. will be shipped to.\\nYou will be responsible for the installation of these advertisement.',
+      name: 'thisAddressIsWhereAdvertisementsSuchAsPostersSignsScreens',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

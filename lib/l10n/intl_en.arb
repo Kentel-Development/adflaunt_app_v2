@@ -211,5 +211,6 @@
   "noUpcomingBookings": "No upcoming bookings",
   "noCompletedBookings": "No completed bookings",
   "available": "Available",
-  "until": "Until"
+  "until": "Until",
+  "thisAddressIsWhereAdvertisementsSuchAsPostersSignsScreens": "This address is where advertisements such as posters, signs, screens etc. will be shipped to.\\nYou will be responsible for the installation of these advertisement."
 }

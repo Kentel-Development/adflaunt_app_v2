@@ -215,16 +215,37 @@ class _VerifyIDViewState extends State<VerifyIDView>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              S.of(context).addYourShippingAddress,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Poppins',
+          Column(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  S.of(context).addYourShippingAddress,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Poppins',
+                  ),
+                  textAlign: TextAlign.left,
+                ),
               ),
-            ),
+              SizedBox(
+                height: 8,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  S
+                      .of(context)
+                      .thisAddressIsWhereAdvertisementsSuchAsPostersSignsScreens,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Poppins',
+                  ),
+                ),
+              ),
+            ],
           ),
           BlocBuilder<VerifyIdCubit, VerifyIdState>(
             builder: (context, state) {

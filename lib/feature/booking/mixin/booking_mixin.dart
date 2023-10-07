@@ -55,10 +55,12 @@ mixin BookingMixin on State<BookingView> {
       if (json['SCC'] != false) {
         setState(() {
           paymentMethods = json['data'] as List<dynamic>;
+          selectedPaymentMethod = 0;
         });
       } else {
         setState(() {
           paymentMethods = [];
+          selectedPaymentMethod = null;
         });
       }
     });
@@ -217,13 +219,14 @@ mixin BookingMixin on State<BookingView> {
                           });
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor:
-                                const Color.fromRGBO(241, 95, 95, 1),
+                            backgroundColor: Colors.green,
                             behavior: SnackBarBehavior.floating,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            content: Text(S.of(context).cardAddedSuccessfully),
+                            content: Text(
+                              S.of(context).cardAddedSuccessfully,
+                            ),
                           ));
                         } catch (e) {
                           Navigator.pop(context);

@@ -311,6 +311,9 @@ class MessageLookup extends MessageLookupByLibrary {
                 "The rating and comment cannot be empty"),
         "theRatingCannotBe0":
             MessageLookupByLibrary.simpleMessage("The rating cannot be 0"),
+        "thisAddressIsWhereAdvertisementsSuchAsPostersSignsScreens":
+            MessageLookupByLibrary.simpleMessage(
+                "This address is where advertisements such as posters, signs, screens etc. will be shipped to.\\nYou will be responsible for the installation of these advertisement."),
         "thisBookingHasBeenDeleted": MessageLookupByLibrary.simpleMessage(
             "This booking has been deleted"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),

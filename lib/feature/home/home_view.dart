@@ -289,27 +289,44 @@ class _HomeViewState extends State<HomeView> {
                                             Expanded(
                                               child: Padding(
                                                 padding:
-                                                    const EdgeInsets.all(8.0),
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8.0,
+                                                        vertical: 4),
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: <Widget>[
-                                                    Text(listing.title,
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headlineSmall),
                                                     Text(
-                                                        "\$" +
-                                                            listing.price
-                                                                .toString() +
-                                                            "/" +
-                                                            S.of(context).day,
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodySmall),
+                                                      listing.title,
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16,
+                                                      ),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                    Text(
+                                                      "\$" +
+                                                          listing.price
+                                                              .toString() +
+                                                          "/" +
+                                                          S.of(context).day,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodySmall,
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
                                                     Expanded(
                                                       child: Text(
-                                                          listing.description),
+                                                        listing.description,
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
                                                     )
                                                   ],
                                                 ),

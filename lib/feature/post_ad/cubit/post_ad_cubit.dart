@@ -5,6 +5,7 @@ import 'package:adflaunt/core/base/bloc_base.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/core/extensions/replace_non_ascii.dart';
+import 'package:adflaunt/core/extensions/string_extensions.dart';
 import 'package:adflaunt/product/models/listings/results.dart';
 import 'package:adflaunt/product/services/listings.dart';
 import 'package:adflaunt/product/services/location.dart';
@@ -62,7 +63,7 @@ class PostAdCubit extends BaseBloc<PostAdState, PostAdState> {
     safeEmit(PostAdLoading());
     try {
       final response = await ListingsAPI.postListing(
-          title,
+          title.capitalizeFirst,
           price,
           currentLocation!.latitude.toString(),
           currentLocation!.longitude.toString(),
