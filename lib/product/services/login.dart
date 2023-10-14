@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
@@ -53,5 +54,9 @@ class LoginAPI {
     final profileModel = Hive.box<ProfileAdapter>('user').get('userData')!;
     FirebaseMessaging.instance.unsubscribeFromTopic(profileModel.id!);
     await Hive.box<ProfileAdapter>('user').delete('userData');
+    await Hive.box<ProfileAdapter>('favorites').clear();
+    await Hive.box<ProfileAdapter>('recentSearch').clear();
+    await Hive.box<ProfileAdapter>('location').clear();
+    FlutterAppBadger.removeBadge();
   }
 }

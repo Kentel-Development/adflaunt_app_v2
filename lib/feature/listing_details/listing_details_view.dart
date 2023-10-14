@@ -135,7 +135,9 @@ class _ListingDetailsViewState extends State<ListingDetailsView>
                 ),
                 Center(
                   child: Text(
-                    "\$${listing.price}" + " / " + S.of(context).perDay,
+                    "\$${listing.price.toStringAsFixed(2)}" +
+                        " / " +
+                        S.of(context).perDay,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,

@@ -10,10 +10,11 @@ import 'package:adflaunt/product/services/listings.dart';
 import 'package:adflaunt/product/services/upload.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../core/constants/string_constants.dart';
 import '../../../generated/l10n.dart';
-import '../../../product/services/download.dart';
 
 part 'edit_listing_state.dart';
 
@@ -120,8 +121,9 @@ class EditListingCubit extends BaseBloc<EditListingState, EditListingState> {
   void getImages() async {
     safeEmit(EditListingLoading());
     for (final image in listing.images) {
-      final file = await DownloadService.downloadFile(image);
-      images.add(XFile(file.path));
+      final file = await DefaultCacheManager()
+          .getSingleFile(StringConstants.baseStorageUrl + image);
+      images.add(XFile(file.path, name: image));
     }
     newImages = [...images];
     safeEmit(EditListingNotify());

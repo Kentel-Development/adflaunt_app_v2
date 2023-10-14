@@ -458,87 +458,105 @@ class AboutListingView extends StatelessWidget {
             ),
             SizedBox(
               height: 40,
-              child: TextField(
-                controller: TextEditingController(
-                  text: context.read<PostAdCubit>().height,
-                ),
-                onChanged: (value) {
-                  context.read<PostAdCubit>().height = value;
-                },
-                cursorColor: ColorConstants.grey300,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: TextEditingController(
+                        text: context.read<PostAdCubit>().height,
+                      ),
+                      onChanged: (value) {
+                        context.read<PostAdCubit>().height = value;
+                      },
+                      cursorColor: ColorConstants.grey300,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d*\.?\d*$')),
+                      ],
+                      keyboardType: TextInputType.numberWithOptions(
+                          decimal: true, signed: true),
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        hintText: S.of(context).Inches,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(
+                            color: ColorConstants.grey300,
+                          ),
+                        ),
+                        focusColor: ColorConstants.grey300,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(
+                            color: ColorConstants.grey300,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(
+                            color: ColorConstants.grey300,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text("X",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Poppins',
+                          color: ColorConstants.grey300)),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: TextEditingController(
+                        text: context.read<PostAdCubit>().width,
+                      ),
+                      onChanged: (value) {
+                        context.read<PostAdCubit>().width = value;
+                      },
+                      cursorColor: ColorConstants.grey300,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d*\.?\d*$')),
+                      ],
+                      keyboardType: TextInputType.numberWithOptions(
+                          decimal: true, signed: true),
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        hintText: S.of(context).Inches,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(
+                            color: ColorConstants.grey300,
+                          ),
+                        ),
+                        focusColor: ColorConstants.grey300,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(
+                            color: ColorConstants.grey300,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(
+                            color: ColorConstants.grey300,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  hintText: S.of(context).Inches,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(
-                      color: ColorConstants.grey300,
-                    ),
-                  ),
-                  focusColor: ColorConstants.grey300,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(
-                      color: ColorConstants.grey300,
-                    ),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(
-                      color: ColorConstants.grey300,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            SizedBox(
-              height: 40,
-              child: TextField(
-                controller: TextEditingController(
-                  text: context.read<PostAdCubit>().width,
-                ),
-                onChanged: (value) {
-                  context.read<PostAdCubit>().width = value;
-                },
-                cursorColor: ColorConstants.grey300,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
-                ],
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  hintText: S.of(context).Inches,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(
-                      color: ColorConstants.grey300,
-                    ),
-                  ),
-                  focusColor: ColorConstants.grey300,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(
-                      color: ColorConstants.grey300,
-                    ),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(
-                      color: ColorConstants.grey300,
-                    ),
-                  ),
-                ),
               ),
             ),
             SizedBox(

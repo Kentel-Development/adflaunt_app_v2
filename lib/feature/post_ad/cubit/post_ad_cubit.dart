@@ -85,7 +85,7 @@ class PostAdCubit extends BaseBloc<PostAdState, PostAdState> {
           images,
           [],
           "",
-          description,
+          description.capitalizeFirst,
           cancelPolicy,
           Hive.box<ProfileAdapter>("user").get("userData")!,
           selectedSpaceType!,
@@ -211,7 +211,7 @@ class PostAdCubit extends BaseBloc<PostAdState, PostAdState> {
 
   bool verify(int index) {
     if (index == 2) {
-      if (states == "" || city == "" || country == "" || zip == "") {
+      if (states == "State" || city == "City" || country == "" || zip == "") {
         return false;
       } else {
         return true;

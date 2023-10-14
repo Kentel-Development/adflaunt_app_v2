@@ -59,7 +59,13 @@ void main() async {
   Stripe.merchantIdentifier = "merchant.com.adflaunt";
   await Stripe.instance.applySettings();
   await Firebase.initializeApp();
-  await FirebaseMessaging.instance.requestPermission();
+  await FirebaseMessaging.instance.requestPermission(
+    badge: true,
+    announcement: true,
+    carPlay: true,
+    sound: true,
+  );
+
   initBackground();
   Hive.init((await getApplicationDocumentsDirectory()).path);
   Hive.registerAdapter(ProfileAdapterAdapter());
@@ -67,9 +73,7 @@ void main() async {
   await Hive.openBox<ProfileAdapter>('user');
   await Hive.openBox<LocationAdapter>("location");
   await Hive.openBox<List<String>>("recentSearch");
-  await Hive.openBox<String>("translator");
   await Hive.openBox<List<String>>("favorites");
-  await Hive.openBox<List<String>>("seenMessages");
   runApp(MaterialApp(
       theme: ThemeData(useMaterial3: false, primaryColor: Colors.black),
       supportedLocales: const [
@@ -93,12 +97,6 @@ class _MainAppState extends State<MainApp> {
 
   @override
   void initState() {
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if (message != null) {
-        log("tesrt" + message.data.toString());
-        if (message.data['page'] == 'chat') {}
-      }
-    });
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       FocusScope.of(context).unfocus();
       final user = Hive.box<ProfileAdapter>('user').get('userData');

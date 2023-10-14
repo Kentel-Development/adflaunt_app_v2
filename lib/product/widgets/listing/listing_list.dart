@@ -331,7 +331,7 @@ class _ListingListState extends State<ListingList>
                           SizedBox(
                             width: 16,
                           ),
-                          Text("\$${listing.price}/day",
+                          Text("\$${listing.price.toStringAsFixed(2)}/day",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,

@@ -172,13 +172,26 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
                           ),
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              S.of(context).files,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Poppins',
-                              ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  S.of(context).files,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
+                                Text(
+                                  "*",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'Poppins',
+                                    color: Colors.red,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                           SizedBox(
@@ -248,7 +261,7 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "\$" + widget.listing.price.toString() + "/day",
+              "\$" + widget.listing.price.toStringAsFixed(2) + "/day",
               style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,

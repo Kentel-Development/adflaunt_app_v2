@@ -50,6 +50,7 @@ class ListingConstants {
     "Dinner",
     "Highway",
     "Main Street",
+    "Adhesive Vylil",
     "Other",
   ];
 

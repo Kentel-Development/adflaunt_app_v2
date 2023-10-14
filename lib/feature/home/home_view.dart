@@ -310,7 +310,8 @@ class _HomeViewState extends State<HomeView> {
                                                     Text(
                                                       "\$" +
                                                           listing.price
-                                                              .toString() +
+                                                              .toStringAsFixed(
+                                                                  2) +
                                                           "/" +
                                                           S.of(context).day,
                                                       style: Theme.of(context)

@@ -22,20 +22,24 @@ class UserProfileView extends StatefulWidget {
 
 class _UserProfileViewState extends State<UserProfileView> {
   late model.UserProfileModel userProfileModel;
-  late String strPart;
-  late int intPart;
+  String? strPart;
+  int? intPart;
   @override
   void initState() {
     if (widget.userProfileModel != null) {
       userProfileModel = widget.userProfileModel!;
-      final List<String> parts = userProfileModel.yearsOfHosting!.split(' ');
-      strPart = parts[1];
-      intPart = int.parse(parts[0]);
-    } else {
-      UserServices.getUserProfile(widget.id).then((value) {
-        final List<String> parts = value.yearsOfHosting!.split(' ');
+      if (userProfileModel.yearsOfHosting != "No Listings") {
+        final List<String> parts = userProfileModel.yearsOfHosting!.split(' ');
         strPart = parts[1];
         intPart = int.parse(parts[0]);
+      }
+    } else {
+      UserServices.getUserProfile(widget.id).then((value) {
+        if (value.yearsOfHosting != "No Listings") {
+          final List<String> parts = value.yearsOfHosting!.split(' ');
+          strPart = parts[1];
+          intPart = int.parse(parts[0]);
+        }
 
         setState(() {
           userProfileModel = value;
@@ -185,7 +189,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              intPart.toString(),
+                              (intPart ?? "No Listings").toString(),
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 20,
@@ -193,7 +197,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                                   fontFamily: 'Poppins'),
                             ),
                             Text(
-                              strPart + ' Hosting',
+                              strPart ?? "" + ' Hosting',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 12,

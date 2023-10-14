@@ -297,7 +297,7 @@ class _ListingGridState extends State<ListingGrid>
                                   ],
                                 ),
                               ),
-                              Text("\$${listing.price}/day",
+                              Text("\$${listing.price.toStringAsFixed(2)}/day",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: "Poppins",
