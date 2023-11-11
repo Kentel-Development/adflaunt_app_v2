@@ -52,7 +52,7 @@ class Header extends StatelessWidget {
       titleSpacing: 0.0,
       title: Text(
         title!,
-        overflow: TextOverflow.visible,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w700,

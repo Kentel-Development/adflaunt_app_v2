@@ -72,10 +72,20 @@ class MessageLookup extends MessageLookupByLibrary {
                 "By clicking the finish button, you accept the terms of cancellation of listing."),
         "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "cancelPolicy": MessageLookupByLibrary.simpleMessage("Cancel Policy"),
+        "cantVerifiedYourEmailPleaseTryAgain":
+            MessageLookupByLibrary.simpleMessage(
+                "Can\'t verified your E-Mail please try again"),
+        "cantVerifiedYourPhoneNumberPleaseTryAgain":
+            MessageLookupByLibrary.simpleMessage(
+                "Can\'t verified your phone number, please try again."),
         "cardAddedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Card Added Successfully"),
         "changePhoneNumber":
             MessageLookupByLibrary.simpleMessage("Change Phone Number"),
+        "changeYourEmail":
+            MessageLookupByLibrary.simpleMessage("Change your E-Mail"),
+        "changeYourPhoneNumber":
+            MessageLookupByLibrary.simpleMessage("Change Your Phone Number"),
         "chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "chooseASpaceType":
             MessageLookupByLibrary.simpleMessage("Choose a space type"),
@@ -121,6 +131,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter Shipping Address"),
         "enterTheCodeWeSentOverEmailTo": MessageLookupByLibrary.simpleMessage(
             "Enter the code we sent over E-Mail to"),
+        "enterTheCodeWeSentOverSmsTo": MessageLookupByLibrary.simpleMessage(
+            "Enter the code we sent over SMS to"),
         "enterYourAddress":
             MessageLookupByLibrary.simpleMessage("Enter your address"),
         "enterYourCity":
@@ -136,7 +148,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorInitializingCamera":
             MessageLookupByLibrary.simpleMessage("Error initializing camera"),
         "exJohnDoe": MessageLookupByLibrary.simpleMessage("Ex: John Doe"),
+        "failed": MessageLookupByLibrary.simpleMessage("Failed"),
         "favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
+        "filePreview": MessageLookupByLibrary.simpleMessage("File Preview"),
         "files": MessageLookupByLibrary.simpleMessage("Files"),
         "finish": MessageLookupByLibrary.simpleMessage("Finish"),
         "fitTheBackOfYourIdWithinTheFrame":
@@ -225,6 +239,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "phone": MessageLookupByLibrary.simpleMessage("Phone"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "photo": MessageLookupByLibrary.simpleMessage("Photo"),
+        "pleaseEnterACode":
+            MessageLookupByLibrary.simpleMessage("Please enter a code"),
         "pleaseEnterADifferentTagNameThisIsAdType":
             MessageLookupByLibrary.simpleMessage(
                 "Please enter a different tag name, this is ad type name"),
@@ -243,6 +259,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please enter your shipping address"),
         "pleaseFillAllTheFields":
             MessageLookupByLibrary.simpleMessage("Please fill all the fields"),
+        "pleaseProvideAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
+            "Please provide a valid E-Mail address."),
+        "pleaseProvideAValidPhoneNumber": MessageLookupByLibrary.simpleMessage(
+            "Please provide a valid phone number."),
         "pleaseSelectADate":
             MessageLookupByLibrary.simpleMessage("Please select a date"),
         "pleaseSelectADateRangeWithoutUnavailableDates":
@@ -269,6 +289,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Repeat Password"),
         "reviews": MessageLookupByLibrary.simpleMessage("Reviews"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "search": MessageLookupByLibrary.simpleMessage("Search"),
         "searchSpaces": MessageLookupByLibrary.simpleMessage("Search Spaces"),
         "seeYourAd": MessageLookupByLibrary.simpleMessage("See your Ad"),
         "selectLocation":
@@ -286,6 +307,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "spaceType": MessageLookupByLibrary.simpleMessage("Space Type"),
         "state": MessageLookupByLibrary.simpleMessage("State"),
         "submit": MessageLookupByLibrary.simpleMessage("Submit"),
+        "success": MessageLookupByLibrary.simpleMessage("Success"),
         "takeAPictureOfId":
             MessageLookupByLibrary.simpleMessage("Take a Picture Of ID"),
         "takeAPictureOfTheFrontAndBackOfYour": MessageLookupByLibrary.simpleMessage(
@@ -316,8 +338,14 @@ class MessageLookup extends MessageLookupByLibrary {
                 "This address is where advertisements such as posters, signs, screens etc. will be shipped to.\\nYou will be responsible for the installation of these advertisement."),
         "thisBookingHasBeenDeleted": MessageLookupByLibrary.simpleMessage(
             "This booking has been deleted"),
+        "thisEmailIsAlreadyInUse": MessageLookupByLibrary.simpleMessage(
+            "This E-Mail is already in use."),
+        "thisPhoneNumberIsAlreadyInUse": MessageLookupByLibrary.simpleMessage(
+            "This phone number is already in use."),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "typeOfSpace": MessageLookupByLibrary.simpleMessage("Type of space"),
+        "unexpectedProblem":
+            MessageLookupByLibrary.simpleMessage("Unexpected Problem"),
         "until": MessageLookupByLibrary.simpleMessage("Until"),
         "upcoming": MessageLookupByLibrary.simpleMessage("Upcoming"),
         "uploadAtLeastOneFile":
@@ -334,6 +362,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "verifyYourEmail":
             MessageLookupByLibrary.simpleMessage("Verify your E-Mail"),
         "verifyYourId": MessageLookupByLibrary.simpleMessage("Verify your ID"),
+        "verifyYourPhoneNumber":
+            MessageLookupByLibrary.simpleMessage("Verify your phone number"),
         "whereAreYouLookingToAdvertise": MessageLookupByLibrary.simpleMessage(
             "Where are you looking to advertise?"),
         "withdraw": MessageLookupByLibrary.simpleMessage("Withdraw"),
@@ -358,9 +388,24 @@ class MessageLookup extends MessageLookupByLibrary {
         "youHaventAddedAnyPaymentMethodsAddAPaymentMethod":
             MessageLookupByLibrary.simpleMessage(
                 "You haven’t added any payment methods. Add a payment method"),
+        "yourCodeMustBe5Characters": MessageLookupByLibrary.simpleMessage(
+            "Your code must be 5 characters."),
+        "yourCodeMustBe6Characters": MessageLookupByLibrary.simpleMessage(
+            "Your code must be 6 characters"),
+        "yourEmailWasChangedSuccesfully": MessageLookupByLibrary.simpleMessage(
+            "Your E-Mail was changed succesfully"),
         "yourIdHasBeenVerifiedSuccessfully":
             MessageLookupByLibrary.simpleMessage(
                 "Your ID has been verified successfully"),
+        "yourIdVerifiedRequestHasBeenSubmittedSuccessfully":
+            MessageLookupByLibrary.simpleMessage(
+                "Your ID verified request has been submitted successfully."),
+        "yourIdWillBeVerifiedWithin24Hours":
+            MessageLookupByLibrary.simpleMessage(
+                "Your ID will be verified within 24 hours"),
+        "yourPhoneNumberWasSuccesfullyChanged":
+            MessageLookupByLibrary.simpleMessage(
+                "Your phone number was succesfully changed."),
         "youreAlmostThere":
             MessageLookupByLibrary.simpleMessage("You\'re almost there!"),
         "zipCode": MessageLookupByLibrary.simpleMessage("ZIP Code")

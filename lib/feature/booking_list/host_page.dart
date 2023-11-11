@@ -20,6 +20,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../core/constants/icon_constants.dart';
 import '../../core/constants/string_constants.dart';
 import '../../generated/l10n.dart';
+import '../../product/services/ads_preview.dart';
 import '../../product/services/chat.dart';
 import '../../product/services/user.dart';
 
@@ -361,6 +362,76 @@ class _HostPageState extends State<HostPage> {
                             SizedBox(
                               height: 16,
                             ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                S.of(context).filePreview,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            FutureBuilder(
+                              future: LivePreviewService.getLivePreview(
+                                  asHost!.data!.bookingId!),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  final content = snapshot.data as List<String>;
+                                  return SizedBox(
+                                    height: 100,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: content.length,
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute<dynamic>(
+                                              builder: (context) {
+                                                return PhotoGalleryView(
+                                                    images: content,
+                                                    currentIndex: index);
+                                              },
+                                            ));
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(right: 8),
+                                            width: 100,
+                                            height: 100,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              image: DecorationImage(
+                                                image:
+                                                    CachedNetworkImageProvider(
+                                                        StringConstants
+                                                                .baseUrl +
+                                                            "/" +
+                                                            content[index]
+                                                                .toString()),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text(snapshot.error.toString()),
+                                  );
+                                } else {
+                                  return Center(child: LoadingWidget());
+                                }
+                              },
+                            ),
+                            SizedBox(height: 8),
                             Column(
                               children: [
                                 Align(

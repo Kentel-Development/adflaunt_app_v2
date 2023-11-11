@@ -40,7 +40,9 @@ class PhotoGalleryViewState extends State<PhotoGalleryView> {
             builder: (BuildContext context, int index) {
               return PhotoViewGalleryPageOptions(
                 imageProvider: CachedNetworkImageProvider(
-                  "${StringConstants.baseStorageUrl}${widget.images[index]}",
+                  widget.images[index].contains("static/")
+                      ? "${StringConstants.baseUrl}/${widget.images[index]}"
+                      : "${StringConstants.baseStorageUrl}${widget.images[index]}",
                 ),
                 initialScale: PhotoViewComputedScale.contained,
                 heroAttributes:

@@ -13,12 +13,14 @@ import 'package:adflaunt/product/services/upload.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:hive/hive.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:http/http.dart' as http;
 
 mixin ChatMixin on State<ChatView> {
   Opposition? themUser;
@@ -55,8 +57,10 @@ mixin ChatMixin on State<ChatView> {
             'email': currentUser.email,
             'password': currentUser.password,
           });
+
           log("ack");
           log("testAppleId" + jsonEncode(data));
+
           Chat chat = Chat.fromJson(data as Map<String, dynamic>);
           themUser = chat.opposition;
           user = types.User(
@@ -113,12 +117,26 @@ mixin ChatMixin on State<ChatView> {
           });
         }
       });
+      final unseenUrl = Uri.parse(
+          StringConstants.baseUrl + "/api/seeNumMessages/${currentUser.id}");
+      http.get(unseenUrl).then((res) {
+        log("Response ${res.body}");
+        FlutterAppBadger.updateBadgeCount(
+            (jsonDecode(res.body) as Map<String, dynamic>)["num"] as int);
+      });
     });
     socket.on('receive', (data) {
       socket.emit('seen', {
         'ChatID': widget.chatId,
         'email': currentUser.email,
         'password': currentUser.password,
+      });
+      final unseenUrl = Uri.parse(
+          StringConstants.baseUrl + "/api/seeNumMessages/${currentUser.id}");
+      http.get(unseenUrl).then((res) {
+        log("Response ${res.body}");
+        FlutterAppBadger.updateBadgeCount(
+            (jsonDecode(res.body) as Map<String, dynamic>)["num"] as int);
       });
       print("received");
       final json = (data as Map<String, dynamic>);

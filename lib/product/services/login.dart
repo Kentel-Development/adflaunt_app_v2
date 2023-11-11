@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
@@ -44,6 +45,15 @@ class LoginAPI {
 
     if (profileModel.id != null) {
       FirebaseMessaging.instance.subscribeToTopic(profileModel.id!);
+      final unseenUrl = Uri.parse(
+          StringConstants.baseUrl + "/api/seeNumMessages/${profileModel.id}");
+      http.get(unseenUrl).then((res) {
+        if (res.statusCode == 200) {
+          log("Response ${res.body}");
+          FlutterAppBadger.updateBadgeCount(
+              (jsonDecode(res.body) as Map<String, dynamic>)["num"] as int);
+        }
+      });
     } else {
       log('User ID is null, please try again.');
       throw Exception('User ID is null, please try again.');

@@ -4,9 +4,12 @@ import 'dart:io';
 
 import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
+import 'package:adflaunt/product/services/login.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+
+import '../models/profile/profile_model.dart';
 
 class ProfileService {
   static Future<String> deleteOldImage() async {
@@ -83,7 +86,7 @@ class ProfileService {
       String? newPassword,
       String? newPhoneNumber) async {
     var url =
-        Uri.parse('${StringConstants.baseUrl}api/update_login_credentials');
+        Uri.parse('${StringConstants.baseUrl}/api/update_login_credentials');
     Map<String, dynamic> body = {
       'email': email,
       'password': password,
@@ -100,6 +103,17 @@ class ProfileService {
     }
     var response = await http.post(url, body: body);
     log(response.body);
+    Map<String, dynamic> data =
+        jsonDecode(response.body) as Map<String, dynamic>;
+    final model = ProfileModel.fromJson(data);
+    LoginAPI.saveAccountCredentials(ProfileAdapter(
+        id: model.id,
+        fullName: model.fullName,
+        email: model.email,
+        password: model.password,
+        profileImage: model.profileImage,
+        dateOfBirth: model.dateOfBirth,
+        phoneNumber: model.phoneNumber));
     return response;
   }
 }

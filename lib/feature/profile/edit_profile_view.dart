@@ -1,12 +1,18 @@
+// ignore_for_file: inference_failure_on_function_invocation, inference_failure_on_instance_creation
+
 import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
+import 'package:adflaunt/feature/change_phone/change_phone_view.dart';
 import 'package:adflaunt/feature/profile/cubit/edit_profile_cubit.dart';
 import 'package:adflaunt/product/models/profile/profile_model.dart';
+import 'package:adflaunt/product/services/register.dart';
+import 'package:adflaunt/product/services/verify.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
 import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +20,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
 import '../../generated/l10n.dart';
+import '../../product/widgets/inputs/auth_input.dart';
 
 class EditProfileView extends StatefulWidget {
   const EditProfileView({required this.userModel, super.key});
@@ -300,6 +307,305 @@ class _EditProfileViewState extends State<EditProfileView> {
                           ],
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        S.of(context).phoneNumber,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        TextEditingController phoneController =
+                            TextEditingController();
+                        CountryCode countryCode =
+                            CountryCode.fromCountryCode("US");
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              insetPadding: EdgeInsets.zero,
+                              title: Text(S.of(context).changeYourPhoneNumber),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Cancel")),
+                                TextButton(
+                                    onPressed: () async {
+                                      if (phoneController.text.length < 10) {
+                                        Navigator.pop(context);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(S
+                                              .of(context)
+                                              .pleaseProvideAValidPhoneNumber),
+                                          backgroundColor: Colors.red,
+                                          behavior: SnackBarBehavior.floating,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ));
+                                      } else {
+                                        final check = await Register.userCheck(
+                                            null,
+                                            (countryCode.dialCode! +
+                                                phoneController.text));
+                                        if (check.phoneNumberExists!) {
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                            content: Text(S
+                                                .of(context)
+                                                .thisPhoneNumberIsAlreadyInUse),
+                                            backgroundColor: Colors.red,
+                                            behavior: SnackBarBehavior.floating,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ));
+                                        } else {
+                                          String sid = await VerifyService
+                                              .createSession();
+                                          await VerifyService.sendOtp(
+                                              (countryCode.dialCode! +
+                                                  phoneController.text),
+                                              sid);
+                                          Navigator.pop(context);
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return ChangePhoneNumberView(
+                                                sid: sid,
+                                                phone: (countryCode.dialCode! +
+                                                    phoneController.text),
+                                              );
+                                            },
+                                          )).then((value) {
+                                            setState(() {});
+                                          });
+                                        }
+                                      }
+                                    },
+                                    child: Text("OK"))
+                              ],
+                              content: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Stack(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: AuthInput(
+                                          enabled: true,
+                                          keyBoardType: TextInputType.phone,
+                                          placeholder:
+                                              S.of(context).phoneNumber,
+                                          controller: phoneController,
+                                          repeatController: null,
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 12),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          child: CountryCodePicker(
+                                            onChanged: (CountryCode code) {
+                                              countryCode = code;
+                                            },
+                                            initialSelection: 'US',
+                                            favorite: const ['+1', '+44'],
+                                            showCountryOnly: false,
+                                            showOnlyCountryWhenClosed: false,
+                                            alignLeft: false,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            );
+                          },
+                        );
+                      },
+                      child: ValueListenableBuilder(
+                          valueListenable:
+                              Hive.box<ProfileAdapter>("user").listenable(),
+                          builder: (context, a, child) {
+                            return Container(
+                              height: 45,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border:
+                                      Border.all(color: ColorConstants.grey100),
+                                  borderRadius: BorderRadius.circular(4)),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 11, vertical: 10),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Image.asset("assets/image 2-2.png"),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(context
+                                              .read<EditProfileCubit>()
+                                              .currentUser
+                                              .phoneNumber !=
+                                          null
+                                      ? NumberFormat("+#### ### ####").format(
+                                          int.parse(
+                                              a.get("userData")!.phoneNumber!))
+                                      : "N/A"),
+                                ],
+                              ),
+                            );
+                          }),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        S.of(context).email,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        TextEditingController phoneController =
+                            TextEditingController();
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              insetPadding: EdgeInsets.zero,
+                              title: Text(S.of(context).changeYourEmail),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Cancel")),
+                                TextButton(
+                                    onPressed: () async {
+                                      if (!phoneController.text.contains('@') ||
+                                          !phoneController.text.contains('.')) {
+                                        Navigator.pop(context);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(S
+                                              .of(context)
+                                              .pleaseProvideAValidEmailAddress),
+                                          backgroundColor: Colors.red,
+                                          behavior: SnackBarBehavior.floating,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ));
+                                      } else {
+                                        final check = await Register.userCheck(
+                                            phoneController.text, null);
+                                        if (check.emailExists!) {
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                            content: Text(S
+                                                .of(context)
+                                                .thisEmailIsAlreadyInUse),
+                                            backgroundColor: Colors.red,
+                                            behavior: SnackBarBehavior.floating,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ));
+                                        } else {
+                                          final code =
+                                              await Register.verifyEmail(
+                                                  phoneController.text);
+                                          Navigator.pop(context);
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return ChangePhoneNumberView(
+                                                code: code,
+                                                email: phoneController.text,
+                                              );
+                                            },
+                                          )).then((value) {
+                                            setState(() {});
+                                          });
+                                        }
+                                      }
+                                    },
+                                    child: Text("OK"))
+                              ],
+                              contentPadding: EdgeInsets.only(
+                                  top: 8, bottom: 8, left: 4, right: 4),
+                              content: SizedBox(
+                                width: MediaQuery.of(context).size.width / 1.5,
+                                child: AuthInput(
+                                  enabled: true,
+                                  keyBoardType: TextInputType.emailAddress,
+                                  placeholder: S.of(context).email,
+                                  controller: phoneController,
+                                  repeatController: null,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: ValueListenableBuilder(
+                          valueListenable:
+                              Hive.box<ProfileAdapter>("user").listenable(),
+                          builder: (context, a, child) {
+                            return Container(
+                              height: 45,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border:
+                                      Border.all(color: ColorConstants.grey100),
+                                  borderRadius: BorderRadius.circular(4)),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 11, vertical: 10),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  SvgPicture.asset(
+                                      IconConstants.profile_unactive),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(a.get("userData")!.email!),
+                                ],
+                              ),
+                            );
+                          }),
                     ),
                   ],
                 ),

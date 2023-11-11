@@ -35,19 +35,19 @@ class _TabViewState extends State<TabView> {
             ),
           ];
           final List<String> _titles = [
-            S.of(context).home,
+            S.of(context).search,
             S.of(context).booking,
             S.of(context).chat,
             S.of(context).profile
           ];
           final List<String> _activeIcons = [
-            IconConstants.home_active,
+            IconConstants.search,
             IconConstants.booking_active,
             IconConstants.inbox_active,
             IconConstants.profile_active
           ];
           final List<String> _unactiveIcons = [
-            IconConstants.home_unactive,
+            IconConstants.search,
             IconConstants.booking_unactive,
             IconConstants.inbox_unactive,
             IconConstants.profile_unactive
@@ -91,6 +91,10 @@ class _TabViewState extends State<TabView> {
                                 : _unactiveIcons[index],
                             width: 20,
                             height: 20,
+                            // ignore: deprecated_member_use
+                            color: _selectedIndex == 0 && index == 0
+                                ? Colors.white
+                                : null,
                             fit: BoxFit.contain,
                           ),
                           title: Text(

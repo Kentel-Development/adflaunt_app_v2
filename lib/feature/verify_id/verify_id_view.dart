@@ -1,15 +1,17 @@
-import 'dart:io';
+// ignore_for_file: inference_failure_on_instance_creation, inference_failure_on_function_invocation
 
+import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
-import 'package:adflaunt/feature/verify_id/camera_view.dart';
+import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/verify_id/cubit/verify_id_cubit.dart';
 import 'package:adflaunt/product/widgets/common_btn.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
-import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive/hive.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../generated/l10n.dart';
 
@@ -127,40 +129,64 @@ class _VerifyIDViewState extends State<VerifyIDView>
                               }, builder: (context, state) {
                                 return CommonBtn(
                                     onPressed: () {
-                                      Navigator.push(context,
-                                          MaterialPageRoute<dynamic>(
+                                      Navigator.push(context, MaterialPageRoute(
                                         builder: (context) {
-                                          return CameraView();
+                                          return Scaffold(
+                                              body: WebViewWidget(
+                                                  controller:
+                                                      WebViewController()
+                                                        ..loadRequest(Uri.parse(
+                                                            StringConstants
+                                                                    .baseUrl +
+                                                                "/verify/urltocookie?id=" +
+                                                                Hive.box<ProfileAdapter>(
+                                                                        "user")
+                                                                    .get(
+                                                                        "userData")!
+                                                                    .id
+                                                                    .toString()))
+                                                        ..setNavigationDelegate(
+                                                            NavigationDelegate(
+                                                          onUrlChange:
+                                                              (change) {
+                                                            if (change.url ==
+                                                                "https://adflaunt.com/id-verified/success") {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Navigator.pop(
+                                                                  context);
+                                                              showDialog(
+                                                                context:
+                                                                    context,
+                                                                barrierDismissible:
+                                                                    false,
+                                                                builder:
+                                                                    (context) {
+                                                                  return AlertDialog(
+                                                                    title: Text(S
+                                                                        .of(context)
+                                                                        .yourIdVerifiedRequestHasBeenSubmittedSuccessfully),
+                                                                    content: Text(S
+                                                                        .of(context)
+                                                                        .yourIdWillBeVerifiedWithin24Hours),
+                                                                    actions: [
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child: Text(S
+                                                                              .of(context)
+                                                                              .ok))
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+                                                            }
+                                                          },
+                                                        ))));
                                         },
-                                      )).then((value) {
-                                        if (value != null) {
-                                          context
-                                              .read<VerifyIdCubit>()
-                                              .verifyId((value[0] as File),
-                                                  (value[1] as File));
-                                          // ignore: inference_failure_on_function_invocation
-                                          showDialog(
-                                              context: context,
-                                              barrierDismissible: false,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: Text("Uploading..."),
-                                                  content: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        LoadingWidget()
-                                                      ]),
-                                                );
-                                              });
-                                        }
-                                      });
+                                      ));
                                     },
                                     text: S.of(context).takePicture,
                                     backgroundColor: Colors.black);

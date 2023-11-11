@@ -5,6 +5,7 @@ import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/listing_details/fullscreen_imageview.dart';
 import 'package:adflaunt/product/models/orders/orders_model.dart';
+import 'package:adflaunt/product/services/ads_preview.dart';
 import 'package:adflaunt/product/services/booking.dart';
 import 'package:adflaunt/product/services/chat.dart';
 import 'package:adflaunt/product/services/download.dart';
@@ -361,6 +362,78 @@ class _CustomerPageState extends State<CustomerPage> {
                                 : Container(),
                             SizedBox(
                               height: 16,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                S.of(context).filePreview,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            FutureBuilder(
+                              future: LivePreviewService.getLivePreview(
+                                  asCustomer!.data!.bookingId!),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  final content = snapshot.data as List<String>;
+                                  return SizedBox(
+                                    height: 100,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: content.length,
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute<dynamic>(
+                                              builder: (context) {
+                                                return PhotoGalleryView(
+                                                    images: content,
+                                                    currentIndex: index);
+                                              },
+                                            ));
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(right: 8),
+                                            width: 100,
+                                            height: 100,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              image: DecorationImage(
+                                                image:
+                                                    CachedNetworkImageProvider(
+                                                        StringConstants
+                                                                .baseUrl +
+                                                            "/" +
+                                                            content[index]
+                                                                .toString()),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text(snapshot.error.toString()),
+                                  );
+                                } else {
+                                  return Center(child: LoadingWidget());
+                                }
+                              },
+                            ),
+                            SizedBox(
+                              height: 8,
                             ),
                             Column(
                               children: [

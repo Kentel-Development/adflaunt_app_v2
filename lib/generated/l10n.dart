@@ -2189,6 +2189,226 @@ class S {
       args: [],
     );
   }
+
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File Preview`
+  String get filePreview {
+    return Intl.message(
+      'File Preview',
+      name: 'filePreview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your ID will be verified within 24 hours`
+  String get yourIdWillBeVerifiedWithin24Hours {
+    return Intl.message(
+      'Your ID will be verified within 24 hours',
+      name: 'yourIdWillBeVerifiedWithin24Hours',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your ID verified request has been submitted successfully.`
+  String get yourIdVerifiedRequestHasBeenSubmittedSuccessfully {
+    return Intl.message(
+      'Your ID verified request has been submitted successfully.',
+      name: 'yourIdVerifiedRequestHasBeenSubmittedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Your Phone Number`
+  String get changeYourPhoneNumber {
+    return Intl.message(
+      'Change Your Phone Number',
+      name: 'changeYourPhoneNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please provide a valid phone number.`
+  String get pleaseProvideAValidPhoneNumber {
+    return Intl.message(
+      'Please provide a valid phone number.',
+      name: 'pleaseProvideAValidPhoneNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verify your phone number`
+  String get verifyYourPhoneNumber {
+    return Intl.message(
+      'Verify your phone number',
+      name: 'verifyYourPhoneNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the code we sent over SMS to`
+  String get enterTheCodeWeSentOverSmsTo {
+    return Intl.message(
+      'Enter the code we sent over SMS to',
+      name: 'enterTheCodeWeSentOverSmsTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a code`
+  String get pleaseEnterACode {
+    return Intl.message(
+      'Please enter a code',
+      name: 'pleaseEnterACode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your code must be 6 characters`
+  String get yourCodeMustBe6Characters {
+    return Intl.message(
+      'Your code must be 6 characters',
+      name: 'yourCodeMustBe6Characters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get success {
+    return Intl.message(
+      'Success',
+      name: 'success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your phone number was succesfully changed.`
+  String get yourPhoneNumberWasSuccesfullyChanged {
+    return Intl.message(
+      'Your phone number was succesfully changed.',
+      name: 'yourPhoneNumberWasSuccesfullyChanged',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Can't verified your phone number, please try again.`
+  String get cantVerifiedYourPhoneNumberPleaseTryAgain {
+    return Intl.message(
+      'Can\'t verified your phone number, please try again.',
+      name: 'cantVerifiedYourPhoneNumberPleaseTryAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed`
+  String get failed {
+    return Intl.message(
+      'Failed',
+      name: 'failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unexpected Problem`
+  String get unexpectedProblem {
+    return Intl.message(
+      'Unexpected Problem',
+      name: 'unexpectedProblem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This phone number is already in use.`
+  String get thisPhoneNumberIsAlreadyInUse {
+    return Intl.message(
+      'This phone number is already in use.',
+      name: 'thisPhoneNumberIsAlreadyInUse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This E-Mail is already in use.`
+  String get thisEmailIsAlreadyInUse {
+    return Intl.message(
+      'This E-Mail is already in use.',
+      name: 'thisEmailIsAlreadyInUse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change your E-Mail`
+  String get changeYourEmail {
+    return Intl.message(
+      'Change your E-Mail',
+      name: 'changeYourEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please provide a valid E-Mail address.`
+  String get pleaseProvideAValidEmailAddress {
+    return Intl.message(
+      'Please provide a valid E-Mail address.',
+      name: 'pleaseProvideAValidEmailAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your E-Mail was changed succesfully`
+  String get yourEmailWasChangedSuccesfully {
+    return Intl.message(
+      'Your E-Mail was changed succesfully',
+      name: 'yourEmailWasChangedSuccesfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your code must be 5 characters.`
+  String get yourCodeMustBe5Characters {
+    return Intl.message(
+      'Your code must be 5 characters.',
+      name: 'yourCodeMustBe5Characters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Can't verified your E-Mail please try again`
+  String get cantVerifiedYourEmailPleaseTryAgain {
+    return Intl.message(
+      'Can\'t verified your E-Mail please try again',
+      name: 'cantVerifiedYourEmailPleaseTryAgain',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

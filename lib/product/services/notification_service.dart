@@ -16,12 +16,24 @@ class NotificationService {
     log("Sending notification to $name");
     log("Sending notification to $chatID");
     try {
+      final unseenUrl = Uri.parse(
+          StringConstants.baseUrl + "/api/seeNumMessages/$externalUserId");
+      int? unseenNum;
+      try {
+        final res = await http.get(unseenUrl);
+        log("Response ${res.body}");
+        unseenNum =
+            ((jsonDecode(res.body) as Map<String, dynamic>)["num"] as int?);
+        log("Unseen $unseenNum");
+      } catch (e) {
+        log("Error $e");
+      }
       final body = {
         "to": "/topics/$externalUserId",
         "notification": {
           "title": name,
           "body": message,
-          "badge": 1,
+          if (unseenNum != null) "badge": unseenNum,
           "sound": "default",
         },
         "data": {
