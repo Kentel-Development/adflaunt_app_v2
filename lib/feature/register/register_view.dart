@@ -127,12 +127,14 @@ class RegisterView extends StatelessWidget {
                         width: double.infinity,
                         child: CommonBtn(
                           onPressed: () {
-                            if (context
-                                .read<RegisterCubit>()
-                                .key
-                                .currentState!
-                                .validate()) {
-                              context.read<RegisterCubit>().signUp();
+                            if (!(state is RegisterLoading)) {
+                              if (context
+                                  .read<RegisterCubit>()
+                                  .key
+                                  .currentState!
+                                  .validate()) {
+                                context.read<RegisterCubit>().signUp();
+                              }
                             }
                           },
                           text: S.of(context).signUp,

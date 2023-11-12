@@ -11,8 +11,10 @@ import 'package:adflaunt/product/widgets/img_button.dart';
 import 'package:adflaunt/product/widgets/inputs/auth_input.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:webview_flutter/webview_flutter.dart';
+import '../../core/constants/string_constants.dart';
 import '../../generated/l10n.dart';
 
 class LoginView extends StatelessWidget {
@@ -76,6 +78,84 @@ class LoginView extends StatelessWidget {
                                   context.read<LoginCubit>().passwordController,
                               repeatController: null,
                               hasPassword: true,
+                              hasMargin: false,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 4),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute<dynamic>(
+                                        builder: (context) {
+                                          return Scaffold(
+                                              appBar: AppBar(
+                                                backgroundColor: Colors.white,
+                                                systemOverlayStyle:
+                                                    SystemUiOverlayStyle.dark,
+                                                elevation: 0,
+                                                leading: Container(),
+                                              ),
+                                              body: WebViewWidget(
+                                                  controller:
+                                                      WebViewController()
+                                                        ..loadRequest(Uri.parse(
+                                                            StringConstants
+                                                                    .baseUrl +
+                                                                "/forgot_password"))
+                                                        ..setNavigationDelegate(
+                                                            NavigationDelegate(
+                                                          onUrlChange:
+                                                              (change) {
+                                                            if (change.url ==
+                                                                "https://adflaunt.com/forgot_password/scc") {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Navigator.pop(
+                                                                  context);
+                                                              showDialog<
+                                                                  dynamic>(
+                                                                context:
+                                                                    context,
+                                                                barrierDismissible:
+                                                                    false,
+                                                                builder:
+                                                                    (context) {
+                                                                  return AlertDialog(
+                                                                    title: Text(S
+                                                                        .of(context)
+                                                                        .success),
+                                                                    content: Text(S
+                                                                        .of(context)
+                                                                        .yourPasswordWasChangedSuccesfully),
+                                                                    actions: [
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child: Text(S
+                                                                              .of(context)
+                                                                              .ok))
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+                                                            }
+                                                          },
+                                                        ))));
+                                        },
+                                      ));
+                                    },
+                                    child: Text(
+                                      S.of(context).forgotPassword,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: "Poppins",
+                                          fontSize: 14),
+                                    )),
+                              ),
                             ),
                           ],
                         )),

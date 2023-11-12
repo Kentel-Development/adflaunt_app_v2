@@ -234,5 +234,7 @@
   "pleaseProvideAValidEmailAddress": "Please provide a valid E-Mail address.",
   "yourEmailWasChangedSuccesfully": "Your E-Mail was changed succesfully",
   "yourCodeMustBe5Characters": "Your code must be 5 characters.",
-  "cantVerifiedYourEmailPleaseTryAgain": "Can't verified your E-Mail please try again"
+  "cantVerifiedYourEmailPleaseTryAgain": "Can't verified your E-Mail please try again",
+  "forgotPassword": "Forgot Password",
+  "yourPasswordWasChangedSuccesfully": "Your password was changed succesfully."
 }

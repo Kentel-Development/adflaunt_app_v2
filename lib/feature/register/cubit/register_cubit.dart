@@ -3,6 +3,8 @@ import 'dart:developer';
 
 import 'package:adflaunt/core/base/bloc_base.dart';
 import 'package:adflaunt/core/extensions/date_parser_extension.dart';
+import 'package:adflaunt/feature/change_phone/change_phone_view.dart';
+import 'package:adflaunt/product/services/verify.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:crypto/crypto.dart';
 import 'package:equatable/equatable.dart';
@@ -168,40 +170,68 @@ class RegisterCubit extends BaseBloc<RegisterState, RegisterState> {
     }
   }
 
-  void verify() async {
+  void verify(BuildContext context) async {
     safeEmit(RegisterLoading());
     if (pin == sentCode) {
-      try {
-        var bytes = utf8.encode(passwordController.text);
-        var digest = sha512.convert(bytes);
-        final data = await Register.register(
-            emailController.text,
-            digest.toString(),
-            nameController.text,
-            (countryCode.dialCode.toString().substring(1)) +
-                phoneController.text,
-            dateController.text.parseDate(),
-            "mail");
-        Map<String, dynamic> json =
-            jsonDecode(data.body) as Map<String, dynamic>;
-        final model = ProfileModel.fromJson(json);
+      final sid = await VerifyService.createSession();
+      final sent = await VerifyService.sendOtp(
+              (countryCode.dialCode!) + phoneController.text, sid)
+          .onError((error, stackTrace) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(error.toString()),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ));
+        return false;
+      });
+      final res = sent
+          ? (await Navigator.push(context, MaterialPageRoute<dynamic>(
+              builder: (context) {
+                return ChangePhoneNumberView(
+                  sid: sid,
+                  phone: (countryCode.dialCode!) + phoneController.text,
+                  fromRegister: true,
+                );
+              },
+            ))) as Map<String, bool>
+          : {"verified": false};
+      if (res["verified"] ?? false) {
+        safeEmit(RegisterVerified());
         try {
-          LoginAPI.saveAccountCredentials(
-            ProfileAdapter(
-                id: model.id,
-                fullName: model.fullName,
-                email: model.email,
-                password: digest.toString(),
-                profileImage: model.profileImage,
-                dateOfBirth: model.dateOfBirth,
-                phoneNumber: model.phoneNumber),
-          );
-          safeEmit(RegisterSuccess());
+          var bytes = utf8.encode(passwordController.text);
+          var digest = sha512.convert(bytes);
+          final data = await Register.register(
+              emailController.text,
+              digest.toString(),
+              nameController.text,
+              (countryCode.dialCode.toString().substring(1)) +
+                  phoneController.text,
+              dateController.text.parseDate(),
+              "mail");
+          Map<String, dynamic> json =
+              jsonDecode(data.body) as Map<String, dynamic>;
+          final model = ProfileModel.fromJson(json);
+          try {
+            LoginAPI.saveAccountCredentials(
+              ProfileAdapter(
+                  id: model.id,
+                  fullName: model.fullName,
+                  email: model.email,
+                  password: digest.toString(),
+                  profileImage: model.profileImage,
+                  dateOfBirth: model.dateOfBirth,
+                  phoneNumber: model.phoneNumber),
+            );
+            safeEmit(RegisterSuccess());
+          } catch (e) {
+            safeEmit(RegisterFailure(error: e.toString()));
+          }
         } catch (e) {
           safeEmit(RegisterFailure(error: e.toString()));
         }
-      } catch (e) {
-        safeEmit(RegisterFailure(error: e.toString()));
       }
     } else {
       safeEmit(RegisterFailure(error: "Invalid code"));

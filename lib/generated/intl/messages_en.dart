@@ -159,6 +159,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "fitTheFrontOfYourIdWithinTheFrame":
             MessageLookupByLibrary.simpleMessage(
                 "Fit the front of your ID within the frame"),
+        "forgotPassword":
+            MessageLookupByLibrary.simpleMessage("Forgot Password"),
         "freeCancellation":
             MessageLookupByLibrary.simpleMessage("Free cancellation"),
         "frontOfId": MessageLookupByLibrary.simpleMessage("Front Of ID"),
@@ -403,6 +405,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "yourIdWillBeVerifiedWithin24Hours":
             MessageLookupByLibrary.simpleMessage(
                 "Your ID will be verified within 24 hours"),
+        "yourPasswordWasChangedSuccesfully":
+            MessageLookupByLibrary.simpleMessage(
+                "Your password was changed succesfully."),
         "yourPhoneNumberWasSuccesfullyChanged":
             MessageLookupByLibrary.simpleMessage(
                 "Your phone number was succesfully changed."),

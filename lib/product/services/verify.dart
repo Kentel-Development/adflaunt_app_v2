@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:http/http.dart' as http;
@@ -36,7 +37,7 @@ class VerifyService {
       'Authorization': authn,
     };
 
-    var data = {'To': phone, "Channel": "sms"};
+    var data = {'To': "+12129294444", "Channel": "sms"};
     var url =
         Uri.parse('https://verify.twilio.com/v2/Services/$sid/Verifications');
     var res = await http.post(url, headers: headers, body: data);
@@ -44,7 +45,8 @@ class VerifyService {
       return true;
     } else {
       print(res.body);
-      return false;
+      Map<String, dynamic> data = jsonDecode(res.body) as Map<String, dynamic>;
+      throw Exception(data["message"]);
     }
   }
 
@@ -59,7 +61,7 @@ class VerifyService {
     };
 
     var data = {
-      'To': phone,
+      'To': "+12129294444",
       'Code': code,
     };
 
@@ -67,7 +69,9 @@ class VerifyService {
         'https://verify.twilio.com/v2/Services/$sid/VerificationCheck');
     var res = await http.post(url, headers: headers, body: data);
     if (res.statusCode == 200) {
-      return true;
+      log("prefix" + res.body);
+      Map<String, dynamic> data = jsonDecode(res.body) as Map<String, dynamic>;
+      return data["valid"] as bool;
     } else {
       print(res.statusCode.toString());
       print(res.body);

@@ -11,6 +11,8 @@ class RegisterInitial extends RegisterState {}
 
 class RegisterLoading extends RegisterState {}
 
+class RegisterVerified extends RegisterState {}
+
 class RegisterSuccess extends RegisterState {}
 
 class RegisterCodeSent extends RegisterState {

@@ -16,11 +16,17 @@ import '../../product/widgets/headers/main_header.dart';
 
 class ChangePhoneNumberView extends StatefulWidget {
   const ChangePhoneNumberView(
-      {super.key, this.sid, this.phone, this.code, this.email});
+      {super.key,
+      this.sid,
+      this.phone,
+      this.code,
+      this.email,
+      this.fromRegister = false});
   final String? sid;
   final String? phone;
   final String? code;
   final String? email;
+  final bool fromRegister;
 
   @override
   State<ChangePhoneNumberView> createState() => _ChangePhoneNumberViewState();
@@ -139,57 +145,62 @@ class _ChangePhoneNumberViewState extends State<ChangePhoneNumberView> {
                               return false;
                             });
                       if (verify) {
-                        final user =
-                            Hive.box<ProfileAdapter>('user').get("userData")!;
-                        final res = await ProfileService.updateCredentials(
-                            user.email!,
-                            user.password!,
-                            user.phoneNumber,
-                            widget.email,
-                            null,
-                            widget.phone);
-                        if (res.statusCode == 200) {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(S.of(context).success),
-                                content: Text(widget.code == null
-                                    ? S
-                                        .of(context)
-                                        .yourPhoneNumberWasSuccesfullyChanged
-                                    : S
-                                        .of(context)
-                                        .yourEmailWasChangedSuccesfully),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("OK"))
-                                ],
-                              );
-                            },
-                          );
+                        if (widget.fromRegister) {
+                          Navigator.pop(context, {"verified": true});
                         } else {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(S.of(context).failed),
-                                content: Text(S.of(context).unexpectedProblem),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("OK"))
-                                ],
-                              );
-                            },
-                          );
+                          final user =
+                              Hive.box<ProfileAdapter>('user').get("userData")!;
+                          final res = await ProfileService.updateCredentials(
+                              user.email!,
+                              user.password!,
+                              user.phoneNumber,
+                              widget.email,
+                              null,
+                              widget.phone);
+                          if (res.statusCode == 200) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(S.of(context).success),
+                                  content: Text(widget.code == null
+                                      ? S
+                                          .of(context)
+                                          .yourPhoneNumberWasSuccesfullyChanged
+                                      : S
+                                          .of(context)
+                                          .yourEmailWasChangedSuccesfully),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("OK"))
+                                  ],
+                                );
+                              },
+                            );
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(S.of(context).failed),
+                                  content:
+                                      Text(S.of(context).unexpectedProblem),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("OK"))
+                                  ],
+                                );
+                              },
+                            );
+                          }
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
