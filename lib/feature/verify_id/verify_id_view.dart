@@ -1,5 +1,8 @@
 // ignore_for_file: inference_failure_on_instance_creation, inference_failure_on_function_invocation
 
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
@@ -7,11 +10,13 @@ import 'package:adflaunt/core/constants/string_constants.dart';
 import 'package:adflaunt/feature/verify_id/cubit/verify_id_cubit.dart';
 import 'package:adflaunt/product/widgets/common_btn.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
+import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:http/http.dart' as http;
 
 import '../../generated/l10n.dart';
 
@@ -132,7 +137,10 @@ class _VerifyIDViewState extends State<VerifyIDView>
                                       Navigator.push(context, MaterialPageRoute(
                                         builder: (context) {
                                           return Scaffold(
-                                              body: WebViewWidget(
+                                              body: Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              WebViewWidget(
                                                   controller:
                                                       WebViewController()
                                                         ..loadRequest(Uri.parse(
@@ -184,7 +192,9 @@ class _VerifyIDViewState extends State<VerifyIDView>
                                                               );
                                                             }
                                                           },
-                                                        ))));
+                                                        ))),
+                                            ],
+                                          ));
                                         },
                                       ));
                                     },
@@ -316,7 +326,7 @@ class _VerifyIDViewState extends State<VerifyIDView>
               child: BlocBuilder<VerifyIdCubit, VerifyIdState>(
                 builder: (context, state) {
                   return CommonBtn(
-                    onPressed: () {
+                    onPressed: () async {
                       if (BlocProvider.of<VerifyIdCubit>(context)
                           .shippingAddressController
                           .text
@@ -327,7 +337,31 @@ class _VerifyIDViewState extends State<VerifyIDView>
                                 .length >
                             10) {
                           FocusManager.instance.primaryFocus?.unfocus();
-                          tabController!.animateTo(1);
+                          final res = await http.post(
+                              Uri.parse(
+                                  "${StringConstants.baseUrl}/api/shippingAdress"),
+                              body: {
+                                "email": Hive.box<ProfileAdapter>("user")
+                                    .get("userData")!
+                                    .email,
+                                "password": Hive.box<ProfileAdapter>("user")
+                                    .get("userData")!
+                                    .password,
+                                "shippingAdress":
+                                    BlocProvider.of<VerifyIdCubit>(context)
+                                        .shippingAddressController
+                                        .text
+                              });
+                          if (res.statusCode == 200) {
+                            tabController!.animateTo(1);
+                          } else {
+                            Map<String, dynamic> json =
+                                jsonDecode(res.body) as Map<String, dynamic>;
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(json["err"].toString()),
+                              backgroundColor: Colors.red,
+                            ));
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

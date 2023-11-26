@@ -59,7 +59,6 @@ dependencies:
   syncfusion_flutter_calendar: ^22.2.8
   paged_vertical_calendar: ^1.1.6
   hive_flutter: ^1.1.0
-  connectivity_plus: ^4.0.2
   share_plus: ^7.1.0
   firebase_core: ^2.15.1
   firebase_messaging: ^14.6.6
@@ -73,6 +72,11 @@ dependencies:
   keyboard_actions: ^4.2.0
   flutter_cache_manager: ^3.3.1
   webview_flutter: ^4.4.1
+  connectivity_plus:
+    git:
+      url: https://github.com/fluttercommunity/plus_plugins.git
+      path: packages/connectivity_plus/connectivity_plus
+      ref: cf7d93fbfc76830acf2db755543cf4235a49df60
 
 dev_dependencies:
   build_runner: ^2.4.6
