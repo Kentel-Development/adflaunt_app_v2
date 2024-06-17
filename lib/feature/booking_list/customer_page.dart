@@ -217,7 +217,9 @@ class _CustomerPageState extends State<CustomerPage> {
                             Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "\$" + asCustomer!.data!.price.toString(),
+                                  asCustomer!.data!.price
+                                      .toString()
+                                      .toPriceFormat,
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,

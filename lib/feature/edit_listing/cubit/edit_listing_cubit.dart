@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:adflaunt/core/base/bloc_base.dart';
 import 'package:adflaunt/core/constants/listing_constants.dart';
 import 'package:adflaunt/core/extensions/date_parser_extension.dart';
+import 'package:adflaunt/core/extensions/string_extensions.dart';
 import 'package:adflaunt/feature/tab_view.dart';
 import 'package:adflaunt/product/models/listings/results.dart';
 import 'package:adflaunt/product/services/listings.dart';
@@ -38,7 +39,7 @@ class EditListingCubit extends BaseBloc<EditListingState, EditListingState> {
   late DateTime? removalDate = listing.checkOut.parseDate();
   TextEditingController tagsController = TextEditingController();
   late List<String> tags = listing.tags.sublist(2);
-  late String price = "\$" + listing.price.toString();
+  late String price = listing.price.toString().toPriceFormat;
   late int selectedCategory = ListingConstants.types.indexOf(listing.typeOfAdd);
 
   void addTag(String tag) {

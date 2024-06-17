@@ -236,5 +236,10 @@
   "yourCodeMustBe5Characters": "Your code must be 5 characters.",
   "cantVerifiedYourEmailPleaseTryAgain": "Can't verified your E-Mail please try again",
   "forgotPassword": "Forgot Password",
-  "yourPasswordWasChangedSuccesfully": "Your password was changed succesfully."
+  "yourPasswordWasChangedSuccesfully": "Your password was changed succesfully.",
+  "popularAdListings": "Popular Ad Listings",
+  "adListingsNearYou": "Ad Listings Near You",
+  "myAdListings": "My Ad Listings",
+  "postAdListing": "Post Ad Listing",
+  "giveYourAdListingATitle": "Give your Ad listing a title"
 }

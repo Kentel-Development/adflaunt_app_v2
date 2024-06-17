@@ -1,12 +1,8 @@
-// ignore_for_file: inference_failure_on_instance_creation, inference_failure_on_function_invocation
+import 'dart:io';
 
-import 'dart:convert';
-import 'dart:developer';
-
-import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
-import 'package:adflaunt/core/constants/string_constants.dart';
+import 'package:adflaunt/feature/verify_id/camera_view.dart';
 import 'package:adflaunt/feature/verify_id/cubit/verify_id_cubit.dart';
 import 'package:adflaunt/product/widgets/common_btn.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
@@ -14,9 +10,6 @@ import 'package:adflaunt/product/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hive/hive.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:http/http.dart' as http;
 
 import '../../generated/l10n.dart';
 
@@ -30,6 +23,8 @@ class VerifyIDView extends StatefulWidget {
 class _VerifyIDViewState extends State<VerifyIDView>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
+  File? front;
+  File? back;
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
@@ -57,7 +52,6 @@ class _VerifyIDViewState extends State<VerifyIDView>
               physics: NeverScrollableScrollPhysics(),
               controller: tabController,
               children: [
-                buildShippingAddressTab(context),
                 Padding(
                     padding: EdgeInsets.all(12),
                     child: Column(
@@ -134,69 +128,25 @@ class _VerifyIDViewState extends State<VerifyIDView>
                               }, builder: (context, state) {
                                 return CommonBtn(
                                     onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(
+                                      Navigator.push(context,
+                                          MaterialPageRoute<dynamic>(
                                         builder: (context) {
-                                          return Scaffold(
-                                              body: Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              WebViewWidget(
-                                                  controller:
-                                                      WebViewController()
-                                                        ..loadRequest(Uri.parse(
-                                                            StringConstants
-                                                                    .baseUrl +
-                                                                "/verify/urltocookie?id=" +
-                                                                Hive.box<ProfileAdapter>(
-                                                                        "user")
-                                                                    .get(
-                                                                        "userData")!
-                                                                    .id
-                                                                    .toString()))
-                                                        ..setNavigationDelegate(
-                                                            NavigationDelegate(
-                                                          onUrlChange:
-                                                              (change) {
-                                                            if (change.url ==
-                                                                "https://adflaunt.com/id-verified/success") {
-                                                              Navigator.pop(
-                                                                  context);
-                                                              Navigator.pop(
-                                                                  context);
-                                                              showDialog(
-                                                                context:
-                                                                    context,
-                                                                barrierDismissible:
-                                                                    false,
-                                                                builder:
-                                                                    (context) {
-                                                                  return AlertDialog(
-                                                                    title: Text(S
-                                                                        .of(context)
-                                                                        .yourIdVerifiedRequestHasBeenSubmittedSuccessfully),
-                                                                    content: Text(S
-                                                                        .of(context)
-                                                                        .yourIdWillBeVerifiedWithin24Hours),
-                                                                    actions: [
-                                                                      TextButton(
-                                                                          onPressed:
-                                                                              () {
-                                                                            Navigator.pop(context);
-                                                                          },
-                                                                          child: Text(S
-                                                                              .of(context)
-                                                                              .ok))
-                                                                    ],
-                                                                  );
-                                                                },
-                                                              );
-                                                            }
-                                                          },
-                                                        ))),
-                                            ],
-                                          ));
+                                          return CameraView();
                                         },
-                                      ));
+                                      )).then((value) {
+                                        if (value != null) {
+                                          if (value[0] != null) {
+                                            front = value[0] as File;
+                                          }
+                                          if (value[1] != null) {
+                                            back = value[1] as File;
+                                          }
+
+                                          tabController!.animateTo(1);
+
+                                          // ignore: inference_failure_on_function_invocation
+                                        }
+                                      });
                                     },
                                     text: S.of(context).takePicture,
                                     backgroundColor: Colors.black);
@@ -236,7 +186,8 @@ class _VerifyIDViewState extends State<VerifyIDView>
                           ],
                         )
                       ],
-                    ))
+                    )),
+                buildShippingAddressTab(context),
               ],
             ),
           ),
@@ -283,7 +234,39 @@ class _VerifyIDViewState extends State<VerifyIDView>
               ),
             ],
           ),
-          BlocBuilder<VerifyIdCubit, VerifyIdState>(
+          BlocConsumer<VerifyIdCubit, VerifyIdState>(
+            listener: (context, state) {
+              if (state is VerifyIdSuccess) {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      S.of(context).yourIdHasBeenVerifiedSuccessfully,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              } else if (state is VerifyIdFailure) {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      state.message,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
             builder: (context, state) {
               return TextField(
                 controller: BlocProvider.of<VerifyIdCubit>(context)
@@ -326,7 +309,7 @@ class _VerifyIDViewState extends State<VerifyIDView>
               child: BlocBuilder<VerifyIdCubit, VerifyIdState>(
                 builder: (context, state) {
                   return CommonBtn(
-                    onPressed: () async {
+                    onPressed: () {
                       if (BlocProvider.of<VerifyIdCubit>(context)
                           .shippingAddressController
                           .text
@@ -336,32 +319,23 @@ class _VerifyIDViewState extends State<VerifyIDView>
                                 .text
                                 .length >
                             10) {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          final res = await http.post(
-                              Uri.parse(
-                                  "${StringConstants.baseUrl}/api/shippingAdress"),
-                              body: {
-                                "email": Hive.box<ProfileAdapter>("user")
-                                    .get("userData")!
-                                    .email,
-                                "password": Hive.box<ProfileAdapter>("user")
-                                    .get("userData")!
-                                    .password,
-                                "shippingAdress":
-                                    BlocProvider.of<VerifyIdCubit>(context)
-                                        .shippingAddressController
-                                        .text
+                          context.read<VerifyIdCubit>().verifyId(front!, back!);
+                          // ignore: inference_failure_on_function_invocation
+                          showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text("Uploading..."),
+                                  content: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [LoadingWidget()]),
+                                );
                               });
-                          if (res.statusCode == 200) {
-                            tabController!.animateTo(1);
-                          } else {
-                            Map<String, dynamic> json =
-                                jsonDecode(res.body) as Map<String, dynamic>;
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(json["err"].toString()),
-                              backgroundColor: Colors.red,
-                            ));
-                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

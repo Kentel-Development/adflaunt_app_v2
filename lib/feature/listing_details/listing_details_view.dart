@@ -2,6 +2,7 @@ import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
+import 'package:adflaunt/core/extensions/string_extensions.dart';
 import 'package:adflaunt/feature/booking/booking_view.dart';
 import 'package:adflaunt/feature/chat/chat_view.dart';
 import 'package:adflaunt/feature/edit_listing/edit_listing_view.dart';
@@ -135,7 +136,7 @@ class _ListingDetailsViewState extends State<ListingDetailsView>
                 ),
                 Center(
                   child: Text(
-                    "\$${listing.price.toStringAsFixed(2)}" +
+                    "${listing.price.toString().toPriceFormat}" +
                         " / " +
                         S.of(context).perDay,
                     style: TextStyle(

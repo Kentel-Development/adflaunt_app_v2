@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Inches": MessageLookupByLibrary.simpleMessage("00 inches"),
         "aboutAdSpace": MessageLookupByLibrary.simpleMessage("About Ad Space"),
+        "adListingsNearYou":
+            MessageLookupByLibrary.simpleMessage("Ad Listings Near You"),
         "adPostedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Ad Posted Successfully"),
         "adSpacesNearYou":
@@ -170,6 +172,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Give us location details to find your ad easily"),
         "giveUsYourAdDetails":
             MessageLookupByLibrary.simpleMessage("Give us your ad details"),
+        "giveYourAdListingATitle": MessageLookupByLibrary.simpleMessage(
+            "Give your Ad listing a title"),
         "giveYourAdSpaceAName":
             MessageLookupByLibrary.simpleMessage("Give your ad space a name"),
         "goBack": MessageLookupByLibrary.simpleMessage("Go Back"),
@@ -206,6 +210,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Log In with Google"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "message": MessageLookupByLibrary.simpleMessage("Message"),
+        "myAdListings": MessageLookupByLibrary.simpleMessage("My Ad Listings"),
         "myAdSpaces": MessageLookupByLibrary.simpleMessage("My Ad Spaces"),
         "myListings": MessageLookupByLibrary.simpleMessage("My Listings"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
@@ -274,8 +279,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please select at least one day to book"),
         "pleaseVerifyYourIdToPostAnAd": MessageLookupByLibrary.simpleMessage(
             "Please verify your ID to post an ad"),
+        "popularAdListings":
+            MessageLookupByLibrary.simpleMessage("Popular Ad Listings"),
         "popularAdSpaces":
             MessageLookupByLibrary.simpleMessage("Popular Ad Spaces"),
+        "postAdListing":
+            MessageLookupByLibrary.simpleMessage("Post Ad Listing"),
         "postAdSpace": MessageLookupByLibrary.simpleMessage("Post AD Space"),
         "postingYourAdPleaseWait": MessageLookupByLibrary.simpleMessage(
             "Posting your Ad, Please wait..."),

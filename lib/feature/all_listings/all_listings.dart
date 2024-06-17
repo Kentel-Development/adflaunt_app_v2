@@ -1,5 +1,6 @@
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
+import 'package:adflaunt/core/extensions/string_extensions.dart';
 import 'package:adflaunt/feature/listing_details/listing_details_view.dart';
 import 'package:adflaunt/generated/l10n.dart';
 import 'package:adflaunt/product/models/listings/results.dart';
@@ -221,8 +222,7 @@ class _AllListingsViewState extends State<AllListingsView> {
                                 ),
                               ),
                               Text(
-                                "\$" +
-                                    listings[index].price.toString() +
+                                listings[index].price.toString().toPriceFormat +
                                     "/day",
                                 style: TextStyle(
                                   fontSize: 14,

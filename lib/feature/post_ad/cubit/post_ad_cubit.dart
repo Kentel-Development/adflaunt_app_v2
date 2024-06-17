@@ -43,7 +43,7 @@ class PostAdCubit extends BaseBloc<PostAdState, PostAdState> {
   String description = "";
   String height = "";
   String width = "";
-  bool cancelPolicy = false;
+  bool cancelPolicy = true;
   List<XFile> images = [];
   Output? output;
   void getLocation() {

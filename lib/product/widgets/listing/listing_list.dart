@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
+import 'package:adflaunt/core/extensions/string_extensions.dart';
 import 'package:adflaunt/feature/edit_listing/edit_listing_view.dart';
 import 'package:adflaunt/feature/listing_details/listing_details_view.dart';
 import 'package:adflaunt/product/services/favorites.dart';
@@ -331,7 +332,7 @@ class _ListingListState extends State<ListingList>
                           SizedBox(
                             width: 16,
                           ),
-                          Text("\$${listing.price.toStringAsFixed(2)}/day",
+                          Text("${listing.price.toString().toPriceFormat}/day",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,

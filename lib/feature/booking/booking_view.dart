@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/extensions/date_parser_extension.dart';
+import 'package:adflaunt/core/extensions/string_extensions.dart';
 import 'package:adflaunt/feature/booking/mixin/booking_mixin.dart';
 import 'package:adflaunt/product/models/listings/results.dart';
 import 'package:adflaunt/product/models/unavailable_dates_model.dart';
@@ -261,7 +262,7 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "\$" + widget.listing.price.toStringAsFixed(2) + "/day",
+              widget.listing.price.toString().toPriceFormat + "/day",
               style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -269,7 +270,7 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
                   color: Color.fromRGBO(161, 161, 170, 1)),
             ),
             Text(
-              "\$" + (widget.listing.price * bookedDays).toString(),
+              (widget.listing.price * bookedDays).toString().toPriceFormat,
               style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -317,7 +318,7 @@ class _BookingViewState extends State<BookingView> with BookingMixin {
             ),
             Spacer(),
             Text(
-              "\$${(widget.listing.price * bookedDays) + snapshot.data!.printFee!.toDouble()}",
+              "${((widget.listing.price * bookedDays) + snapshot.data!.printFee!.toDouble()).toString().toPriceFormat}",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,

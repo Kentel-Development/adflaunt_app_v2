@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:adflaunt/core/constants/color_constants.dart';
+import 'package:adflaunt/core/extensions/string_extensions.dart';
 import 'package:adflaunt/product/services/balance.dart';
 import 'package:adflaunt/product/widgets/common_btn.dart';
 import 'package:adflaunt/product/widgets/headers/main_header.dart';
@@ -81,10 +82,9 @@ class BalanceView extends StatelessWidget {
                                         ),
                                       ),
                                       Text(
-                                        "\$" +
-                                            ((jsonDecode(
-                                                    snapshot.data!))["balance"]
-                                                .toString()),
+                                        ((jsonDecode(snapshot.data!))["balance"]
+                                                .toString())
+                                            .toPriceFormat,
                                         style: TextStyle(
                                             fontSize: 24,
                                             color: Colors.green,

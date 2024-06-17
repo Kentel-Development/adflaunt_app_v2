@@ -220,7 +220,7 @@ class _HostPageState extends State<HostPage> {
                             Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "\$" + asHost!.data!.price.toString(),
+                                  asHost!.data!.price.toString().toPriceFormat,
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,

@@ -33,7 +33,7 @@ class RegisterCubit extends BaseBloc<RegisterState, RegisterState> {
   final key = GlobalKey<FormState>();
   String? pin;
   String sentCode = "";
-
+  bool live = true; //TODO: Change this to false when live
   void onOtpChanged(String value) {
     pin = value;
   }
@@ -174,31 +174,67 @@ class RegisterCubit extends BaseBloc<RegisterState, RegisterState> {
     safeEmit(RegisterLoading());
     if (pin == sentCode) {
       final sid = await VerifyService.createSession();
-      final sent = await VerifyService.sendOtp(
-              (countryCode.dialCode!) + phoneController.text, sid)
-          .onError((error, stackTrace) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(error.toString()),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ));
-        return false;
-      });
-      final res = sent
-          ? (await Navigator.push(context, MaterialPageRoute<dynamic>(
-              builder: (context) {
-                return ChangePhoneNumberView(
-                  sid: sid,
-                  phone: (countryCode.dialCode!) + phoneController.text,
-                  fromRegister: true,
-                );
-              },
-            ))) as Map<String, bool>
-          : {"verified": false};
-      if (res["verified"] ?? false) {
+      if (live) {
+        final sent = await VerifyService.sendOtp(
+                (countryCode.dialCode!) + phoneController.text, sid)
+            .onError((error, stackTrace) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(error.toString()),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ));
+          return false;
+        });
+        final res = sent
+            ? (await Navigator.push(context, MaterialPageRoute<dynamic>(
+                builder: (context) {
+                  return ChangePhoneNumberView(
+                    sid: sid,
+                    phone: (countryCode.dialCode!) + phoneController.text,
+                    fromRegister: true,
+                  );
+                },
+              ))) as Map<String, bool>
+            : {"verified": false};
+        if (res["verified"] ?? false) {
+          safeEmit(RegisterVerified());
+          try {
+            var bytes = utf8.encode(passwordController.text);
+            var digest = sha512.convert(bytes);
+            final data = await Register.register(
+                emailController.text,
+                digest.toString(),
+                nameController.text,
+                (countryCode.dialCode.toString().substring(1)) +
+                    phoneController.text,
+                dateController.text.parseDate(),
+                "mail");
+            Map<String, dynamic> json =
+                jsonDecode(data.body) as Map<String, dynamic>;
+            final model = ProfileModel.fromJson(json);
+            try {
+              LoginAPI.saveAccountCredentials(
+                ProfileAdapter(
+                    id: model.id,
+                    fullName: model.fullName,
+                    email: model.email,
+                    password: digest.toString(),
+                    profileImage: model.profileImage,
+                    dateOfBirth: model.dateOfBirth,
+                    phoneNumber: model.phoneNumber),
+              );
+              safeEmit(RegisterSuccess());
+            } catch (e) {
+              safeEmit(RegisterFailure(error: e.toString()));
+            }
+          } catch (e) {
+            safeEmit(RegisterFailure(error: e.toString()));
+          }
+        }
+      } else {
         safeEmit(RegisterVerified());
         try {
           var bytes = utf8.encode(passwordController.text);

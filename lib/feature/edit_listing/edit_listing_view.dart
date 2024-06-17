@@ -347,7 +347,7 @@ class _EditListingViewState extends State<EditListingView> {
                                           filled: true,
                                           hintText: S
                                               .of(context)
-                                              .giveYourAdSpaceAName,
+                                              .giveYourAdListingATitle,
                                           contentPadding: EdgeInsets.symmetric(
                                               horizontal: 12),
                                           enabledBorder: OutlineInputBorder(

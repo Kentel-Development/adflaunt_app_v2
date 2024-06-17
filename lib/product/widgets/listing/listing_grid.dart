@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../core/constants/padding_constants.dart';
+import '../../../core/extensions/string_extensions.dart';
 
 import '../../../feature/listing_details/listing_details_view.dart';
 import '../../models/listings/results.dart';
@@ -297,7 +298,8 @@ class _ListingGridState extends State<ListingGrid>
                                   ],
                                 ),
                               ),
-                              Text("\$${listing.price.toStringAsFixed(2)}/day",
+                              Text(
+                                  "${listing.price.toString().toPriceFormat}/day",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: "Poppins",

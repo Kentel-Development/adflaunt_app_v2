@@ -173,7 +173,7 @@ class _ProfileViewState extends State<ProfileView> {
                               ),
                               horizontalTitleGap: 0,
                               title: Text(
-                                S.of(context).myAdSpaces,
+                                S.of(context).myAdListings,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -230,7 +230,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 }
                               },
                               title: Text(
-                                S.of(context).postAdSpace,
+                                S.of(context).postAdListing,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,

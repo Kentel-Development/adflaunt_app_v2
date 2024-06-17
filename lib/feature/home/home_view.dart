@@ -4,6 +4,7 @@ import 'package:adflaunt/core/adapters/profile/profile_adapter.dart';
 import 'package:adflaunt/core/constants/color_constants.dart';
 import 'package:adflaunt/core/constants/icon_constants.dart';
 import 'package:adflaunt/core/constants/string_constants.dart';
+import 'package:adflaunt/core/extensions/string_extensions.dart';
 import 'package:adflaunt/feature/home/cubit/home_cubit.dart';
 import 'package:adflaunt/feature/listing_details/listing_details_view.dart';
 import 'package:adflaunt/feature/profile/profile_view.dart';
@@ -308,10 +309,9 @@ class _HomeViewState extends State<HomeView> {
                                                           TextOverflow.ellipsis,
                                                     ),
                                                     Text(
-                                                      "\$" +
-                                                          listing.price
-                                                              .toStringAsFixed(
-                                                                  2) +
+                                                      listing.price
+                                                              .toString()
+                                                              .toPriceFormat +
                                                           "/" +
                                                           S.of(context).day,
                                                       style: Theme.of(context)

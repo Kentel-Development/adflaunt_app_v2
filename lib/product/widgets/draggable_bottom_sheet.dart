@@ -249,8 +249,9 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                         return Column(
                                           children: [
                                             CommonHeading(
-                                              headingText:
-                                                  S.of(context).popularAdSpaces,
+                                              headingText: S
+                                                  .of(context)
+                                                  .popularAdListings,
                                               hasBtn: false,
                                             ),
                                             Center(
@@ -279,7 +280,7 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                                     return AllListingsView(
                                                       title: S
                                                           .of(context)
-                                                          .popularAdSpaces,
+                                                          .popularAdListings,
                                                       type: widget.type,
                                                       category: widget.category,
                                                       from: widget.from,
@@ -304,7 +305,7 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                               child: CommonHeading(
                                                 headingText: S
                                                     .of(context)
-                                                    .popularAdSpaces,
+                                                    .popularAdListings,
                                                 onPress: false,
                                               ),
                                             ),
@@ -403,8 +404,9 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                         return Column(
                                           children: [
                                             CommonHeading(
-                                              headingText:
-                                                  S.of(context).adSpacesNearYou,
+                                              headingText: S
+                                                  .of(context)
+                                                  .adListingsNearYou,
                                               hasBtn: false,
                                             ),
                                             Center(
@@ -433,7 +435,7 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                                     return AllListingsView(
                                                       title: S
                                                           .of(context)
-                                                          .adSpacesNearYou,
+                                                          .adListingsNearYou,
                                                       type: widget.type,
                                                       category: widget.category,
                                                       from: widget.from,
@@ -458,7 +460,7 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                                               child: CommonHeading(
                                                 headingText: S
                                                     .of(context)
-                                                    .adSpacesNearYou,
+                                                    .adListingsNearYou,
                                                 onPress: false,
                                               ),
                                             ),

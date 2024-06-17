@@ -93,7 +93,7 @@ class _BookingListState extends State<BookingList> {
                   ),
                 ),
                 Text(
-                  "\$" + widget.listingData.price.toString() + "/day",
+                  widget.listingData.price.toString().toPriceFormat + "/day",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,

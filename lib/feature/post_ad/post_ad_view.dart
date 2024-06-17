@@ -57,7 +57,7 @@ class _PostAdViewState extends State<PostAdView>
               }
             },
             hasBackBtn: true,
-            title: S.of(context).postAdSpace,
+            title: S.of(context).postAdListing,
           ),
         ),
       ),

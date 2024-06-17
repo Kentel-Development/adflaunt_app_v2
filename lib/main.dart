@@ -55,7 +55,7 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey =
-      "pk_test_51LkdT2BwxpdnO2PUdAlSZzzOM4bAIG9abSAc3e3llUFjDh5KhnlBUrdcfouBgUB2b6JE0WyVUMRgCC6gvF2lTdJp00BgLoJQLk";
+      "pk_test_51O4QmoJ3ZqrWwtSCBiQuD0Jr0W6PkN9ftRnPSQBwujlxTp5MDF3f4LnxNE41h0sr1Ztp3Q1IF0dzfrfN4n8IviNJ00b0Wrxjmy";
   Stripe.merchantIdentifier = "merchant.com.adflaunt";
   await Stripe.instance.applySettings();
   await Firebase.initializeApp();
